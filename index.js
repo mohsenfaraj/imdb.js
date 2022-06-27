@@ -14,7 +14,7 @@ async function run() {
         password : process.env.DBPASS ,
         database : process.env.DBNAME
     })
-    // install(conn);
+    install(conn);
     const user = {
         name : "koosha" ,
         lastname : "refahi"

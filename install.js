@@ -29,7 +29,7 @@ module.exports = async function init(conn) {
             name VARCHAR(45) NOT NULL,
             cover VARCHAR(45) NULL,
             genre VARCHAR(45) NOT NULL,
-            desc VARCHAR(245) NOT NULL,
+            description VARCHAR(245) NOT NULL,
             year DATE NOT NULL,
             content_rating VARCHAR(45) NOT NULL,
             company VARCHAR(45) NULL,
@@ -83,24 +83,6 @@ module.exports = async function init(conn) {
               ON UPDATE NO ACTION)    
         `) ;
         await conn.query(`
-        CREATE TABLE IF NOT EXISTS Admin_approves_Comment (
-            Admin_ID INT NOT NULL,
-            Admin_email VARCHAR(45) NOT NULL,
-            Comment_ID INT NOT NULL,
-            Comment_User_ID INT NOT NULL,
-            PRIMARY KEY (Admin_ID, Admin_email, Comment_ID, Comment_User_ID),
-            CONSTRAINT fk_Admin_has_Comment_Admin1
-              FOREIGN KEY (Admin_ID , Admin_email)
-              REFERENCES Admin (ID , email)
-              ON DELETE NO ACTION
-              ON UPDATE NO ACTION,
-            CONSTRAINT fk_Admin_has_Comment_Comment1
-              FOREIGN KEY (Comment_ID , Comment_User_ID)
-              REFERENCES Comment (ID , User_ID)
-              ON DELETE NO ACTION
-              ON UPDATE NO ACTION)    
-        `) ;
-        await conn.query(`
         CREATE TABLE IF NOT EXISTS Comment (
             ID INT NOT NULL,
             User_ID INT NOT NULL,
@@ -108,7 +90,7 @@ module.exports = async function init(conn) {
             text VARCHAR(245) NOT NULL,
             accepted TINYINT NOT NULL DEFAULT 0,
             PRIMARY KEY (ID, User_ID),
-            INDEX fk_Comment_User_idx (User_ID ASC) VISIBLE,
+            INDEX fk_Comment_User_idx (User_ID ASC),
             CONSTRAINT fk_Comment_User
               FOREIGN KEY (User_ID)
               REFERENCES User (ID)
@@ -184,8 +166,8 @@ module.exports = async function init(conn) {
             Movie_ID INT NOT NULL,
             Artists_ID INT NOT NULL,
             PRIMARY KEY (Movie_ID, Artists_ID),
-            INDEX fk_Movie_has_Artists_Artists1_idx (Artists_ID ASC) VISIBLE,
-            INDEX fk_Movie_has_Artists_Movie1_idx (Movie_ID ASC) VISIBLE,
+            INDEX fk_Movie_has_Artists_Artists1_idx (Artists_ID ASC) ,
+            INDEX fk_Movie_has_Artists_Movie1_idx (Movie_ID ASC) ,
             CONSTRAINT fk_Movie_has_Artists_Movie1
               FOREIGN KEY (Movie_ID)
               REFERENCES Film (ID)
@@ -197,7 +179,24 @@ module.exports = async function init(conn) {
               ON DELETE NO ACTION
               ON UPDATE NO ACTION) 
         `) ;
-
+        await conn.query(`
+        CREATE TABLE IF NOT EXISTS Admin_approves_Comment (
+            Admin_ID INT NOT NULL,
+            Admin_email VARCHAR(45) NOT NULL,
+            Comment_ID INT NOT NULL,
+            Comment_User_ID INT NOT NULL,
+            PRIMARY KEY (Admin_ID, Admin_email, Comment_ID, Comment_User_ID),
+            CONSTRAINT fk_Admin_has_Comment_Admin1
+              FOREIGN KEY (Admin_ID , Admin_email)
+              REFERENCES Admin (ID , email)
+              ON DELETE NO ACTION
+              ON UPDATE NO ACTION,
+            CONSTRAINT fk_Admin_has_Comment_Comment1
+              FOREIGN KEY (Comment_ID , Comment_User_ID)
+              REFERENCES Comment (ID , User_ID)
+              ON DELETE NO ACTION
+              ON UPDATE NO ACTION)    
+        `) ;
     } catch(err) {
         console.log(err)
     }
