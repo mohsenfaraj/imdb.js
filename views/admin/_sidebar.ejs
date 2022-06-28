@@ -1,0 +1,87 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+    <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
+    <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+  </div>
+  <ul class="nav">
+    <li class="nav-item profile">
+      <div class="profile-desc">
+        <div class="profile-pic">
+          <div class="count-indicator">
+            <img class="img-xs rounded-circle " src="assets/images/faces/face15.jpg" alt="">
+            <span class="count bg-success"></span>
+          </div>
+          <div class="profile-name">
+            <h5 class="mb-0 font-weight-normal">Henry Klein</h5>
+            <span>Adminstrator</span>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="nav-item nav-category">
+      <span class="nav-link">Navigation</span>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/admin">
+        <span class="menu-icon">
+          <i class="mdi mdi-speedometer"></i>
+        </span>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" data-toggle="collapse" href="#videos" aria-expanded="false" aria-controls="videos">
+        <span class="menu-icon">
+          <i class="mdi mdi-video"></i>
+        </span>
+        <span class="menu-title">Manage Videos</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="videos">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/admin/video/">All Videos</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/admin/video/add">Add Video</a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" data-toggle="collapse" href="#artists" aria-expanded="false" aria-controls="artists">
+        <span class="menu-icon">
+          <i class="mdi mdi-star"></i>
+        </span>
+        <span class="menu-title">Manage Artists</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="artists">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/admin/artist"> All Artists </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/admin/artist/add"> Add Artist </a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" data-toggle="collapse" href="#users" aria-expanded="false" aria-controls="users">
+        <span class="menu-icon">
+          <i class="mdi mdi-human-greeting"></i>
+        </span>
+        <span class="menu-title">Manage Users</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="users">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/admin/user/ban"> Ban User </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/admin/user/addAdmins"> Add Admin </a></li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/admin/comments">
+        <span class="menu-icon">
+          <i class="mdi mdi-comment-processing"></i>
+        </span>
+        <span class="menu-title">Manage Comments</span>
+      </a>
+    </li>
+  </ul>
+</nav>
