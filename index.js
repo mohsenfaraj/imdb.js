@@ -40,7 +40,7 @@ async function run() {
     app.use("/admin" , [auth , admin])
 
     app.get("/" , (req , res) => {
-        res.render("index")
+        res.send("main site")
     })
 
     app.get("/login" , (req , res) => {
@@ -110,11 +110,11 @@ async function run() {
 
 // authenticate user
 function auth(req , res , next) {
-    if (req.session.isLogged === true) {
+    // if (req.session.isLogged === true) {
         next() ;
-    }
-    else {
-        res.redirect("/login")
-    }
+    // }
+    // else {
+    //     res.redirect("/login")
+    // }
 }
 run() ;

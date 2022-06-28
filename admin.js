@@ -1,4 +1,3 @@
-const { Console } = require("console");
 const express = require("express")
 const router = express.Router()
 const mysql = require("mysql2") ;
@@ -10,21 +9,22 @@ const conn = mysql.createConnection({
 })
 
 router.get('/', (req, res) => {
-    res.send('administration main page.....')
+    res.render("admin")
   })
 
+  router.get("/video" , (req , res) => {
+    res.send("list of all videos")
+  })
 
-       // -------------Add Videos--------------
-
-  router.get('/editvideo', (req, res) => {
+  router.get('/video/:id', (req, res) => {
     res.send('Add Page.');
     res.render("addvid");
     
   })
   
   
-  router.delete('/deletevid' , (req , res) =>{
-    const id = req.body.ID;
+  router.delete('/video/:id' , (req , res) =>{
+    const id = req.params.id;
     conn.query(  `DELETE FROM film WHERE ID=${id}` , (err , results , fields) =>{
       if(err){
           console.log(err)
@@ -34,12 +34,13 @@ router.get('/', (req, res) => {
     })
   })
   
-  router.put('/updatevid' , (req,res) =>{
+  router.put('/video/:id' , (req,res) =>{
+    const id = req.params.id ;
     const name = req.body.name ;
     const type = req.body.type ;
     const cover = req.body.cover ;
     const genre = req.body.gener ;
-    const dess = req.body.dess ;
+    const description = req.body.description ;
     const year = req.body.year ;
     const content_rating = req.body.content_rating ;
     const company = req.body.company ;
@@ -47,11 +48,12 @@ router.get('/', (req, res) => {
     const country = req.body.country ;
     const average = req.body.average ;
     const comment_count = req.body.comment_count ;
-    conn.query(`UPDATE film SET type ='${type}', name = '${name}',
-    cover = '${cover}', genre = '${genre}', dess = '${dess}', year = '${year}',
-    content_rating = '${content_rating}', company = '${company}',date_published = '${date_published}',
-    country = '${country}', average = '${average}', comment_count = '${comment_count}'`
-      , (err, results, fields) => {
+    conn.query(`UPDATE film SET type =?, name = ?,
+    cover = ?, genre = ?, description = ?, year = ?,
+    content_rating = ?, company = ?,date_published = ?,
+    country = ?, average = ?, comment_count = ? WHERE id = ?` , 
+    [type , name , cover , genre , description , year , content_rating , company , date_published , country , average , comment_count , id ] ,
+     (err, results, fields) => {
       if (err) {
           console.log(err)
           console.log('have error!');
@@ -59,10 +61,13 @@ router.get('/', (req, res) => {
       else {
           res.send(`update successfully`);
       }
-})
+    })
   })
 
-  router.post('/addvid' , (req , res) => {
+  router.get("/video/add" , (req , res) => {
+
+  })
+  router.post('/video/add' , (req , res) => {
       const name = req.body.name;
       const type = req.body.type ;
       const cover = req.body.cover ;
@@ -93,12 +98,13 @@ router.get('/', (req, res) => {
   })
 
     // ------------- Add Artists--------------
-  router.get('/editartist', (req, res) => {
-    res.render("addvid")
+  
+  router.get('/artist', (req, res) => {
+    res.send("list of all artists")
   })
 
-  router.delete('/deleteartists', (req , res)=>{
-    const id = req.body.ID;
+  router.delete('/artist/:id', (req , res)=>{
+    const id = req.params.id;
     conn.query(`DELETE FROM artists WHERE ID=${id}`,(err , results , fields) =>{
       if(err){
           console.log(err)
@@ -108,7 +114,7 @@ router.get('/', (req, res) => {
     })
   })
 
-  router.post('/addartists' , (req , res) => {
+  router.post('/artist/add' , (req , res) => {
       const name = req.body.name ;
       const avatar = req.body.avatar ;
       const bio = req.body.bio ;
@@ -125,7 +131,8 @@ router.get('/', (req, res) => {
       })
   })
 
-  router.put('/updateartists' , (req,res) =>{
+  router.put('/artist/:id' , (req,res) =>{
+    const id = req.params.id ;
     const name = req.body.name ;
     const avatar = req.body.avatar ;
     const bio = req.body.bio ;
@@ -142,11 +149,11 @@ router.get('/', (req, res) => {
   })
 
   //-----------Movie And Artists------------
-  router.get('/editemoveartists',(req,res)=>{
+  router.get('/video/:id/artist',(req,res)=>{
     res.render("addvid")
   })
 
-  router.delete('/deletemovieartists' , (req,res)=>{
+  router.delete('/video/:id/artist' , (req,res)=>{
     const movie_id = req.body.Movie_ID
     const artists_id = req.body.Artists_ID
     conn.query(`DELETE FROM movie_has_artists WHERE Movie_ID='${movie_id}' ,
@@ -155,7 +162,7 @@ router.get('/', (req, res) => {
     })
   })
 
-  router.post('/addmovieartists',(req , res) =>{
+  router.post('/video/:id/artist',(req , res) =>{
     const movie_ID = req.body.Movie_ID
     const artists_ID = req.body.Artists_ID 
     conn.query(`INSERT INTO movie_has_artists(Movie_ID,Artists_ID) VALUES ('${movie_ID}',
@@ -167,7 +174,7 @@ router.get('/', (req, res) => {
       }
     })
   })
-  router.put('/updatemovieartists',(req,res)=>{
+  router.put('/video/:id/artist',(req,res)=>{
     const movie_id = req.body.Movie_ID
     const artists_id = req.body.Artists_ID 
     conn.query(`UPDATE movie_has_artists SET Movie_ID='${movie_id}',
