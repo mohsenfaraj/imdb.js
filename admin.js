@@ -177,5 +177,35 @@ router.get('/', (req, res) => {
       }
     })
   })
-  
+
+  //--------- Manage Users --------/
+
+router.post("/user/ban" , (req , res) => {
+  //#ban the user
+})
+
+router.delete("/user/ban" , (req , res) => {
+  //#unban the user
+})
+
+router.post("/user/promote" , (req , res) => {
+  //#promote user to admin
+})
+
+router.delete("/user/ban" , (req , res) => {
+  //# unpromote the user from admin
+})
+
+  //--------- Manage Comments --------/
+router.get("/comments" , (req , res) => {
+  //# get last 50 comments (accepted/not accepted/unknown/all)
+})
+
+router.put("/comments" , (req , res) => {
+  //# set comment to accepted or not accepted
+  // example: req.body.id = 5     req.body.accepted = true
+})
+router.delete("/comments" , (req , res) => {
+  // #delete the comment by id 
+})
 module.exports = router
