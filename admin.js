@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
   
   router.delete('/video/:id' , (req , res) =>{
     const id = req.params.id;
-    conn.query(  `DELETE FROM film WHERE ID=${id}` , (err , results , fields) =>{
+    conn.query(  `DELETE FROM film WHERE ID=?`,[id] , (err , results , fields) =>{
       if(err){
           console.log(err)
       } else{
@@ -72,7 +72,7 @@ router.get('/', (req, res) => {
       const type = req.body.type ;
       const cover = req.body.cover ;
       const genre = req.body.genre ;
-      const dess = req.body.dess ;
+      const description = req.body.description ;
       const year = req.body.year ;
       const content_rating = req.body.content_rating ;
       const company = req.body.company ;
@@ -81,12 +81,12 @@ router.get('/', (req, res) => {
       const average = req.body.average ;
       const comment_count = req.body.comment_count ;
 
-      conn.query(`INSERT INTO film(type, name, cover, genre, dess, year,
+      conn.query(`INSERT INTO film (type, name, cover, genre, dess, year,
         content_rating, company,date_published, country, average,
-          comment_count) VALUES ('${type}','${name}',
-            '${cover}','${genre}','${dess}','${year}',
-            '${content_rating}','${company}','${date_published}',
-            '${country}','${average}','${comment_count}')`,
+          comment_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,[type,name,
+            cover,genre,description,year,
+            content_rating,company,date_published,
+            country,average,comment_count],
              (err, results, fields) => {
           if (err) {
               console.log(err)
@@ -105,7 +105,7 @@ router.get('/', (req, res) => {
 
   router.delete('/artist/:id', (req , res)=>{
     const id = req.params.id;
-    conn.query(`DELETE FROM artists WHERE ID=${id}`,(err , results , fields) =>{
+    conn.query(`DELETE FROM artists WHERE ID=?`,[id],(err , results , fields) =>{
       if(err){
           console.log(err)
       } else{
@@ -120,8 +120,7 @@ router.get('/', (req, res) => {
       const bio = req.body.bio ;
       const role = req.body.role ;
 
-        conn.query(`INSERT INTO artists (name,avatar,bio,role) VALUES ('${name}','${avatar}'
-          ,'${bio}','${role}') `, (err, results, fields) => {
+        conn.query(`INSERT INTO artists (name,avatar,bio,role) VALUES (?,?,?,?)`,[name,avatar,bio,role], (err, results, fields) => {
             if (err) {
                 console.log(err)
             }
@@ -138,8 +137,8 @@ router.get('/', (req, res) => {
     const bio = req.body.bio ;
     const role = req.body.role ;
 
-    conn.query(`UPDATE artists SET name='${name}',avatar='${avatar}'
-    ,bio='${bio}',role='${role}'`,(err , result , fields)=>{
+    conn.query(`UPDATE artists SET name=?,avatar=?
+    ,bio=?,role=? WHERE ID=?`,[name,avatar,bio,role,id],(err , result , fields)=>{
       if(err){
         console.log(err)
       } else{
@@ -154,19 +153,23 @@ router.get('/', (req, res) => {
   })
 
   router.delete('/video/:id/artist' , (req,res)=>{
-    const movie_id = req.body.Movie_ID
+    const movie_id = req.params.id
     const artists_id = req.body.Artists_ID
-    conn.query(`DELETE FROM movie_has_artists WHERE Movie_ID='${movie_id}' ,
-       Artists_ID='${artists_id}'`,(err , result , fields)=>{
-
+    conn.query(`DELETE FROM movie_has_artists WHERE Movie_ID=? AND
+       Artists_ID=?`,[movie_id,artists_id],(err , result , fields)=>{
+        if(err){
+          console.log(err)
+        }else{
+          res.send('deleted successfully')
+        }
     })
   })
 
   router.post('/video/:id/artist',(req , res) =>{
-    const movie_ID = req.body.Movie_ID
+    const movie_ID = req.params.id
     const artists_ID = req.body.Artists_ID 
-    conn.query(`INSERT INTO movie_has_artists(Movie_ID,Artists_ID) VALUES ('${movie_ID}',
-    '${artists_ID}')`,(err,result,fields)=>{
+    conn.query(`INSERT INTO movie_has_artists (Movie_ID,Artists_ID) VALUES (?,?)` , [movie_ID,
+    artists_ID],(err,result,fields)=>{
       if(err){
         console.log(err)
       } else {
@@ -174,16 +177,5 @@ router.get('/', (req, res) => {
       }
     })
   })
-  router.put('/video/:id/artist',(req,res)=>{
-    const movie_id = req.body.Movie_ID
-    const artists_id = req.body.Artists_ID 
-    conn.query(`UPDATE movie_has_artists SET Movie_ID='${movie_id}',
-         Artists_ID='${artists_id}'`,(err,result,fields)=>{
-      if(err){
-        console.log(err)
-      } else {
-        res.send(`update successfully`)
-      }
-    })
-  })
+  
 module.exports = router
