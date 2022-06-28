@@ -195,7 +195,22 @@ router.put("/user/ban" , (req , res) => {
 
 router.post("/user/addAdmin" , (req , res) => {
   // #add admin
-  
+  const email = req.body.email
+  const password = req.body.password
+  const birth = req.body.birth
+  const name = req.body.name
+  const address = req.body.address
+  const avatar = req.body.avatar
+  const permissions = req.body.permissions
+
+  conn.query(`INSERT INTO admin (email,password,birth,name,address,avatar,permissions) VALUES (?,?,?,?,?,?,?)`,
+  [email,password,birth,name,address,avatar,permissions],(err,result,fields)=>{
+    if(err){
+      console.log(err)
+    } else {
+      res.send('admin added successfully')
+    }
+  })
 
 })
 
