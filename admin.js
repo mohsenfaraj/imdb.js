@@ -180,16 +180,23 @@ router.get('/', (req, res) => {
 
   //--------- Manage Users --------/
 
-router.post("/user/ban" , (req , res) => {
+router.put("/user/ban" , (req , res) => {
   //#ban the user
-})
-
-router.delete("/user/ban" , (req , res) => {
-  //#unban the user
+  const user_id = req.body.ID
+  const banned = req.body.banned
+  conn.query(`UPDATE user SET banned=? WHERE ID=? `,[banned,user_id],(err,result,fields)=>{
+    if(err){
+      console.log(err)
+    } else{
+      res.send('user banned...')
+    }
+  })
 })
 
 router.post("/user/addAdmin" , (req , res) => {
   // #add admin
+  
+
 })
 
   //--------- Manage Comments --------/
