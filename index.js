@@ -4,6 +4,9 @@ const app = express() ;
 const mysql = require("mysql2/promise") ;
 const install = require("./install")
 const admin = require("./admin")
+const video = require("./video")
+const artists = require("./artists")
+const user = require("./user")
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var upload = multer();
@@ -42,6 +45,10 @@ async function run() {
     app.get("/" , (req , res) => {
         res.send("main site")
     })
+
+    app.use("/video" , video) ;
+    app.use("/artist" , artists) ;
+    app.use("/user" , user);
 
     app.get("/login" , (req , res) => {
         if (req.session.isLogged) {
