@@ -15,6 +15,13 @@ router.get("/" , (req , res) => {
 
 router.get("/:id" , (req , res) => {
     // get info about artist with id + get all videos artists attended.
+    const id = req.params.id ;
+    conn.query("SELECT * FROM artists WHERE id = ? " , [id] ,  (error , result) => {
+        conn.query("SELECT Movie_ID from movie_has_artists where id = ?" , [id] , (error2 , result2) => {
+            console.log(result);
+
+        })
+    })
 })
 
 module.exports = router ;

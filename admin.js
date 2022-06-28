@@ -188,22 +188,22 @@ router.delete("/user/ban" , (req , res) => {
   //#unban the user
 })
 
-router.post("/user/promote" , (req , res) => {
-  //#promote user to admin
-})
-
-router.delete("/user/ban" , (req , res) => {
-  //# unpromote the user from admin
+router.post("/user/addAdmin" , (req , res) => {
+  // #add admin
 })
 
   //--------- Manage Comments --------/
 router.get("/comments" , (req , res) => {
+  //req.query.offset
+  //req.query.limit
+  //req.body.status accepted/notaccepted/null/all
   //# get last 50 comments (accepted/not accepted/unknown/all)
 })
 
 router.put("/comments" , (req , res) => {
   //# set comment to accepted or not accepted
-  // example: req.body.id = 5     req.body.accepted = true
+  //req.body.status accepted/notaccepted/null
+  // example: req.body.id = 5     
 })
 router.delete("/comments" , (req , res) => {
   // #delete the comment by id 

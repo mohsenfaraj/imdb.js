@@ -11,7 +11,7 @@ router.get("/" , (req , res) => {
     res.send("videos")
     // #get all x videos 
     // req.query.limit => mahdood be chand ta natije shavad
-    // req.query.skip => chand taye avvali ra rad konad
+    // req.query.offset => chand taye avvali ra rad konad
 })
 
 router.get("/:id" , (req , res) => {
@@ -38,13 +38,14 @@ router.delete("/:id/rating" , (req , res)=> {
     // id = req.session.id     ratingID = req.body.ratingID    videoid = req.params.id
 })
 
-router.delete("/:id/rating" , (req , res)=> {
+router.put("/:id/rating" , (req , res)=> {
     // get starts for video
     // id = req.session.id  rating = req.body.rating   ratingID = req.body.ratingID  videoid = req.params.id 
 })
 
 function getvideoRating(id) {
     // #get the video Rating
+    // return avg
 }
 
 function getVideoComments(id){
