@@ -39,7 +39,6 @@ router.get("/:id" , (req , res) => {
 
 router.post("/:id/comment" , (req , res) => {
     // get comments about video 
-    // id = req.session.id     comment = req.body.comment    videoid = req.params.id
     let date_o = new Date();
     let datem = date_o.getDate();
     let yearm = date_o.getFullYear();
@@ -60,7 +59,6 @@ router.post("/:id/comment" , (req , res) => {
 
 router.delete("/:id/comment" , (req , res) => {
     // get comment about video 
-    // id = req.session.id     commentID = req.body.commentID    videoid = req.params.id
     const videoid = req.params.id
     const commentid = req.body.commentID
     const userid = req.session.id 
@@ -76,7 +74,6 @@ router.delete("/:id/comment" , (req , res) => {
 
 router.post("/:id/rating" , (req , res)=> {
     // get starts for video
-    // id = req.session.id     rating = req.body.rating    videoid = req.params.id
     const videoid = req.params.id
     const rating = req.body.rating
     const userid =  req.session.id 
@@ -93,7 +90,6 @@ router.post("/:id/rating" , (req , res)=> {
 
 router.delete("/:id/rating" , (req , res)=> {
     // get starts for video
-    // id = req.session.id     ratingID = req.body.ratingID    videoid = req.params.id
     const videoid = req.params.id
     const ratingid = req.body.ratingID
     const userid = req.session.id 
@@ -109,8 +105,18 @@ router.delete("/:id/rating" , (req , res)=> {
 
 router.put("/:id/rating" , (req , res)=> {
     // get starts for video
-    // id = req.session.id  rating = req.body.rating   ratingID = req.body.ratingID  videoid = req.params.id 
-
+    const videoid = req.params.id
+    const ratingid = req.body.ratingID
+    const userid = req.session.id
+    const rating = req.body.rating
+    conn.query(`UPDATE stars SET Rating=? WHERE User_ID=? AND Movie_ID=? AND ID=?`,
+    [rating,userid,videoid,ratingid],(err,result,field)=>{
+    if(err){
+        console.log(err)
+    }else{
+        res.send('Updated successfully')
+    }
+})
 })
 
 function getvideoRating(id) {
