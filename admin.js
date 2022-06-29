@@ -37,7 +37,7 @@ router.get('/', (req, res) => {
       if(err){
           console.log(err)
       } else{
-        res.send('delete film...')
+        res.status(200).send("film removed!");
       }
     })
   })
@@ -101,7 +101,9 @@ router.get('/', (req, res) => {
               console.log(err)
           }
           else {
-              res.send(`added successfully`);
+              res.render("admin/addVideo" , {
+                toast : {type:"success" , header : "Video Added!" , body : "Video Added Successfuly!"}
+              })
           }
       })
   })
@@ -109,7 +111,15 @@ router.get('/', (req, res) => {
     // ------------- Add Artists--------------
   
   router.get('/artist', (req, res) => {
-    res.send("list of all artists")
+    conn.query("SELECT ID , name , bio , role FROM artists" , (error , results) => {
+      if (error) {
+        console.log(error)
+      }
+      else {
+        let artists = results ;
+        res.render("admin/allArtists" , {artists : artists});
+      }
+    })
   })
 
   router.get("/artist/add" , (req , res) => {
@@ -122,7 +132,7 @@ router.get('/', (req, res) => {
       if(err){
           console.log(err)
       } else{
-        res.send('delete artist...')
+        res.status(200).send("film removed!");
       }
     })
   })
@@ -138,7 +148,9 @@ router.get('/', (req, res) => {
                 console.log(err)
             }
             else {
-                res.send(`added successfully`);
+              res.render("admin/addArtist" , {
+                toast : {type:"success" , header : "Artist Added!" , body : "Artist Added Successfuly!"}
+              })
             }
       })
   })
