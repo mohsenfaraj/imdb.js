@@ -26,6 +26,15 @@ router.get("/" , (req , res) => {
 
 router.get("/:id" , (req , res) => {
     // get info about video with id
+    const id = req.params.id 
+    conn.query(`SELECT * FROM film WHERE ID=?`,[id],(err,result,field)=>{
+        if(err){
+            console.log(err)
+        } else{
+            console.log(result)
+            res.send('selected successfully')
+        }
+    })
 })
 
 router.post("/:id/comment" , (req , res) => {
