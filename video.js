@@ -63,7 +63,7 @@ router.delete("/:id/comment" , (req , res) => {
     // id = req.session.id     commentID = req.body.commentID    videoid = req.params.id
     const videoid = req.params.id
     const commentid = req.body.commentID
-    const userid = 3 //req.session.id 
+    const userid = req.session.id 
     conn.query(`DELETE FROM comment WHERE User_ID=? AND Movie_ID=? AND ID=?`,
         [userid,videoid,commentid],(err,result,field)=>{
         if(err){
