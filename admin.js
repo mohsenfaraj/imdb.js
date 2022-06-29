@@ -225,7 +225,6 @@ router.post("/user/addAdmin" , (req , res) => {
 
   //--------- Manage Comments --------/
 router.get("/comments" , (req , res) => {
-<<<<<<< HEAD
   //req.query.offset
   //req.query.limit
   //req.body.status accepted/notaccepted/null/all
@@ -240,21 +239,7 @@ router.get("/comments" , (req , res) => {
       console.log(result)
       res.send('selected successfully')
     }
-=======
-  // const offset = Number.parseInt(req.query.offset) || 0 ;
-  // const status = Number.parseInt(req.query.offset) || 9 ;
-  const status = 1 ;
-  const offset = 0 ; 
-  // const status = req.query.status
-  conn.query(`SELECT * FROM comment WHERE accepted = ? LIMIT 50 OFFSET ? ` , [status , offset],
-    (err,result,fields)=>{
-      if(err){
-        console.log(err)
-      } else{
-        console.log(result)
-        res.send('selected successfully') 
-      }
->>>>>>> 8794c7f7ee74b92635b737b8478e061690b402f6
+
   })
 })
 
