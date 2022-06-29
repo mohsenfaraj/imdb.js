@@ -278,6 +278,14 @@ router.put("/comments" , (req , res) => {
 })
 router.delete("/comments" , (req , res) => {
   // #delete the comment by id
+  const id = req.body.ID
+  conn.query(`DELETE FROM comment WHERE ID=?`,[id],(err,result,field)=>{
+    if(err){
+      console.log(err)
+    }else{
+      res.send('deleted successfully')
+    }
+  })
  
 })
 module.exports = router
