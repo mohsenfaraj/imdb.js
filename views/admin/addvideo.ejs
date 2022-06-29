@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include("_header.ejs") %> 
+    <% const update = locals.update || {} %> 
   <body>
     <div class="container-scroller">
         <%- include("_sidebar.ejs") %> 
@@ -10,16 +11,16 @@
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h2 class="card-title">Add Video</h2>
-                    <p class="card-description"> add new video</p>
-                    <form class="forms-sample" action="/admin/video/add" method="POST">
+                    <h2 class="card-title"><%- update.ID?"Update Video":'Add Video'%></h2>
+                    <p class="card-description"><%- update.ID?'update existing video':'add new Video'%></p>
+                    <form class="forms-sample" action="<%- update?'/admin/video/' + update.ID:'/video/add'%>" method="POST">
                       <div class="form-group">
                         <label for="exampleInputName1">Name</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" name="name">
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" name="name" value="<%- update.name?update.name:''%>">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">type</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="type">
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="type" value="<%- update.type?update.type:''%>">
                       </div>
                       <div class="form-group">
                         <label>Cover Picture</label>
@@ -33,31 +34,31 @@
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">genre</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="genre" name="genre">
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="genre" name="genre" value="<%- update.genre?update.genre:''%>">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">year</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="year" name="year">
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="year" name="year" value="<%- update.year?update.year:''%>">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">content rating</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="content_rating">
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="content_rating"value="<%- update.content_rating?update.content_rating:''%>">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">company</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="company">
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="company"value="<%- update.company?update.company:''%>">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">date published</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="date_published">
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="date_published"value="<%- update.date_published?update.date_published:''%>">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">country</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="country">
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="country"value="<%- update.country?update.country:''%>">
                       </div>
                       <div class="form-group">
                         <label for="exampleTextarea1">Description</label>
-                        <textarea class="form-control" id="exampleTextarea1" rows="4" name="description"></textarea>
+                        <textarea class="form-control" id="exampleTextarea1" rows="4" name="description"><%- update.description?update.description:''%></textarea>
                       </div>
                       <button type="submit" class="btn btn-primary mr-2">Submit</button>
                       <button class="btn btn-dark" type="reset">Cancel</button>

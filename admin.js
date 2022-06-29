@@ -25,9 +25,16 @@ router.get('/', (req, res) => {
   })
 
   router.get('/video/:id(\\d+)', (req, res) => {
-    res.send('Add Page.');
-    // res.render("addvid");
-    
+    const id = req.params.id ;
+    conn.query("SELECT * FROM film WHERE id = ?" , [id] , (error , result) => {
+      if (error) {
+        console.log(error)
+      }
+      else {
+        console.log(result[0])
+        res.render("admin/addVideo" , {update : result[0]});
+      }
+    })    
   })
   
   
@@ -42,7 +49,7 @@ router.get('/', (req, res) => {
     })
   })
   
-  router.put('/video/:id(\\d+)' , (req,res) =>{
+  router.post('/video/:id(\\d+)' , (req,res) =>{
     const id = req.params.id ;
     const name = req.body.name ;
     const type = req.body.type ;
@@ -66,7 +73,7 @@ router.get('/', (req, res) => {
           console.log(err)
       }
       else {
-          res.send(`update successfully`);
+          res.redirect("/admin/video")
       }
     })
   })
