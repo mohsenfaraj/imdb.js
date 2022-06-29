@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("_header.ejs") %> 
+  <body>
+    <div class="container-scroller">
+        <%- include("_sidebar.ejs") %> 
+        <div class="container-fluid page-body-wrapper">
+        <%- include("_navbar.ejs") %> 
+          <div class="content-wrapper">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h2 class="card-title">Add Video</h2>
+                    <p class="card-description"> add new video</p>
+                    <form class="forms-sample" action="/admin/video/add" method="POST">
+                      <div class="form-group">
+                        <label for="exampleInputName1">Name</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" name="name">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputName1">type</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="type">
+                      </div>
+                      <div class="form-group">
+                        <label>Cover Picture</label>
+                        <input type="file" name="img[]" class="file-upload-default">
+                        <div class="input-group col-xs-12">
+                          <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                          <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputName1">genre</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="genre" name="genre">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputName1">year</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="year" name="year">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputName1">content rating</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="content_rating">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputName1">company</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="company">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputName1">date published</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="date_published">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputName1">country</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="country">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleTextarea1">Description</label>
+                        <textarea class="form-control" id="exampleTextarea1" rows="4" name="description"></textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                      <button class="btn btn-dark">Cancel</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <%- include("_footer.ejs") %> 
+  </body>
+</html>
