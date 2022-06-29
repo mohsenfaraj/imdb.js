@@ -238,21 +238,34 @@ router.post("/user/ban" , (req , res) => {
   }
 })
 
+router.get("/user/addAdmin" , (req , res) => {
+  res.render("admin/addAdmin");
+})
+
 router.post("/user/addAdmin" , (req , res) => {
-  // #add admin
   const email = req.body.email
   const password = req.body.password
+  const repassword = req.body.repassword 
   const name = req.body.name
   const avatar = req.body.avatar
-  conn.query(`INSERT INTO admin (email,password,name,avatar) VALUES (?,?,?,?)`,
-  [email,password,name,avatar],(err,result,fields)=>{
-    if(err){
-      console.log(err)
-    } else {
-      res.send('admin added successfully')
-    }
-  })
-
+  if (password !== repassword) {
+    res.render("admin/addAdmin" , {
+      toast : {type:"warning" , header : "passwords don't match" , body : "please pay attention to entering correct password."}
+    });
+    res.end() ;
+  }
+  else {
+    conn.query(`INSERT INTO admin (email,password,name,avatar) VALUES (?,?,?,?)`,
+    [email,password,name,avatar],(err,result,fields)=>{
+      if(err){
+        console.log(err)
+      } else {
+        res.render("admin/addAdmin" , {
+          toast : {type:"success" , header : "Admin added!" , body : "new Admin added successfully!"}
+        });
+      }
+    })
+  }
 })
 
 router.put("/profile",(req,res)=>{
