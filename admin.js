@@ -19,7 +19,6 @@ router.get('/', (req, res) => {
       }
       else {
         let videos = results ;
-        console.log(videos)
         res.render("admin/allVideos" , {videos : videos});
       }
     })
