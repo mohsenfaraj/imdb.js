@@ -181,16 +181,38 @@ router.get('/', (req, res) => {
 
   //--------- Manage Users --------/
 
-router.post("/user/ban" , (req , res) => {
+router.put("/user/ban" , (req , res) => {
   //#ban the user
-})
-
-router.delete("/user/ban" , (req , res) => {
-  //#unban the user
+  const user_id = req.body.ID
+  const banned = req.body.banned
+  conn.query(`UPDATE user SET banned=? WHERE ID=? `,[banned,user_id],(err,result,fields)=>{
+    if(err){
+      console.log(err)
+    } else{
+      res.send('user banned...')
+    }
+  })
 })
 
 router.post("/user/addAdmin" , (req , res) => {
   // #add admin
+  const email = req.body.email
+  const password = req.body.password
+  const birth = req.body.birth
+  const name = req.body.name
+  const address = req.body.address
+  const avatar = req.body.avatar
+  const permissions = req.body.permissions
+
+  conn.query(`INSERT INTO admin (email,password,birth,name,address,avatar,permissions) VALUES (?,?,?,?,?,?,?)`,
+  [email,password,birth,name,address,avatar,permissions],(err,result,fields)=>{
+    if(err){
+      console.log(err)
+    } else {
+      res.send('admin added successfully')
+    }
+  })
+
 })
 
   //--------- Manage Comments --------/
@@ -199,14 +221,64 @@ router.get("/comments" , (req , res) => {
   //req.query.limit
   //req.body.status accepted/notaccepted/null/all
   //# get last 50 comments (accepted/not accepted/unknown/all)
+  const offset = req.body.offset
+  const status = req.body.status
+  if(status == 'Accepted'){ //Accepted comments
+  conn.query(`SELECT * FROM comment WHERE accepted=1 LIMIT 50 OFFSET ${offset};`,
+    (err,result,fields)=>{
+      if(err){
+        console.log(err)
+      } else{
+        console.log(result)
+        res.send('selected successfully') 
+      }
+  })
+  } else if(status == 'Not accepted'){ // Not accepted comments
+    conn.query(`SELECT * FROM comment WHERE accepted=0 LIMIT 50 OFFSET ${offset};`,
+    (err,result,fields)=>{
+      if(err){
+        console.log(err)
+      } else{
+        console.log(result)
+        res.send('selected successfully')  
+      }
+  })
+  } else if(accept == 'All'){ // All comments 
+    conn.query(`SELECT * FROM comment LIMIT 50 OFFSET ${offset};`,
+    (err,result,fields)=>{
+      if(err){
+        console.log(err)
+      } else{
+        console.log(result)
+        res.send('selected successfully') 
+      }
+  })
+  }
 })
 
 router.put("/comments" , (req , res) => {
   //# set comment to accepted or not accepted
   //req.body.status accepted/notaccepted/null
-  // example: req.body.id = 5     
+  // example: req.body.id = 5  
+  const id = req.body.ID
+  const accepted = req.body.accepted
+  conn.query(`UPDATE comment SET accepted=? WHERE ID=?`,[accepted,id],(err,result,fields)=>{
+    if(err){
+      console.log(err)
+    } else{
+      res.send(`updated successfully`)
+    }
+  })   
 })
 router.delete("/comments" , (req , res) => {
-  // #delete the comment by id 
+  // #delete the comment by id
+  const id = req.body.ID
+  conn.query(`DELETE FROM comment WHERE ID=?`,[id],(err,result,fields)=>{
+    if(err){
+      console.log(err)
+    } else {
+      res.send('deleted successfully')
+    }
+  }) 
 })
 module.exports = router
