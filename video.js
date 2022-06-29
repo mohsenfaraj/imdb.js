@@ -94,11 +94,23 @@ router.post("/:id/rating" , (req , res)=> {
 router.delete("/:id/rating" , (req , res)=> {
     // get starts for video
     // id = req.session.id     ratingID = req.body.ratingID    videoid = req.params.id
+    const videoid = req.params.id
+    const ratingid = req.body.ratingID
+    const userid = req.session.id 
+    conn.query(`DELETE FROM stars WHERE User_ID=? AND Movie_ID=? AND ID=?`,
+    [userid,videoid,ratingid],(err,result,field)=>{
+    if(err){
+        console.log(err)
+    }else{
+        res.send('deleted successfully')
+    }
+})
 })
 
 router.put("/:id/rating" , (req , res)=> {
     // get starts for video
     // id = req.session.id  rating = req.body.rating   ratingID = req.body.ratingID  videoid = req.params.id 
+
 })
 
 function getvideoRating(id) {
