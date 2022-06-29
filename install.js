@@ -52,7 +52,7 @@ module.exports = async function init(conn) {
             Movie_ID INT NOT NULL,
             date DATE NOT NULL,
             text VARCHAR(245) NOT NULL,
-            accepted TINYINT NOT NULL DEFAULT 0,
+            accepted TINYINT NOT NULL DEFAULT 9,
             PRIMARY KEY (ID, User_ID , Movie_ID),
               FOREIGN KEY (User_ID)
               REFERENCES User (ID)
