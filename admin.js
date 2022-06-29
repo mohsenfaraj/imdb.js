@@ -205,17 +205,40 @@ router.get('/', (req, res) => {
 
   //--------- Manage Users --------/
 
-router.put("/user/ban" , (req , res) => {
+router.get("/user/ban" , (req , res) => {
+  res.render("admin/banUser")
+})
+
+router.post("/user/ban" , (req , res) => {
   //#ban the user
-  const user_id = req.body.ID
+  const user_id = Number.parseInt(req.body.id);
   const banned = req.body.banned
-  conn.query(`UPDATE user SET banned=? WHERE ID=? `,[banned,user_id],(err,result,fields)=>{
-    if(err){
-      console.log(err)
-    } else{
-      res.send('user banned...')
-    }
-  })
+  console.log(user_id , banned)
+  let banCode ;
+  if (banned == "ban") {
+    banCode = 1 ;
+  }
+  else {
+    banCode = 0 ;
+  }
+  if (!user_id) {
+    res.render("admin/banUser" , {
+      toast : {type:"warning" , header : "ID Required" , body : "you havn't specified the id to ban."}
+    });
+    res.end() ;
+  }
+  else {
+    console.log(banCode , user_id)
+    conn.query(`UPDATE user SET banned=? WHERE ID=? `,[banCode,user_id],(err,result,fields)=>{
+      if(err){
+        console.log(err)
+      } else{
+        res.render("admin/banUser" , {
+          toast : {type:"success" , header : `user ${banned}ed!` , body : `user ${banned}ed successfully.`}
+        });
+      }
+    })
+  }
 })
 
 router.post("/user/addAdmin" , (req , res) => {
