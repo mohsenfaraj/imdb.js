@@ -8,14 +8,33 @@ const conn = mysql.createConnection({
     database : process.env.DBNAME
 })
 router.get("/" , (req , res) => {
-    res.send("videos")
+    // res.send("videos")
     // #get all x videos 
     // req.query.limit => mahdood be chand ta natije shavad
     // req.query.offset => chand taye avvali ra rad konad
+    const limit = Number.parseInt(req.body.limit) || 5
+    const offset = Number.parseInt(req.body.offset) || 0
+    conn.query(`SELECT * FROM film LIMIT ? OFFSET ?`,[limit,offset],(err,result,field)=>{
+        if(err){
+            console.log(err)
+        } else{
+            console.log(result)
+            res.send('selected successfully')
+        }
+    })
 })
 
 router.get("/:id" , (req , res) => {
     // get info about video with id
+    const id = req.params.id 
+    conn.query(`SELECT * FROM film WHERE ID=?`,[id],(err,result,field)=>{
+        if(err){
+            console.log(err)
+        } else{
+            console.log(result)
+            res.send('selected successfully')
+        }
+    })
 })
 
 router.post("/:id/comment" , (req , res) => {
