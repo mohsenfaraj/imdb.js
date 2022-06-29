@@ -223,6 +223,24 @@ router.post("/user/addAdmin" , (req , res) => {
 
 })
 
+router.put("/profile",(req,res)=>{
+  // Admin profile update
+  const id = req.session.id
+  const password = req.body.password
+  const name = req.body.name
+  const avatar = req.body.avatar 
+  conn.query(`UPDATE admin SET password=? , name=? , avatar=? WHERE ID=?`,[password,name,
+    avatar,id],
+   (err,result,field)=>{
+    if(err){
+      console.log(err)
+    }else{
+      res.send('updated successfully')
+    }
+  })
+
+})
+
   //--------- Manage Comments --------/
 router.get("/comments" , (req , res) => {
   //req.query.offset
