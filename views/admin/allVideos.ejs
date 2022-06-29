@@ -32,7 +32,7 @@
                                 <td><%- video.ID %> </td>
                                 <td><%- video.name %> </td>
                                 <td><%- video.type %> </td>
-                                <td><%- video.date_published || "" %> </td>
+                                <td><%- video.date_published %> </td>
                                 <td>
                                     <a href="#" onclick=<%- `"deleteByID(${video.ID} , '${video.name}')"`%>>
                                         <label class="badge badge-danger">delete</label>
