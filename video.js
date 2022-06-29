@@ -47,7 +47,7 @@ router.post("/:id/comment" , (req , res) => {
     let date = yearm + '/' + monthm + '/' +datem ;
     const videoid = req.params.id
     const comment = req.body.comment
-    const userid = 3 //req.session.id 
+    const userid = req.session.id 
     conn.query(`INSERT INTO comment (User_ID,Movie_ID,date,text) VALUES (?,?,?,?)`,
         [userid,videoid,date,comment],(err,result,field)=>{
         if(err){
@@ -61,6 +61,17 @@ router.post("/:id/comment" , (req , res) => {
 router.delete("/:id/comment" , (req , res) => {
     // get comment about video 
     // id = req.session.id     commentID = req.body.commentID    videoid = req.params.id
+    const videoid = req.params.id
+    const commentid = req.body.commentID
+    const userid = 3 //req.session.id 
+    conn.query(`DELETE FROM comment WHERE User_ID=? AND Movie_ID=? AND ID=?`,
+        [userid,videoid,commentid],(err,result,field)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.send('deleted successfully')
+        }
+    })
 })
 
 router.post("/:id/rating" , (req , res)=> {
