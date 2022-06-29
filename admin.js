@@ -161,7 +161,18 @@ router.get('/', (req, res) => {
       })
   })
 
-  router.put('/artist/:id(\\d+)' , (req,res) =>{
+  router.get('/artist/:id(\\d+)' , (req,res) =>{
+    conn.query("SELECT ID , name , bio , role FROM artists" , (error , result) => {
+      if (error) {
+        console.log(error)
+      }
+      else {
+        res.render("admin/addArtist" , {update : result[0]})
+      }
+    })
+  })
+
+  router.post('/artist/:id(\\d+)' , (req,res) =>{
     const id = req.params.id ;
     const name = req.body.name ;
     const avatar = req.body.avatar ;
@@ -173,7 +184,7 @@ router.get('/', (req, res) => {
       if(err){
         console.log(err)
       } else{
-        res.send(`updated successfully`)
+        res.redirect("/admin/artist")
       }
     })
   })

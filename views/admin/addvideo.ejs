@@ -13,7 +13,7 @@
                   <div class="card-body">
                     <h2 class="card-title"><%- update.ID?"Update Video":'Add Video'%></h2>
                     <p class="card-description"><%- update.ID?'update existing video':'add new Video'%></p>
-                    <form class="forms-sample" action="<%- update?'/admin/video/' + update.ID:'/video/add'%>" method="POST">
+                    <form class="forms-sample" action="<%- update.ID?'/admin/video/' + update.ID:'/admin/video/add'%>" method="POST">
                       <div class="form-group">
                         <label for="exampleInputName1">Name</label>
                         <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" name="name" value="<%- update.name?update.name:''%>">
