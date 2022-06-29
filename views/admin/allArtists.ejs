@@ -9,35 +9,35 @@
           <div class="content-wrapper">
             <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">All Videos</h4>
-                  <p class="card-description">list of all videos</p>
+                  <h4 class="card-title">All Artists</h4>
+                  <p class="card-description">list of all Artists</p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
                           <th>ID</th>
                           <th>Name</th>
-                          <th>Type</th>
-                          <th>Date</th>
+                          <th>Bio</th>
+                          <th>Role</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <%if (videos.length == 0){ %>
-                            <td>No Videos Available!</td>
+                        <%if (artists.length == 0){ %>
+                            <td>No Artists Available!</td>
                             <% }else { %> 
-                            <%for (let i = 0 ; i < videos.length ; i ++){ %>
-                            <% let video = videos[i] ; %> 
+                            <%for (let i = 0 ; i < artists.length ; i ++){ %>
+                            <% let artist = artists[i] ; %> 
                             <tr>
-                                <td><%- video.ID %> </td>
-                                <td><%- video.name %> </td>
-                                <td><%- video.type %> </td>
-                                <td><%- video.date_published %> </td>
+                                <td><%- artist.ID %> </td>
+                                <td><%- artist.name %> </td>
+                                <td><%- artist.bio %> </td>
+                                <td><%- artist.role %> </td>
                                 <td>
-                                    <a href="#" onclick=<%- `"deleteByID(${video.ID} , '${video.name}')"`%>>
+                                    <a href="#" onclick=<%- `"deleteByID(${artist.ID} , '${artist.name}')"`%>>
                                         <label class="badge badge-danger">delete</label>
                                     </a>
-                                    <a href=<%- "/admin/video/" + video.ID %> >
+                                    <a href=<%- "/admin/artist/" + artist.ID %> >
                                         <label class="badge badge-primary">update</label>
                                     </a>
                                 </td>
@@ -53,9 +53,9 @@
           <%- include("_footer.ejs") %> 
           <script>
             function deleteByID(id , name){
-                var answer = confirm("are you sure you want to delete video by name " + name + " ?") ;
+                var answer = confirm("are you sure you want to delete artist by name " + name + " ?") ;
                 if (answer) {
-                    var url = "/admin/video/" + id ;
+                    var url = "/admin/artist/" + id ;
                     var xhr = new XMLHttpRequest();
                     xhr.open("DELETE", url);
                     xhr.onreadystatechange = function () {
