@@ -13,19 +13,27 @@ router.get('/', (req, res) => {
   })
 
   router.get("/video" , (req , res) => {
-    res.send("list of all videos")
+    conn.query("SELECT ID , type , name , date_published FROM film" , (error , results) => {
+      if (error) {
+        console.log(error)
+      }
+      else {
+        const videos = results[0] ;
+        res.render("admin/allVideos" , {videos : [videos]});
+      }
+    })
   })
 
-  router.get('/video/:id(\d+)', (req, res) => {
+  router.get('/video/:id(\\d+)', (req, res) => {
     res.send('Add Page.');
     // res.render("addvid");
     
   })
   
   
-  router.delete('/video/:id(\d+)' , (req , res) =>{
+  router.delete('/video/:id(\\d+)' , (req , res) =>{
     const id = req.params.id;
-    conn.query(  `DELETE FROM film WHERE ID=?`,[id] , (err , results , fields) =>{
+    conn.query(`DELETE FROM film WHERE ID=?`,[id] , (err , results , fields) =>{
       if(err){
           console.log(err)
       } else{
@@ -34,7 +42,7 @@ router.get('/', (req, res) => {
     })
   })
   
-  router.put('/video/:id(\d+)' , (req,res) =>{
+  router.put('/video/:id(\\d+)' , (req,res) =>{
     const id = req.params.id ;
     const name = req.body.name ;
     const type = req.body.type ;
@@ -108,7 +116,7 @@ router.get('/', (req, res) => {
     res.render("admin/addArtist")
   })
 
-  router.delete('/artist/:id(\d+)', (req , res)=>{
+  router.delete('/artist/:id(\\d+)', (req , res)=>{
     const id = req.params.id;
     conn.query(`DELETE FROM artists WHERE ID=?`,[id],(err , results , fields) =>{
       if(err){
@@ -135,7 +143,7 @@ router.get('/', (req, res) => {
       })
   })
 
-  router.put('/artist/:id(\d+)' , (req,res) =>{
+  router.put('/artist/:id(\\d+)' , (req,res) =>{
     const id = req.params.id ;
     const name = req.body.name ;
     const avatar = req.body.avatar ;
