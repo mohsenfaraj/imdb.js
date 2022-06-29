@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("_header.ejs") %> 
+  <body>
+    <div class="container-scroller">
+        <%- include("_sidebar.ejs") %> 
+        <div class="container-fluid page-body-wrapper">
+        <%- include("_navbar.ejs") %> 
+          <div class="content-wrapper">
+            <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Comments</h4>
+                  <p class="card-description">preview and accept comments</p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>by user</th>
+                          <th>movie id</th>
+                          <th>date</th>
+                          <th>text</th>
+                          <th>status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%if (comments.length == 0){ %>
+                            <td>No Comments Available!</td>
+                            <% }else { %> 
+                            <%for (let i = 0 ; i < comments.length ; i ++){ %>
+                            <% let comment = comments[i] ; %> 
+                            <%
+                                let date = new Date(comment.date);
+                                let endate = date.getFullYear()+'-' + (date.getMonth()+1) +
+                                 '-'+date.getDate();
+                            %>
+                            <tr>
+                                <td><%- comment.ID %> </td>
+                                <td><%- comment.User_ID %> </td>
+                                <td><%- comment.Movie_ID %> </td>
+                                <td><%- endate %> </td>
+                                <td><%- comment.text %> </td>
+                                <td>
+                                    <select class="form-control commentStatus" data-id="<%- comment.ID %>">
+                                        <option <%- comment.accepted == 1 ? "selected" : "" %> >Accepted</option>
+                                        <option <%- comment.accepted == 0 ? "selected" : "" %> >Rejected</option>
+                                        <option <%- comment.accepted == 9 ? "selected" : "" %> >Waiting</option>
+                                    </select>
+                                </td>
+                                <!-- <td>
+                                    <a href="#" onclick=<%- `"deleteByID(${comment.ID} , '${comment.name}')"`%>>
+                                        <label class="badge badge-danger">delete</label>
+                                    </a>
+                                    <a href=<%- "/admin/video/" + comment.ID %> >
+                                        <label class="badge badge-primary">update</label>
+                                    </a>
+                                </td> -->
+                            </tr>
+                        <% }} %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- content-wrapper ends -->
+          <%- include("_footer.ejs") %> 
+          <script>
+            function changeCommentStatus(id , status){
+                    var url = "/admin/comments/" ;
+                    var xhr = new XMLHttpRequest();
+                    var params = "accepted=" + status + "&id=" + id ;
+                    xhr.open("POST", url);
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        toastr["success"]("comment status update","Update Successful!");
+                    }};
+                    xhr.send(params);
+            }
+            document.querySelectorAll(".commentStatus").forEach((item) => {
+                item.addEventListener("change" , (event) => {
+                const status = event.target.value ;
+                const id = event.target.getAttribute("data-id");
+                let statusCode ; 
+                if (status == "Accepted") {
+                    statusCode = 1;
+                }
+                else if (status == "Rejected") {
+                    statusCode = 0 ;
+                }
+                else if (status == "Waiting") {
+                    statusCode = 9 ;
+                }
+                else {
+                    return ;
+                }
+                changeCommentStatus(id , statusCode)
+            })
+            })
+          </script>
+  </body>
+</html>

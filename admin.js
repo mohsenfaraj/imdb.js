@@ -64,7 +64,6 @@ router.get('/', (req, res) => {
      (err, results, fields) => {
       if (err) {
           console.log(err)
-          console.log('have error!');
       }
       else {
           res.send(`update successfully`);
@@ -213,7 +212,6 @@ router.post("/user/ban" , (req , res) => {
   //#ban the user
   const user_id = Number.parseInt(req.body.id);
   const banned = req.body.banned
-  console.log(user_id , banned)
   let banCode ;
   if (banned == "ban") {
     banCode = 1 ;
@@ -228,7 +226,6 @@ router.post("/user/ban" , (req , res) => {
     res.end() ;
   }
   else {
-    console.log(banCode , user_id)
     conn.query(`UPDATE user SET banned=? WHERE ID=? `,[banCode,user_id],(err,result,fields)=>{
       if(err){
         console.log(err)
@@ -278,30 +275,27 @@ router.put("/profile",(req,res)=>{
 
   //--------- Manage Comments --------/
 router.get("/comments" , (req , res) => {
-  //req.query.offset
-  //req.query.limit
-  //req.body.status accepted/notaccepted/null/all
-  //# get last 50 comments (accepted/not accepted/unknown/all)
-  const status = req.body.accepted || 9
+  const status = req.body.accepted 
   const offset = Number.parseInt(req.body.offset) || 0
-  conn.query(`SELECT * FROM comment WHERE accepted=? LIMIT 50 OFFSET ?`,[status,offset],
+  conn.query(`SELECT * FROM comment LIMIT 50 OFFSET ?`,[offset],
+  // conn.query(`SELECT * FROM comment WHERE accepted=? LIMIT 50 OFFSET ?`,[status , offset],
   (err,result,field)=>{
     if(err){
       console.log(err)
     } else{
-      console.log(result)
-      res.send('selected successfully')
+      res.render("admin/manageComments" , {comments : result})
     }
 
   })
 })
 
-router.put("/comments" , (req , res) => {
+router.post("/comments" , (req , res) => {
   //# set comment to accepted or not accepted
   //req.body.status accepted/notaccepted/null
   // example: req.body.id = 5 
-  const accepted = req.body.accepted
-  const id = req.body.ID
+  const accepted = Number.parseInt(req.body.accepted)
+  const id = Number.parseInt(req.body.id)
+  console.log(accepted , id)
   conn.query(`UPDATE comment SET accepted=? WHERE ID=?`,
     [accepted,id],(err,result,field)=>{
     if(err){
