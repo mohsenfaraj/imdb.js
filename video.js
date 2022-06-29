@@ -77,6 +77,18 @@ router.delete("/:id/comment" , (req , res) => {
 router.post("/:id/rating" , (req , res)=> {
     // get starts for video
     // id = req.session.id     rating = req.body.rating    videoid = req.params.id
+    const videoid = req.params.id
+    const rating = req.body.rating
+    const userid =  req.session.id 
+    conn.query(`INSERT INTO stars (Rating , User_ID , Movie_ID) VALUES (?,?,?)`,
+        [rating,userid,videoid],(err,result,field)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.send('Inserted successfully')
+        }
+    })
+
 })
 
 router.delete("/:id/rating" , (req , res)=> {
