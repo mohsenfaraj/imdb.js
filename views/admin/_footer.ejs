@@ -25,26 +25,27 @@
 <script src="../../assets/js/toastr.min.js"></script>
   <script>
     <% const toast = locals.toast || ""%>
-    <% if (toast !== null) { %>
+    <% if (toast != null && typeof toast != null) { %>
       toastr["<%- toast.type %>"]("<%- toast.body %>","<%- toast.header %>") ;
+      toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "500",
+        "hideDuration": "500",
+        "timeOut": "15000",
+        "extendedTimeOut": "5000",
+        "showEasing": "linear",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
     <% } %>
-toastr.options = {
-  "closeButton": true,
-  "debug": false,
-  "newestOnTop": false,
-  "progressBar": true,
-  "positionClass": "toast-bottom-right",
-  "preventDuplicates": false,
-  "onclick": null,
-  "showDuration": "500",
-  "hideDuration": "500",
-  "timeOut": "15000",
-  "extendedTimeOut": "5000",
-  "showEasing": "linear",
-  "hideEasing": "linear",
-  "showMethod": "fadeIn",
-  "hideMethod": "fadeOut"
-}
+
 </script>
 <!-- endinject -->
 <!-- Custom js for this page -->

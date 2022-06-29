@@ -36,6 +36,7 @@ async function run() {
 
     // for parsing application/xwww-form-urlencoded
     app.use(bodyParser.urlencoded({ extended: true })); 
+    app.use(bodyParser.raw());
 
     // for parsing multipart/form-data
     app.use(upload.array()); 

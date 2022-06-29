@@ -28,11 +28,16 @@
                             <% }else { %> 
                             <%for (let i = 0 ; i < videos.length ; i ++){ %>
                             <% let video = videos[i] ; %> 
+                            <%
+                              let date = new Date(video.date_published);
+                              let endate = date.getFullYear()+'-' + (date.getMonth()+1) +
+                              '-'+date.getDate();
+                            %>
                             <tr>
                                 <td><%- video.ID %> </td>
                                 <td><%- video.name %> </td>
                                 <td><%- video.type %> </td>
-                                <td><%- video.date_published %> </td>
+                                <td><%- endate %> </td>
                                 <td>
                                     <a href="#" onclick=<%- `"deleteByID(${video.ID} , '${video.name}')"`%>>
                                         <label class="badge badge-danger">delete</label>
