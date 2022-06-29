@@ -18,8 +18,9 @@ router.get('/', (req, res) => {
         console.log(error)
       }
       else {
-        const videos = results[0] ;
-        res.render("admin/allVideos" , {videos : [videos]});
+        let videos = results ;
+        console.log(videos)
+        res.render("admin/allVideos" , {videos : videos});
       }
     })
   })
@@ -229,14 +230,12 @@ router.post("/user/addAdmin" , (req , res) => {
 
   //--------- Manage Comments --------/
 router.get("/comments" , (req , res) => {
-  //req.query.offset
-  //req.query.limit
-  //req.body.status accepted/notaccepted/null/all
-  //# get last 50 comments (accepted/not accepted/unknown/all)
-  const offset = req.body.offset
-  const status = req.body.status
-  if(status == 'Accepted'){ //Accepted comments
-  conn.query(`SELECT * FROM comment WHERE accepted=1 LIMIT 50 OFFSET ${offset};`,
+  // const offset = Number.parseInt(req.query.offset) || 0 ;
+  // const status = Number.parseInt(req.query.offset) || 9 ;
+  const status = 1 ;
+  const offset = 0 ; 
+  // const status = req.query.status
+  conn.query(`SELECT * FROM comment WHERE accepted = ? LIMIT 50 OFFSET ? ` , [status , offset],
     (err,result,fields)=>{
       if(err){
         console.log(err)
@@ -245,27 +244,6 @@ router.get("/comments" , (req , res) => {
         res.send('selected successfully') 
       }
   })
-  } else if(status == 'Not accepted'){ // Not accepted comments
-    conn.query(`SELECT * FROM comment WHERE accepted=0 LIMIT 50 OFFSET ${offset};`,
-    (err,result,fields)=>{
-      if(err){
-        console.log(err)
-      } else{
-        console.log(result)
-        res.send('selected successfully')  
-      }
-  })
-  } else if(accept == 'All'){ // All comments 
-    conn.query(`SELECT * FROM comment LIMIT 50 OFFSET ${offset};`,
-    (err,result,fields)=>{
-      if(err){
-        console.log(err)
-      } else{
-        console.log(result)
-        res.send('selected successfully') 
-      }
-  })
-  }
 })
 
 router.put("/comments" , (req , res) => {
