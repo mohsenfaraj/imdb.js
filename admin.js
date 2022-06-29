@@ -104,6 +104,10 @@ router.get('/', (req, res) => {
     res.send("list of all artists")
   })
 
+  router.get("/artist/add" , (req , res) => {
+    res.render("admin/addArtist")
+  })
+
   router.delete('/artist/:id(\d+)', (req , res)=>{
     const id = req.params.id;
     conn.query(`DELETE FROM artists WHERE ID=?`,[id],(err , results , fields) =>{
