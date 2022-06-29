@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("_header.ejs") %> 
+  <body>
+    <div class="container-scroller">
+        <%- include("_sidebar.ejs") %> 
+        <div class="container-fluid page-body-wrapper">
+        <%- include("_navbar.ejs") %> 
+          <div class="content-wrapper">
+            <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">All Videos</h4>
+                  <p class="card-description">list of all videos</p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Type</th>
+                          <th>Date</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%videos.forEach(video => { %>
+                            <tr>
+                                <td><%- video.ID %> </td>
+                                <td><%- video.name %> </td>
+                                <td><%- video.type %> </td>
+                                <td><%- video.date_published %> </td>
+                                <td>
+                                    <a href="#" onclick=<%- `"deleteByID(${video.ID} , '${video.name}')"`%>>
+                                        <label class="badge badge-danger">delete</label>
+                                    </a>
+                                    <a href=<%- "/admin/video/" + video.ID %> >
+                                        <label class="badge badge-primary">update</label>
+                                    </a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- content-wrapper ends -->
+          <%- include("_footer.ejs") %> 
+          <script>
+            function deleteByID(id , name){
+                var answer = confirm("are you sure you want to delete video by name " + name + " ?") ;
+                if (answer) {
+                    var url = "/admin/video/" + id ;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", url);
+                    xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        document.location.reload(true)
+                    }};
+                    xhr.send();
+                }
+            }
+          </script>
+  </body>
+</html>

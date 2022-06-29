@@ -70,6 +70,9 @@ async function run() {
             conn.query("SELECT * FROM admin WHERE email = ? AND password = ?" , [email , password])
             .then((result , fields)=> {
                 if (result.length > 0) {
+                    req.session.name = result[0][0].name || "admin" ;
+                    req.session.id = result[0][0].ID ;
+
                     req.session.isLogged = true ;
                     res.redirect("/admin")
                 }
