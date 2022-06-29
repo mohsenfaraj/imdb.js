@@ -247,8 +247,8 @@ router.get("/comments" , (req , res) => {
   //req.query.limit
   //req.body.status accepted/notaccepted/null/all
   //# get last 50 comments (accepted/not accepted/unknown/all)
-  const status = req.body.accepted
-  const offset = req.body.offset
+  const status = req.body.accepted || 9
+  const offset = Number.parseInt(req.body.offset) || 0
   conn.query(`SELECT * FROM comment WHERE accepted=? LIMIT 50 OFFSET ?`,[status,offset],
   (err,result,field)=>{
     if(err){
@@ -264,7 +264,17 @@ router.get("/comments" , (req , res) => {
 router.put("/comments" , (req , res) => {
   //# set comment to accepted or not accepted
   //req.body.status accepted/notaccepted/null
-  // example: req.body.id = 5     
+  // example: req.body.id = 5 
+  const accepted = req.body.accepted
+  const id = req.body.ID
+  conn.query(`UPDATE comment SET accepted=? WHERE ID=?`,
+    [accepted,id],(err,result,field)=>{
+    if(err){
+      console.log(err)
+    }else{
+      res.send('updated successfully')
+    }
+  })    
 })
 router.delete("/comments" , (req , res) => {
   // #delete the comment by id
