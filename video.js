@@ -40,6 +40,22 @@ router.get("/:id" , (req , res) => {
 router.post("/:id/comment" , (req , res) => {
     // get comments about video 
     // id = req.session.id     comment = req.body.comment    videoid = req.params.id
+    let date_o = new Date();
+    let datem = date_o.getDate();
+    let yearm = date_o.getFullYear();
+    let monthm = date_o.getMonth()+1;
+    let date = yearm + '/' + monthm + '/' +datem ;
+    const videoid = req.params.id
+    const comment = req.body.comment
+    const userid = 3 //req.session.id 
+    conn.query(`INSERT INTO comment (User_ID,Movie_ID,date,text) VALUES (?,?,?,?)`,
+        [userid,videoid,date,comment],(err,result,field)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.send('inserted successfully')
+        }
+    })
 })
 
 router.delete("/:id/comment" , (req , res) => {
