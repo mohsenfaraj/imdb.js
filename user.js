@@ -21,7 +21,20 @@ router.get("/profile" , (req , res) => {
 })
 router.put("/profile" , (req , res) => {
     // update user profile
-    
+    const id = req.session.id
+    const password = req.body.password
+    const birth = req.body.birth
+    const name = req.body.name
+    const address = req.query.address
+    const avatar = req.body.avatar
+    conn.query(`UPDATE user SET password=? , birth=? , name=? , address=? , avatar=? WHERE ID=?`,
+    [password,birth,name,address,avatar,id],(err , result , field)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.send('updated successfully')
+        }
+    })
 })
 
 module.exports = router ;
