@@ -26,7 +26,7 @@
   <script>
     <% const toast = locals.toast || ""%>
     <% if (toast !== null) { %>
-      toastr["<%- toast.type %>"]("<%- toast.header %>", "<%- toast.body %>") ;
+      toastr["<%- toast.type %>"]("<%- toast.body %>","<%- toast.header %>") ;
     <% } %>
 toastr.options = {
   "closeButton": true,
