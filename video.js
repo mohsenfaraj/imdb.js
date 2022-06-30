@@ -7,15 +7,21 @@ const conn = mysql.createConnection({
     password : process.env.DBPASS ,
     database : process.env.DBNAME
 })
+
+
 router.get("/" , (req , res) => {
-    // res.send("videos")
-    // #get all x videos 
-    // req.query.limit => mahdood be chand ta natije shavad
-    // req.query.offset => chand taye avvali ra rad konad
     const p = Number.parseInt(req.query.p) || 0;
     const offset = p * 20 || 0 ; 
-    const limit = Number.parseInt(req.body.limit) || 20
-    conn.query(`SELECT * FROM film LIMIT ? OFFSET ?`,[limit,offset],(err,result,field)=>{
+    const name = req.query.name ;
+    const type = req.query.type ;
+    const genre = req.query.genre ;
+    const averageMin = req.query.averageMin ;
+    const averageMax = req.query.averageMax ;
+    const year = req.query.year ;
+
+    const queryObj = getSearchQuery(name , type , genre , averageMin , averageMax , year , offset) ;
+    //console.log(queryObj)
+    conn.query(queryObj.query, queryObj.items ,(err,result,field)=>{
         conn.query(`SELECT COUNT(ID) AS Count FROM film`,(err2,result2)=>{
 
             if(err || err2){
@@ -142,6 +148,38 @@ function getvideoRating(id) {
 
 function getVideoComments(id){
     // #get video comments
+}
+
+
+function getSearchQuery(name,type,genre,Faverage, Taverage ,year , offset){
+    let query = "SELECT * FROM film "
+    const items = [{item : ["name" , name]} , {item : ["type" , type]} , {item : ["genre" , genre]} , {item : ["Faverage" , Faverage]} , {item : ["Taverage" , Taverage]} , {item : ["year" , year]}] ; 
+
+    const result = items.filter((current) => {
+        return current.item[1]
+    })
+    let resultItems = [] ;
+    if (result.length > 0) {
+        query += "WHERE "
+        result.forEach(object => {
+            if (object.item[0] == "Faverage") {
+                query += "average > ? AND " ;
+                resultItems.push(object.item[1])
+            }
+            else if (object.item[0] == "Taverage") {
+                query += "average < ? AND " ;
+                resultItems.push(object.item[1])
+            } else{
+                query += object.item[0] + " LIKE ? AND "
+                resultItems.push(object.item[1] + "%")
+            }
+        })
+        query += "1 " ;
+    }
+    query += "LIMIT 20 OFFSET ?"
+    resultItems.push(offset)
+
+    return {query : query , items : resultItems};
 }
 
 module.exports = router ;

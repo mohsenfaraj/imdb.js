@@ -55,49 +55,58 @@
 				<div class="sidebar">
 					<div class="searh-form">
 						<h4 class="sb-title">Search for movie</h4>
-						<form class="form-style-1" action="#">
+						<form class="form-style-1" action="/video" method="GET">
 							<div class="row">
 								<div class="col-md-12 form-it">
-									<label>Movie name</label>
-									<input type="text" placeholder="Enter keywords">
+									<label>Movie Name</label>
+									<input type="text" placeholder="Enter keywords" name="name" >
 								</div>
 								<div class="col-md-12 form-it">
-									<label>Genres & Subgenres</label>
+									<label>Genres</label>
 									<div class="group-ip">
 										<select
-											name="skills" multiple="" class="ui fluid dropdown">
+											name="genre" multiple="" class="ui fluid dropdown">
 											<option value="">Enter to filter genres</option>
-											<option value="Action1">Action 1</option>
-					                        <option value="Action2">Action 2</option>
-					                        <option value="Action3">Action 3</option>
-					                        <option value="Action4">Action 4</option>
-					                        <option value="Action5">Action 5</option>
+											<option value="COMEDY">COMEDY</option>
+					                        <option value="SCI-FI">SCI-FI</option>
+					                        <option value="HORROR">HORROR</option>
+					                        <option value="ROMANCE">ROMANCE</option>
+					                        <option value="ACTION">ACTION</option>
+                                            <option value="THRILLER">THRILLER</option>
+                                            <option value="DRAMA">DRAMA</option>
+                                            <option value="MYSTERY">MYSTERY</option>
+                                            <option value="CRIME">CRIME</option>
+                                            <option value="ANIMATION">ANIMATION</option>
+                                            <option value="ADVENTURE">ADVENTURE</option>
+                                            <option value="FANTASY">FANTASY</option>
+										</select>
+									</div>	
+								</div>
+                                <div class="col-md-12 form-it">
+									<label>Type</label>
+									<div class="group-ip">
+										<select
+											name="type" multiple="" class="ui fluid dropdown">
+											<option value="">Enter to filter genres</option>
+											<option value="FILM">FILM</option>
+					                        <option value="SERIES">SERIES</option>
 										</select>
 									</div>	
 								</div>
 								<div class="col-md-12 form-it">
 									<label>Rating Range</label>
-									<select>
-									  <option value="range">-- Select the rating range below --</option>
-									  <option value="saab">-- Select the rating range below --</option>
-									</select>
-								</div>
-								<div class="col-md-12 form-it">
-									<label>Release Year</label>
 									<div class="row">
 										<div class="col-md-6">
-											<select>
-											  <option value="range">From</option>
-											  <option value="number">10</option>
-											</select>
+											<input type="text" name="averageMin" placeholder="Minimum Rating">
 										</div>
 										<div class="col-md-6">
-											<select>
-											  <option value="range">To</option>
-											  <option value="number">20</option>
-											</select>
+                                            <input type="text" name="averageMax" placeholder="Maximum Rating">
 										</div>
 									</div>
+								</div>
+                                <div class="col-md-12 form-it">
+									<label>Year</label>
+									<input type="text" placeholder="Enter Year" name="year" >
 								</div>
 								<div class="col-md-12 ">
 									<input class="submit" type="submit" value="submit">
