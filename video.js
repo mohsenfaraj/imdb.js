@@ -20,9 +20,10 @@ router.get("/" , (req , res) => {
     const year = req.query.year ;
 
     const queryObj = getSearchQuery(name , type , genre , averageMin , averageMax , year , offset) ;
+    const queryObj2 = getSearchQuery2(name , type , genre , averageMin , averageMax , year)
     //console.log(queryObj)
     conn.query(queryObj.query, queryObj.items ,(err,result,field)=>{
-        conn.query(`SELECT COUNT(ID) AS Count FROM film`,(err2,result2)=>{
+        conn.query(queryObj2.query,queryObj2.items,(err2,result2)=>{
 
             if(err || err2){
                 console.log(err)
@@ -180,6 +181,35 @@ function getSearchQuery(name,type,genre,Faverage, Taverage ,year , offset){
     resultItems.push(offset)
 
     return {query : query , items : resultItems};
+}
+
+function getSearchQuery2(name,type,genre,Faverage, Taverage ,year , offset){
+    let query2 = "SELECT COUNT(ID) AS Count FROM film "
+    const items = [{item : ["name" , name]} , {item : ["type" , type]} , {item : ["genre" , genre]} , {item : ["Faverage" , Faverage]} , {item : ["Taverage" , Taverage]} , {item : ["year" , year]}] ; 
+
+    const result = items.filter((current) => {
+        return current.item[1]
+    })
+    let resultItems = [] ;
+    if (result.length > 0) {
+        query2 += "WHERE "
+        result.forEach(object => {
+            if (object.item[0] == "Faverage") {
+                query2 += "average > ? AND " ;
+                resultItems.push(object.item[1])
+            }
+            else if (object.item[0] == "Taverage") {
+                query2 += "average < ? AND " ;
+                resultItems.push(object.item[1])
+            } else{
+                query2 += object.item[0] + " LIKE ? AND "
+                resultItems.push(object.item[1] + "%")
+            }
+        })
+        query2 += "1 " ;
+    }
+
+    return {query : query2 , items : resultItems};
 }
 
 module.exports = router ;
