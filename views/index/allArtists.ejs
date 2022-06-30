@@ -31,7 +31,7 @@
 				</div>
 				<div class="topbar-filter"  style="display:flex;justify-content:center;">
 					<div class="pagination2">
-                        <% let n_page = Math.ceil(count_artists / 2)  %> 
+                        <% let n_page = Math.ceil(count_artists / 20)  %> 
 						<span>Page <%- p+1 %>  of <%- n_page %> :</span>
                         <% for( let index = 0; index < n_page ; index++ ) { %>
                             <a href="<%-'/artist/?p=' + index %>" class="<%- p==index?"active":"" %> "><%- index+1 %></a>

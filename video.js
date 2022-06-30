@@ -12,8 +12,9 @@ router.get("/" , (req , res) => {
     // #get all x videos 
     // req.query.limit => mahdood be chand ta natije shavad
     // req.query.offset => chand taye avvali ra rad konad
+    const p = Number.parseInt(req.query.p) || 0;
+    const offset = p * 20 || 0 ; 
     const limit = Number.parseInt(req.body.limit) || 20
-    const offset = Number.parseInt(req.body.offset) || 0
     conn.query(`SELECT * FROM film LIMIT ? OFFSET ?`,[limit,offset],(err,result,field)=>{
         conn.query(`SELECT COUNT(ID) AS Count FROM film`,(err2,result2)=>{
 
@@ -22,7 +23,7 @@ router.get("/" , (req , res) => {
                 console.log(err2)
             } else{
                 //console.log(result)
-                res.render("index/allVideos", {videos : result , video_count : result2[0].Count , Message : "MOVIE LIST"})
+                res.render("index/allVideos", {videos : result , video_count : result2[0].Count , Message : "MOVIE LIST" , p:p})
             }
         })
    
