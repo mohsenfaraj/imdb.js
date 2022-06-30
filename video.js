@@ -12,15 +12,20 @@ router.get("/" , (req , res) => {
     // #get all x videos 
     // req.query.limit => mahdood be chand ta natije shavad
     // req.query.offset => chand taye avvali ra rad konad
-    const limit = Number.parseInt(req.body.limit) || 5
+    const limit = Number.parseInt(req.body.limit) || 20
     const offset = Number.parseInt(req.body.offset) || 0
     conn.query(`SELECT * FROM film LIMIT ? OFFSET ?`,[limit,offset],(err,result,field)=>{
-        if(err){
-            console.log(err)
-        } else{
-            console.log(result)
-            res.send('selected successfully')
-        }
+        conn.query(`SELECT COUNT(ID) AS Count FROM film`,(err2,result2)=>{
+
+            if(err || err2){
+                console.log(err)
+                console.log(err2)
+            } else{
+                //console.log(result)
+                res.render("index/allVideos", {videos : result , video_count : result2[0].Count})
+            }
+        })
+   
     })
 })
 
