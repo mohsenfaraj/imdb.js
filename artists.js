@@ -11,13 +11,20 @@ const conn = mysql.createConnection({
 router.get("/" , (req , res) => {
     //res.send("artists")
     // #get all x artist
-    conn.query(`SELECT * FROM artists`,(err,result,field)=>{
-        if(err){
-            console.log(err)
-        } else{
-            console.log(result)
-            res.send('selected successfully')
-        }
+    const p = Number.parseInt(req.query.p);
+    const offset = p * 2 || 0 ; 
+    conn.query(`SELECT * FROM artists LIMIT 2 OFFSET ?`,[offset],(err,result,field)=>{
+        conn.query(`SELECT COUNT(ID) AS Count FROM artists`,(err2,result2)=>{
+
+            if(err || err2){
+                console.log(err)
+                console.log(err2)
+            } else{
+            //console.log(result)
+            //res.send('selected successfully')
+            res.render("index/allArtists" , {Message:"ARTIST LIST", artists : result , count_artists : result2[0].Count , p:p })
+            }       
+        })
     })
 })
 
@@ -42,4 +49,4 @@ router.get("/:id" , (req , res) => {
     })
 })
 
-module.exports = router ;
+module.exports = router 

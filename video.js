@@ -22,7 +22,7 @@ router.get("/" , (req , res) => {
                 console.log(err2)
             } else{
                 //console.log(result)
-                res.render("index/allVideos", {videos : result , video_count : result2[0].Count})
+                res.render("index/allVideos", {videos : result , video_count : result2[0].Count , Message : "MOVIE LIST"})
             }
         })
    
