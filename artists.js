@@ -11,7 +11,7 @@ const conn = mysql.createConnection({
 router.get("/" , (req , res) => {
     //res.send("artists")
     // #get all x artist
-    const p = req.query.p || 0;
+    const p = Number.parseInt(req.query.p) || 0;
     const offset = p * 20 || 0 ; 
     conn.query(`SELECT * FROM artists LIMIT 2 OFFSET ?`,[offset],(err,result,field)=>{
         conn.query(`SELECT COUNT(ID) AS Count FROM artists`,(err2,result2)=>{
