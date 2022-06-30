@@ -19,8 +19,9 @@
 
 
 				<div class="flex-wrap-movielist">
-
-                   
+					<% if(videos.length == 0) { %> 
+                        <p>No Movie</p>
+                        <% }  %> 
                     <% videos.forEach(video => { %>
                         <div class="movie-item-style-2 movie-item-style-1">
 							<img src="<%- video.cover %> " alt="">
@@ -59,7 +60,7 @@
 							<div class="row">
 								<div class="col-md-12 form-it">
 									<label>Movie Name</label>
-									<input type="text" placeholder="Enter keywords" name="name" >
+									<input type="text" placeholder="Enter Name" name="name" >
 								</div>
 								<div class="col-md-12 form-it">
 									<label>Genres</label>
@@ -87,7 +88,7 @@
 									<div class="group-ip">
 										<select
 											name="type" multiple="" class="ui fluid dropdown">
-											<option value="">Enter to filter genres</option>
+											<option value="">Enter to filter type</option>
 											<option value="FILM">FILM</option>
 					                        <option value="SERIES">SERIES</option>
 										</select>
