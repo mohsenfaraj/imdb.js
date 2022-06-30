@@ -338,7 +338,7 @@ router.post("/comments" , (req , res) => {
 })
 router.delete("/comments" , (req , res) => {
   // #delete the comment by id
-  const id = req.body.ID
+  const id = Number.parseInt(req.body.ID)
   conn.query(`DELETE FROM comment WHERE ID=?`,[id],(err,result,field)=>{
     if(err){
       console.log(err)
