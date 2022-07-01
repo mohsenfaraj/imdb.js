@@ -40,13 +40,12 @@ router.get("/:id" , (req , res) => {
         if(error){
             console.log(error)
         }else{
-             conn.query("SELECT SELECT Movie_ID FROM movie_has_artists WHERE Artists_ID= ?" , [id] , (error2 , result2) => {
+             conn.query("SELECT COUNT(Movie_ID) AS COUNTM FROM movie_has_artists WHERE Artists_ID= ?" , [id] , (error2 , result2) => {
                  if(error2){
                      console.log(error2)
                  }else{
-                    console.log(result);
-                     console.log(result2);
-                     res.send('selected successfully')
+
+                  res.render("artistSinglePage/singleArtist", { artist : result , allvideo : result2[0].COUNTM})
                  }    
                
              })
