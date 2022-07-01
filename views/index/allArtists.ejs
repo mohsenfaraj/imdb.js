@@ -1,0 +1,75 @@
+<%- include("_header.ejs") %> 
+<div class="page-single">
+	<div class="container">
+		<div class="row ipad-width2">
+			<div class="col-md-9 col-sm-12 col-xs-12">
+				<div class="topbar-filter">
+					<p>Found <span><%- count_artists %>  celebrities</span> in total</p>
+					<label>Sort by:</label>
+					<select>
+						<option value="popularity">Popularity Descending</option>
+						<option value="popularity">Popularity Ascending</option>
+						<option value="rating">Rating Descending</option>
+						<option value="rating">Rating Ascending</option>
+						<option value="date">Release date Descending</option>
+						<option value="date">Release date Ascending</option>
+					</select>
+				</div>
+				<div class="celebrity-items">
+                    <% if(artists.length == 0) { %> 
+                        <p>No Artists</p>
+                        <% }  %> 
+					<% artists.forEach(artist => { %>
+                    <div class="ceb-item">
+						<a href="<%- '/artist/' + artist.ID %> "><img src="<%- artist.avatar %> " alt=""></a>
+						<div class="ceb-infor">
+							<h2><a href="<%- '/artist/' + artist.ID %>"><%- artist.name %> </a></h2>
+							<span><%- artist.role %></span>
+						</div>
+					</div>
+                    <% }) %>
+				</div>
+				<div class="topbar-filter"  style="display:flex;justify-content:center;">
+					<div class="pagination2">
+                        <% let n_page = Math.ceil(count_artists / 20)  %> 
+						<span>Page <%- p+1 %>  of <%- n_page %> :</span>
+                        <% for( let index = 0; index < n_page ; index++ ) { %>
+                            <a href="<%-'/artist/?p=' + index %>" class="<%- p==index?"active":"" %> "><%- index+1 %></a>
+                        <% } %> 
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-xs-12 col-sm-12">
+				<div class="sidebar">
+						<div class="searh-form">
+						<h4 class="sb-title">Search celebrity</h4>
+						<form class="form-style-1 celebrity-form" action="/artist" method="GET">
+							<div class="row">
+								<div class="col-md-12 form-it">
+									<label>Celebrity name</label>
+									<input type="text" placeholder="Enter Name"  name="CelebrityName">
+								</div>
+								<div class="col-md-12 form-it">
+									<label>Celebrity Role</label>
+									<select name="CelebrityRole">
+										<option value="">Enter to filter Role</option>
+									  <option value="Acter">Actor</option>
+									  <option value="Actress">Actress</option>
+									  <option value="Director">Director</option>
+									  <option value="Cameraman">Cameraman</option>
+									  <option value="Singer">Singer</option>
+									</select>
+								</div>
+								<div class="col-md-12 ">
+									<input class="submit" type="submit" value="submit">
+								</div>
+							</div>
+						</form>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- include("_footer.ejs") %>

@@ -21,6 +21,7 @@
                           <th>date</th>
                           <th>text</th>
                           <th>status</th>
+                          <th>action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -47,14 +48,11 @@
                                         <option <%- comment.accepted == 9 ? "selected" : "" %> >Waiting</option>
                                     </select>
                                 </td>
-                                <!-- <td>
-                                    <a href="#" onclick=<%- `"deleteByID(${comment.ID} , '${comment.name}')"`%>>
+                                <td>
+                                    <a href="#" onclick=<%- `"deleteByID(${comment.ID})" ` %>>
                                         <label class="badge badge-danger">delete</label>
                                     </a>
-                                    <a href=<%- "/admin/video/" + comment.ID %> >
-                                        <label class="badge badge-primary">update</label>
-                                    </a>
-                                </td> -->
+                                </td>
                             </tr>
                         <% }} %>
                       </tbody>
@@ -66,6 +64,18 @@
           <!-- content-wrapper ends -->
           <%- include("_footer.ejs") %> 
           <script>
+            function deleteByID(id) {
+              var url = "/admin/comments/" ;
+                    var xhr = new XMLHttpRequest();
+                    var params = "ID=" + id ;
+                    xhr.open("DELETE", url);
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        window.location.reload() ;
+                    }};
+                    xhr.send(params);
+            }             
             function changeCommentStatus(id , status){
                     var url = "/admin/comments/" ;
                     var xhr = new XMLHttpRequest();

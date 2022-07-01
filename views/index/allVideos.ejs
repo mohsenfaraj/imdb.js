@@ -1,0 +1,126 @@
+<%- include("_header.ejs") %> 
+<div class="page-single">
+	<div class="container">
+		<div class="row ipad-width">
+			<div class="col-md-8 col-sm-12 col-xs-12">
+				<div class="topbar-filter">
+					<p>Found <span><%- video_count %>  movies</span> in total</p>
+					<label>Sort by:</label>
+					<select>
+						<option value="popularity">Popularity Descending</option>
+						<option value="popularity">Popularity Ascending</option>
+						<option value="rating">Rating Descending</option>
+						<option value="rating">Rating Ascending</option>
+						<option value="date">Release date Descending</option>
+						<option value="date">Release date Ascending</option>
+					</select>
+				</div>
+
+
+
+				<div class="flex-wrap-movielist">
+					<% if(videos.length == 0) { %> 
+                        <p>No Movie</p>
+                        <% }  %> 
+                    <% videos.forEach(video => { %>
+                        <div class="movie-item-style-2 movie-item-style-1">
+							<img src="<%- video.cover %> " alt="">
+							<div class="hvr-inner">
+	            				<a  href="<%- '/video/' + video.ID %> "> Read more <i class="ion-android-arrow-dropright"></i> </a>
+	            			</div>
+							<div class="mv-item-infor">
+								<h6><a href="<%- '/video/' + video.ID  %> "><%- video.name %> </a></h6>
+								<p class="rate"><i class="ion-android-star"></i><span><%- video.average %> </span> /10</p>
+							</div> 
+						</div>	
+                    <% }) %>
+
+                        
+                        
+				</div>
+                
+                
+
+				<div class="topbar-filter" style="display: flex;justify-content:center;">
+					<div class="pagination2">
+                        <% let n_page = Math.ceil(video_count / 20)  %> 
+						<span>Page <%- p+1 %>  of <%- n_page %> :</span>
+                        <% for( let index = 0; index < n_page ; index++ ) { %>
+                            <a href="<%-'/video/?p=' + index %>" class="<%- p==index?"active":"" %> "><%- index+1 %></a>
+                        <% } %> 
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<div class="sidebar">
+					<div class="searh-form">
+						<h4 class="sb-title">Search for movie</h4>
+						<form class="form-style-1" action="/video" method="GET">
+							<div class="row">
+								<div class="col-md-12 form-it">
+									<label>Movie Name</label>
+									<input type="text" placeholder="Enter Name" name="name" >
+								</div>
+								<div class="col-md-12 form-it">
+									<label>Genres</label>
+									<div class="group-ip">
+										<select
+											name="genre" multiple="" class="ui fluid dropdown">
+											<option value="">Enter to filter genres</option>
+											<option value="COMEDY">COMEDY</option>
+					                        <option value="SCI-FI">SCI-FI</option>
+					                        <option value="HORROR">HORROR</option>
+					                        <option value="ROMANCE">ROMANCE</option>
+					                        <option value="ACTION">ACTION</option>
+                                            <option value="THRILLER">THRILLER</option>
+                                            <option value="DRAMA">DRAMA</option>
+                                            <option value="MYSTERY">MYSTERY</option>
+                                            <option value="CRIME">CRIME</option>
+                                            <option value="ANIMATION">ANIMATION</option>
+                                            <option value="ADVENTURE">ADVENTURE</option>
+                                            <option value="FANTASY">FANTASY</option>
+										</select>
+									</div>	
+								</div>
+                                <div class="col-md-12 form-it">
+									<label>Type</label>
+									<div class="group-ip">
+										<select
+											name="type" multiple="" class="ui fluid dropdown">
+											<option value="">Enter to filter type</option>
+											<option value="FILM">FILM</option>
+					                        <option value="SERIES">SERIES</option>
+										</select>
+									</div>	
+								</div>
+								<div class="col-md-12 form-it">
+									<label>Rating Range</label>
+									<div class="row">
+										<div class="col-md-6">
+											<input type="text" name="averageMin" placeholder="Minimum Rating">
+										</div>
+										<div class="col-md-6">
+                                            <input type="text" name="averageMax" placeholder="Maximum Rating">
+										</div>
+									</div>
+								</div>
+                                <div class="col-md-12 form-it">
+									<label>Year</label>
+									<input type="text" placeholder="Enter Year" name="year" >
+								</div>
+								<div class="col-md-12 ">
+									<input class="submit" type="submit" value="submit">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="ads">
+						<img src="images/uploads/ads1.png" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- include("_footer.ejs") %> 
