@@ -32,7 +32,7 @@ module.exports = async function init(conn) {
             company VARCHAR(45) NULL,
             date_published DATE NOT NULL,
             country VARCHAR(45) NOT NULL,
-            average INT ,
+            average FLOAT NOT NULL DEFAULT 0 ,
             comment_count INT,
             PRIMARY KEY (ID))   
         `) ;
@@ -113,6 +113,21 @@ module.exports = async function init(conn) {
               ON DELETE NO ACTION
               ON UPDATE NO ACTION) 
         `) ;
+        await conn.query(`
+        CREATE TRIGGER IF NOT EXISTS Update_filme_rating AFTER INSERT ON stars FOR
+        EACH ROW UPDATE film SET average=(SELECT AVG(Rating) AS AVERAGE FROM stars 
+        WHERE film.ID=stars.Movie_ID)
+        `)
+        await conn.query(`
+        CREATE TRIGGER IF NOT EXISTS Update_filme_rating2 AFTER UPDATE ON stars FOR
+        EACH ROW UPDATE film SET average=(SELECT AVG(Rating) AS AVERAGE FROM stars 
+        WHERE film.ID=stars.Movie_ID)
+        `)
+        await conn.query(`
+        CREATE TRIGGER IF NOT EXISTS Update_filme_rating3 AFTER DELETE ON stars FOR
+        EACH ROW UPDATE film SET average=(SELECT AVG(Rating) AS AVERAGE FROM stars 
+        WHERE film.ID=stars.Movie_ID)
+        `)
     } catch(err) {
         console.log(err)
     }
