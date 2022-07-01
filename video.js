@@ -132,20 +132,20 @@ router.put("/:id/rating" , (req , res)=> {
 })
 })
 
-function getvideoRating(id) {
-    // #get the video Rating
-    // return avg
-    const avg = 0 ;
-    conn.query(`SELECT AVG(Rating) AS AVERAGE FROM stars WHERE Movie_ID=?`,[id],(err,result,field)=>{
-        if(err){
-            console.log(err)
-        }else{
-             avg = result[0].AVERAGE
-           // res.send('average selected...')
-        }
-    })
-    return avg ;
-}
+// function getvideoRating(id) {
+//     // #get the video Rating
+//     // return avg
+//     const avg = 0 ;
+//     conn.query(`SELECT AVG(Rating) AS AVERAGE FROM stars WHERE Movie_ID=?`,[id],(err,result,field)=>{
+//         if(err){
+//             console.log(err)
+//         }else{
+//              avg = result[0].AVERAGE
+//            // res.send('average selected...')
+//         }
+//     })
+//     return avg ;
+// }
 
 function getVideoComments(id){
     // #get video comments

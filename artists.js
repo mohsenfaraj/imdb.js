@@ -44,7 +44,7 @@ router.get("/:id" , (req , res) => {
                  if(error2){
                      console.log(error2)
                  }else{
-                    conn.query(`SELECT name , genre , date_published FROM film WHERE ID IN (SELECT Movie_ID AS COUNTM FROM movie_has_artists WHERE Artists_ID=? )`,[id],(err3,result3)=>{
+                    conn.query(`SELECT name , genre , date_published , cover FROM film WHERE ID IN (SELECT Movie_ID AS COUNTM FROM movie_has_artists WHERE Artists_ID=? )`,[id],(err3,result3)=>{
                         if(err3){
                             console.log(err3)
                         } else{
