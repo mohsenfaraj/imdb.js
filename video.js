@@ -40,13 +40,28 @@ router.get("/" , (req , res) => {
 router.get("/:id" , (req , res) => {
     // get info about video with id
     const id = req.params.id 
-    conn.query(`SELECT * FROM film WHERE ID=?`,[id],(err,result,field)=>{
-        if(err){
-            console.log(err)
+    const idd = id
+    conn.query(`SELECT * FROM film WHERE ID=?`,[id],(err1,result,field)=>{
+        if(err1){
+            console.log(err1)
         } else{
-           // console.log(result)
-            //res.send('selected successfully')
-            res.render("videoSinglePage/singlevideo",{vdeio:result})
+           conn.query(`SELECT user.name , user.avatar , comment.text , comment.date , stars.Rating FROM user,comment,stars WHERE user.ID = comment.User_ID AND user.ID=stars.User_ID AND stars.Movie_ID = ?  AND comment.Movie_ID=? AND accepted=1`,[id,id],(err2,result2)=>{
+    
+            if(err2){
+                console.log(err2)
+            }else{
+                //console.log(result2)
+                conn.query(`SELECT COUNT(ID) AS COUNTCO FROM comment WHERE Movie_ID=? AND accepted=1`,[id],(err3,result3)=>{
+                    if(err3){
+                        console.log(err3)
+                    } else{
+                        //console.log(result3)
+                        res.render("videoSinglePage/singlevideo",{video:result[0] , reviews : result2, count : result3[0].COUNTCO})
+                    }
+                })
+               
+            }
+           })
         }
     })
 })
