@@ -36,7 +36,7 @@ router.get("/" , (req , res) => {
 router.get("/:id" , (req , res) => {
     // get info about artist with id + get all videos artists attended.
     const id = req.params.id ;
-    conn.query("SELECT * FROM artists WHERE ID = ? " , [id] ,  (error , result) => {
+    conn.query("SELECT * FROM artists WHERE ID=? " , [id] ,  (error , result) => {
         if(error){
             console.log(error)
         }else{
@@ -44,8 +44,16 @@ router.get("/:id" , (req , res) => {
                  if(error2){
                      console.log(error2)
                  }else{
+                    conn.query(`SELECT name , genre , date_published FROM film WHERE ID IN (SELECT Movie_ID AS COUNTM FROM movie_has_artists WHERE Artists_ID=? )`,[id],(err3,result3)=>{
+                        if(err3){
+                            console.log(err3)
+                        } else{
+                            console.log(result3)
+                            res.render("artistSinglePage/singleArtist", { artist : result , allvideo : result2[0].COUNTM , videos : result3})
+                        }
+                    })
 
-                  res.render("artistSinglePage/singleArtist", { artist : result , allvideo : result2[0].COUNTM})
+                
                  }    
                
              })

@@ -67,16 +67,19 @@
 											</div>
 											<!-- movie cast -->
 											<div class="mvcast-item">
-												<div class="cast-it">
-													<div class="cast-left cebleb-film">
-														<img src="/assets/index/images/uploads/film1.jpg" alt="">
-														<div>
-															<a href="#">X-Men: Apocalypse </a>
-															<p class="time">Logan</p>
+													<% videos.forEach(video => { %>
+														<div class="cast-it"></div>
+														<div class="cast-left cebleb-film">
+															<img src="/assets/index/images/uploads/film1.jpg" alt="">
+															<div>
+																<a href="#"><%- video.name %> </a>
+																<p class="time"><%- video.genre %> </p>
+															</div>
+	
 														</div>
-
-													</div>
-													<p>... 2016</p>
+														<p><%- video.date_published %> </p>
+													<% }) %>
+													
 												</div>
 											</div>
 										</div>
