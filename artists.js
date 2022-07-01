@@ -40,6 +40,7 @@ router.get("/:id" , (req , res) => {
         if(error){
             console.log(error)
         }else{
+            //console.log(result[0])
              conn.query("SELECT COUNT(Movie_ID) AS COUNTM FROM movie_has_artists WHERE Artists_ID= ?" , [id] , (error2 , result2) => {
                  if(error2){
                      console.log(error2)
@@ -48,8 +49,8 @@ router.get("/:id" , (req , res) => {
                         if(err3){
                             console.log(err3)
                         } else{
-                            console.log(result3)
-                            res.render("artistSinglePage/singleArtist", { artist : result , allvideo : result2[0].COUNTM , videos : result3})
+                           // console.log(result3)
+                            res.render("artistSinglePage/singleArtist", { artist : result[0] , allvideo : result2[0].COUNTM , videos : result3})
                         }
                     })
 
