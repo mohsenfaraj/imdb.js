@@ -44,8 +44,9 @@ router.get("/:id" , (req , res) => {
         if(err){
             console.log(err)
         } else{
-            console.log(result)
-            res.send('selected successfully')
+           // console.log(result)
+            //res.send('selected successfully')
+            res.render("videoSinglePage/singlevideo",{vdeio:result})
         }
     })
 })
