@@ -24,7 +24,7 @@ module.exports = async function init(conn) {
             ID INT NOT NULL AUTO_INCREMENT,
             type VARCHAR(45) NULL,
             name VARCHAR(45) NOT NULL,
-            cover VARCHAR(45) NULL,
+            cover VARCHAR(254) NULL,
             genre VARCHAR(45) NOT NULL,
             description VARCHAR(245) NOT NULL,
             year DATE NOT NULL,
