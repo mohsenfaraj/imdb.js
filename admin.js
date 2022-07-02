@@ -97,11 +97,11 @@ router.get('/', (req, res) => {
       const comment_count = req.body.comment_count ;
 
       conn.query(`INSERT INTO film (type, name, cover, genre, description, year,
-        content_rating, company,date_published, country, average,
-          comment_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,[type,name,
+        content_rating, company,date_published, country,
+          comment_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)`,[type,name,
             cover,genre,description,year,
             content_rating,company,date_published,
-            country,average,comment_count],
+            country,comment_count],
              (err, results, fields) => {
           if (err) {
               console.log(err)

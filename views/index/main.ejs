@@ -11,9 +11,7 @@
 			</div>
 	    	<div  class="slick-multiItemSlider">
 				<% var counter = 0 %> 
-				<% if (counter<=12) { %>
 				<% movie_slide.forEach(movie => { %>
-					<% counter++ %>	
 					<div class="movie-item">
 						<div class="mv-img">
 							<a href="#"><img src="<%- movie.cover %> " alt="" width="285" height="437"></a>
@@ -27,7 +25,6 @@
 						</div>
 					</div>
 				<% }) %>
-				<% } %> 
 
 	    	</div>
 	    </div>
