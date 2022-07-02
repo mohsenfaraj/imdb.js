@@ -66,7 +66,7 @@ router.get("/:id" , (req , res) => {
                                     console.log(err5)
                                 } else{
                                   // console.log(result5)
-                                    res.render("videoSinglePage/singlevideo",{video:result[0] , reviews : result2, count : result3[0].COUNTCO , actors : result4 , relatedmovie:result5})
+                                    res.render("index/singleVideo",{video:result[0] , reviews : result2, count : result3[0].COUNTCO , actors : result4 , relatedmovie:result5})
                                 }
                             })
                             }
