@@ -162,7 +162,7 @@ router.get('/', (req, res) => {
   })
 
   router.get('/artist/:id(\\d+)' , (req,res) =>{
-    conn.query("SELECT ID , name , bio , role FROM artists" , (error , result) => {
+    conn.query("SELECT ID , name , bio , role , avatar FROM artists" , (error , result) => {
       if (error) {
         console.log(error)
       }
