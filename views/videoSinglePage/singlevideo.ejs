@@ -87,11 +87,11 @@
 												<img src="<%- review.avatar %> " alt="">
 												<div>
 													<div class="no-star">  
-														<% for( let index = 1; index < count ; index++ ) { %>
+														<% for( let index = 1; index < review.Rating ; index++ ) { %>
                                                             <i class="ion-android-star"></i> 
                                                         <% } %>
 
-                                                        <% for( let index = 1; index < 10 - count ; index++ ) { %>
+                                                        <% for( let index = 1; index < 10 -  review.Rating ; index++ ) { %>
                                                              <i class="ion-android-star last"></i>  
                                                          <% } %>
                                                          
