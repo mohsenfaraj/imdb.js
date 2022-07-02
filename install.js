@@ -128,6 +128,10 @@ module.exports = async function init(conn) {
         EACH ROW UPDATE film SET average=(SELECT AVG(Rating) AS AVERAGE FROM stars 
         WHERE film.ID=stars.Movie_ID)
         `)
+        await conn.query(`CREATE TRIGGER  IF NOT EXISTS COMMENT_COUNT AFTER UPDATE 
+        ON comment FOR EACH ROW UPDATE film SET comment_count=(SELECT COUNT(comment
+        .Movie_ID) FROM comment WHERE film.ID=comment.Movie_ID AND accepted=1)
+        `)
     } catch(err) {
         console.log(err)
     }
