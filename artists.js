@@ -27,7 +27,13 @@ router.get("/" , (req , res) => {
             } else{
             //console.log(result)
             //res.send('selected successfully')
-            res.render("index/allArtists" , {Message:"ARTIST LIST", artists : result , count_artists : result2[0].Count , p:p })
+            res.render("index/allArtists" , {
+                Message:"ARTIST LIST",
+                artists : result ,
+                count_artists : result2[0].Count ,
+                p:p,
+                user : req.session.user
+            })
             }       
         })
     })
@@ -50,7 +56,12 @@ router.get("/:id" , (req , res) => {
                             console.log(err3)
                         } else{
                            // console.log(result3)
-                            res.render("index/singleArtist", { artist : result[0] , allvideo : result2[0].COUNTM , videos : result3})
+                            res.render("index/singleArtist", {
+                                artist : result[0] ,
+                                allvideo : result2[0].COUNTM ,
+                                videos : result3 ,
+                                user: req.session.user
+                            })
                         }
                     })
 

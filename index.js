@@ -44,7 +44,7 @@ async function run() {
     app.use("/admin" , [auth , admin])
 
     app.get("/" , (req , res) => {
-        res.send("main site")
+        res.render("index/main" , {user : req.session.user});
     })
 
     app.use("/video" , video) ;
@@ -62,55 +62,79 @@ async function run() {
 
     app.get("/logout" , (req , res) => {
         req.session.destroy() ;
-        res.redirect("/login");
+        res.redirect("back");
     })
 
     app.post("/login" , (req , res) => {
         const email = req.body.email ;
         const password = req.body.password ;
             conn.query("SELECT * FROM admin WHERE email = ? AND password = ?" , [email , password])
-            .then((result , fields)=> {
+            .then(([result])=> {
                 if (result.length > 0) {
-                    req.session.name = result[0][0].name || "admin" ;
-                    req.session.id = result[0][0].ID ;
+                    req.session.name = result[0].name || "admin" ;
+                    req.session.id = result[0].ID ;
 
                     req.session.isLogged = true ;
                     res.redirect("/admin")
                 }
                 else {
-                    res.render("regMessage" , {signin : true , headertext : "" ,
+                    res.render("regMessage" , {headertext : "" ,
                     message : "the username or password is invalid."})
                 }
             }).catch((err)=> {
-                res.render("regMessage" , {signin : false , headertext : "there was an error" ,
+                res.render("regMessage" , {headertext : "there was an error" ,
                 message : "there was an error"})
                 console.log(err);
             })
     });
-    
-    app.get("/register" , (req , res) => {
-        res.render("register")
+
+    app.post("/userLogin" , (req , res) => {
+        console.log(req.headers.origin) ;
+        const username = req.body.username ;
+        const password = req.body.password ;
+            conn.execute("SELECT * FROM user WHERE username = ? AND password = ?" , [username , password])
+            .then(([result])=> {
+                if (result.length > 0) {
+                    req.session.user = {
+                        name : result[0].name || username ,
+                        id : result[0].ID ,
+                        banned : result[0].banned ,
+                        avatar : result[0].avatar
+                    }
+                    res.redirect("back")
+                }
+                else {
+                    res.render("regMessage" , {headertext : "" ,
+                    message : "the username or password is invalid."})
+                }
+            }).catch((err)=> {
+                res.render("regMessage" , {headertext : "there was an error" ,
+                message : "there was an error"})
+                console.log(err);
+            })       
     })
 
     app.post("/register" , (req , res) => {
         const name = req.body.username ;
         const email = req.body.email ;
+        const username = req.body.username ;
         const password = req.body.password ;
 
-        if (!name || !email || !password) {
-            res.render("regMessage" , {signin : false , headertext : "fill all the fields" ,
+        if (!name || !email || !password || !username) {
+            res.render("regMessage" , { headertext : "fill all the fields" ,
             message : "please fill all the required fields"})
         }
         //TODO: hash the password
 
         //TODO: generate a gravatar image link
-        conn.query("INSERT INTO `user` (`email`, `password`, `name`) VALUES (? , ? , ?)" ,
-        [email , password , name]).then(([row , fields]) => {
-            res.render("regMessage" , {signin : true , headertext : "Account Created!" ,
+        conn.query("INSERT INTO `user` (`email`, `password`, `name` , `username`) VALUES (? , ? , ? , ?)" ,
+        [email , password , name , username]).then(([row , fields]) => {
+            res.render("regMessage" , {headertext : "Account Created!" ,
             message : "the creation of account was successful!"})
         }).catch((err) => {
-            res.render("regMessage" , {signin : false , headertext : "Account Already Exists" ,
-            message : "there was a problem in creating your account. check if acount already exists."})
+            res.render("regMessage" , {headertext : "Account Already Exists" ,
+            message : "there was a problem in creating your account. check if acount already exists."});
+            console.log(err)
         })
     })
 

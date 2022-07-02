@@ -30,7 +30,8 @@ router.get("/" , (req , res) => {
                 console.log(err2)
             } else{
                 //console.log(result)
-                res.render("index/allVideos", {videos : result , video_count : result2[0].Count , Message : "MOVIE LIST" , p:p})
+                res.render("index/allVideos", {videos : result , video_count : result2[0].Count , Message : "MOVIE LIST" 
+                , p:p , user: req.session.user})
             }
         })
    
@@ -66,7 +67,13 @@ router.get("/:id" , (req , res) => {
                                     console.log(err5)
                                 } else{
                                   // console.log(result5)
-                                    res.render("index/singleVideo",{video:result[0] , reviews : result2, count : result3[0].COUNTCO , actors : result4 , relatedmovie:result5})
+                                    res.render("index/singleVideo",{video:result[0] ,
+                                        reviews : result2,
+                                        count : result3[0].COUNTCO ,
+                                        actors : result4 ,
+                                        relatedmovie:result5 ,
+                                        user : req.session.user
+                                        })
                                 }
                             })
                             }

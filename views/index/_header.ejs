@@ -1,3 +1,4 @@
+<% const user = locals.user || {} %> 
 <!DOCTYPE html>
 <!--[if IE 7]>
 <html class="ie ie7 no-js" lang="en-US">
@@ -44,18 +45,18 @@
     <div class="login-content">
         <a href="#" class="close">x</a>
         <h3>Login</h3>
-        <form method="post" action="#">
+        <form method="post" action="/userLogin">
         	<div class="row">
         		 <label for="username">
                     Username:
-                    <input type="text" name="username" id="username" placeholder="Hugh Jackman" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{8,20}$" required="required" />
+                    <input type="text" name="username" id="username" placeholder="Hugh Jackman" required="required" />
                 </label>
         	</div>
            
             <div class="row">
             	<label for="password">
                     Password:
-                    <input type="password" name="password" id="password" placeholder="******" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required="required" />
+                    <input type="password" name="password" id="password" placeholder="******" required="required" />
                 </label>
             </div>
             <div class="row">
@@ -78,30 +79,30 @@
     <div class="login-content">
         <a href="#" class="close">x</a>
         <h3>sign up</h3>
-        <form method="post" action="#">
+        <form method="post" action="/register">
             <div class="row">
                  <label for="username-2">
                     Username:
-                    <input type="text" name="username" id="username-2" placeholder="Hugh Jackman" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{8,20}$" required="required" />
+                    <input type="text" name="username" id="username-2" required="required" />
                 </label>
             </div>
            
             <div class="row">
                 <label for="email-2">
                     your email:
-                    <input type="password" name="email" id="email-2" placeholder="" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required="required" />
+                    <input type="email" name="email" id="email-2" required="required" />
                 </label>
             </div>
              <div class="row">
                 <label for="password-2">
                     Password:
-                    <input type="password" name="password" id="password-2" placeholder="" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required="required" />
+                    <input type="password" name="password" id="password-2" placeholder="" required="required" />
                 </label>
             </div>
              <div class="row">
                 <label for="repassword-2">
                     re-type Password:
-                    <input type="password" name="password" id="repassword-2" placeholder="" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required="required" />
+                    <input type="password" required="required" />
                 </label>
             </div>
            <div class="row">
@@ -140,9 +141,13 @@
 						<li><a href="/artist">Artists</a></li>
 					</ul>
 					<ul class="nav navbar-nav flex-child-menu menu-right">  
-						<li><a href="#">About</a></li>
-						<li class="loginLink"><a href="#">LOG In</a></li>
-						<li class="btn signupLink"><a href="#">sign up</a></li>
+                        <% if (user.name) { %> 
+                            <li><a href="#">Welcome, <%- user.name %>!</a></li>
+                            <li class="btn"><a href="/logout">Log Out</a></li>                  
+                        <% } else {%> 
+                            <li class="loginLink"><a href="#">LOG In</a></li>
+                            <li class="btn signupLink"><a href="#">sign up</a></li>
+                        <% } %> 
 					</ul>
 				</div>
 			<!-- /.navbar-collapse -->
