@@ -41,15 +41,15 @@
 						</div>
 						<div class="rate-star">
 							<p>Rate This Movie:  </p>
-							<i class="ion-ios-star"></i>
-							<i class="ion-ios-star"></i>
-							<i class="ion-ios-star"></i>
-							<i class="ion-ios-star"></i>
-							<i class="ion-ios-star"></i>
-							<i class="ion-ios-star"></i>
-							<i class="ion-ios-star"></i>
-							<i class="ion-ios-star"></i>
-							<i class="ion-ios-star-outline"></i>
+
+							<% for( let index = 0; index < video.average ; index++ ) { %>
+								<i class="ion-ios-star"></i>
+							<% } %>
+
+							<% for( let index = 0; index < 10 -  video.average ; index++ ) { %>
+								<i class="ion-ios-star-outline"></i> 
+							 <% } %>
+							
 						</div>
 					</div>
 					<div class="movie-tabs">
@@ -112,57 +112,75 @@
 						            	<h3>Cast & Crew of</h3>
 					       	 			<h2><%- video.name %> </h2>
 										<!-- //== -->
-					       	 			<div class="title-hd-sm">
+										<div class="title-hd-sm">
 											<h4>CAST</h4><!--    ------------------     -->
 										</div>
-										<div class="mvcast-item">											
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>JW</h4>
-													<a href="#">Joss Whedon</a>
+										<% actors.forEach(actor => { %>
+											<% if (actor.role == "Actor") { %>
+											<div class="mvcast-item">											
+												<div class="cast-it">
+													<div class="cast-left">
+														<img src="<%- actor.avatar %> ">
+														<a href="#"><%- actor.name %> </a>
+													</div>
+													<p>...  Director</p>
 												</div>
-												<p>...  Director</p>
 											</div>
-										</div>
+											<% } %>
+										<% }) %>
+					       	 			
 										<!-- //== -->
 										<div class="title-hd-sm">
 											<h4>Directors</h4> <!--    ------------------     -->
 										</div>
-										<div class="mvcast-item">											
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>SL</h4>
-													<a href="#">Stan Lee</a>
+										<% actors.forEach(actor => { %>
+											<% if (actor.role == "Director") { %>
+												<div class="mvcast-item">											
+													<div class="cast-it">
+														<div class="cast-left">
+															<img src="<%- actor.avatar %> ">
+														<a href="#"><%- actor.name %> </a>
+														</div>
+														<p>...  (based on Marvel comics)</p>
+													</div>
 												</div>
-												<p>...  (based on Marvel comics)</p>
-											</div>
-										</div>
+												<% } %>
+										<% }) %>
+										
 										<!-- //== -->
 										<div class="title-hd-sm">
 											<h4>Cameraman</h4> <!--    ------------------     -->
 										</div>
-										<div class="mvcast-item">											
-											<div class="cast-it">
-												<div class="cast-left">
-													<img src="/assets/index/images/uploads/cast1.jpg" alt="">
-													<a href="#">Robert Downey Jr.</a>
+										<% actors.forEach(actor => { %>
+											<% if (actor.role == "Cameraman") { %>
+												<div class="mvcast-item">											
+													<div class="cast-it">
+														<div class="cast-left">
+															<img src="<%- actor.avatar %> ">
+														<a href="#"><%- actor.name %> </a>
+														</div>
+														<p>...  (based on Marvel comics)</p>
+													</div>
 												</div>
-												<p>...  Robert Downey Jr.</p>
-											</div>
-										</div>
+												<% } %>
+										<% }) %>
 										<!-- //== -->
 										<div class="title-hd-sm">
 											<h4>Singer</h4> <!--    ------------------     -->
 										</div>
-										<div class="mvcast-item">											
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>VA</h4>
-													<a href="#">Victoria Alonso</a>
+										<% actors.forEach(actor => { %>
+											<% if (actor.role == "Singer") { %>
+												<div class="mvcast-item">											
+													<div class="cast-it">
+														<div class="cast-left">
+															<img src="<%- actor.avatar %> ">
+														<a href="#"><%- actor.name %> </a>
+														</div>
+														<p>...  (based on Marvel comics)</p>
+													</div>
 												</div>
-												<p>...  executive producer</p>
-											</div>
-										</div>
+												<% } %>
+										<% }) %>
 						            </div>
 					       	 	</div>
 

@@ -40,7 +40,6 @@ router.get("/" , (req , res) => {
 router.get("/:id" , (req , res) => {
     // get info about video with id
     const id = req.params.id 
-    const idd = id
     conn.query(`SELECT * FROM film WHERE ID=?`,[id],(err1,result,field)=>{
         if(err1){
             console.log(err1)
@@ -55,8 +54,15 @@ router.get("/:id" , (req , res) => {
                     if(err3){
                         console.log(err3)
                     } else{
-                        //console.log(result3)
-                        res.render("videoSinglePage/singlevideo",{video:result[0] , reviews : result2, count : result3[0].COUNTCO})
+                        conn.query(`SELECT artists.name , artists.role , artists.avatar FROM artists,movie_has_artists WHERE movie_has_artists.Artists_ID=artists.ID AND  movie_has_artists.Movie_ID=?`,[id],(err4,result4)=>{
+                            if(err4){
+                                console.log(err4)
+                            } else{
+                               // console.log(result4)
+                                res.render("videoSinglePage/singlevideo",{video:result[0] , reviews : result2, count : result3[0].COUNTCO , actors : result4})
+                            }
+                        })
+                        
                     }
                 })
                
