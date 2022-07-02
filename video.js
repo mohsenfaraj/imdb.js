@@ -39,80 +39,34 @@ router.get("/" , (req , res) => {
 })
 
 router.get("/:id" , (req , res) => {
-    // get info about video with id
-    const id = req.params.id 
-    conn.query(`SELECT * FROM film WHERE ID=?`,[id],(err1,result,field)=>{
-        if(err1){
-            console.log(err1)
-        } else{
-            const genre = result[0].genre 
-            
-           conn.query(`SELECT user.name , user.avatar , comment.text , comment.date , stars.Rating FROM user,comment,stars WHERE user.ID = comment.User_ID AND user.ID=stars.User_ID AND stars.Movie_ID = ?  AND comment.Movie_ID=? AND accepted=1`,[id,id],(err2,result2)=>{
-    
-            if(err2){
-                console.log(err2)
-            }else{
-                //console.log(result2)
-                conn.query(`SELECT COUNT(ID) AS COUNTCO FROM comment WHERE Movie_ID=? AND accepted=1`,[id],(err3,result3)=>{
-                    if(err3){
-                        console.log(err3)
-                    } else{
-                        conn.query(`SELECT artists.name , artists.role , artists.avatar FROM artists,movie_has_artists WHERE movie_has_artists.Artists_ID=artists.ID AND  movie_has_artists.Movie_ID=?`,[id],(err4,result4)=>{
-                            if(err4){
-                                console.log(err4)
-                            } else{
-                               // console.log(result4)
-                               conn.query(`SELECT film.name , film.description , film.average , film.cover , film.year , COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id],(err5,result5)=>{
-                                if(err5){
-                                    console.log(err5)
-                                } else{
-                                  // console.log(result5)
-                                  conn.query(`SELECT COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id],(err6,result6)=>{
-                                    if(err6){
-                                        console.log(err6)
-                                    } else{
-                                      // console.log(result5)
-                                      conn.query(`SELECT Name ,Date ,Description  FROM awards  WHERE  Movie_ID=?  `,[id],(err7,result7)=>{
-                                        if(err7){
-                                            console.log(err7)
-                                        } else{
-                                            conn.query(`SELECT COUNT(ID) AS CORE  FROM awards  WHERE  Movie_ID=?  `,[id],(err8,result8)=>{
-                                                if(err7){
-                                                    console.log(err8)
-                                                } else{
-                                                    res.render("index/singleVideo",{
-                                                        video:result[0] ,
-                                                        reviews : result2,
-                                                        count : result3[0].COUNTCO ,
-                                                        actors : result4 , relatedmovie:result5 ,
-                                                        countf:result6[0].REFI ,
-                                                        faward:result7 ,
-                                                        countre:result8[0].CORE ,
-                                                        user: req.session.user 
-                                                    })
-
-                                                }
-                                            })
-
-                                                        }
-    
-                                                    })
-                                                }
-
-                                            })
-                                        }
-                                    })
-                                }
-                            })
-                        
-                        }
-                    })
-               
-                }
-           })
+    const id = req.params.id ;
+    (async () => {
+        const [filmdata] = await conn.promise().query(`SELECT * FROM film WHERE ID=?`,[id]) ;
+        if (filmdata.length == 0) {
+            res.render("index/page404")
+            return ;
         }
-    })
-})
+        const [comments] = await conn.promise().query(`SELECT user.name , user.avatar , comment.text , comment.date , stars.Rating FROM user,comment,stars WHERE user.ID = comment.User_ID AND user.ID=stars.User_ID AND stars.Movie_ID = ?  AND comment.Movie_ID=? AND accepted=1`,[id,id]);
+        const [commentCount] = await conn.promise().query(`SELECT COUNT(ID) AS COUNTCO FROM comment WHERE Movie_ID=? AND accepted=1`,[id]);
+        const [artists] = await conn.promise().query(`SELECT artists.name , artists.role , artists.avatar FROM artists movie_has_artists.description,movie_has_artists WHERE movie_has_artists.Artists_ID=artists.ID AND  movie_has_artists.Movie_ID=?`,[id]);
+        const [relativeVideos] = await conn.promise().query(`SELECT film.name , film.description , film.average , film.cover , film.year , COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
+        const [relativeCount] = await conn.promise().query(`SELECT COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
+        const [awards] = await conn.promise().query(`SELECT Name ,Date ,Description  FROM awards  WHERE  Movie_ID=?  `,[id]);
+        const [awardsCount] = await conn.promise().query(`SELECT COUNT(ID) AS CORE FROM awards  WHERE  Movie_ID=?  `,[id]);
+    
+        res.render("index/singleVideo",{
+            video:filmdata[0] ,
+            reviews : comments,
+            count : commentCount.COUNTCO ,
+            actors : artists ,
+            relatedmovie:relativeVideos ,
+            countf:relativeCount.REFI ,
+            faward:awards ,
+            countre:awardsCount ,
+            user: req.session.user 
+        })
+    })();
+});
 
 router.post("/:id/comment" , (req , res) => {
     // get comments about video 

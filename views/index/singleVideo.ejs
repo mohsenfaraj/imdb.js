@@ -18,16 +18,6 @@
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<div class="movie-img sticky-sb">
 					<img src="<%- video.cover%>" alt="">
-					<div class="movie-btn">	
-						<div class="btn-transform transform-vertical red">
-							<div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
-							<div><a href="https://www.youtube.com/embed/o-0hcF97wy0" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
-						</div>
-						<div class="btn-transform transform-vertical">
-							<div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
-							<div><a href="#" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
-						</div>
-					</div>
 				</div>
 			</div>
 			<div class="col-md-8 col-sm-12 col-xs-12">
@@ -68,12 +58,136 @@
 					<div class="movie-tabs">
 						<div class="tabs">
 							<ul class="tab-links tabs-mv">
-								<li class="active"><a href="#reviews">Reviews</a></li>
+								<li class="active"><a href="#overview">Overview</aOverview</li>
+								<li><a href="#reviews">Reviews</a></li>
 								<li><a href="#cast"> Cast & Crew </a></li>
 								<li><a href="#moviesrelated"> Related Movies</a></li> 
 								<li><a href="#rrewards"> Awards </a></li>                       
 							</ul>
 						    <div class="tab-content">
+								<div id="overview" class="tab active">
+						            <div class="row">
+						            	<div class="col-md-8 col-sm-12 col-xs-12">
+											<p><%- video.description %> </p>
+											<div class="title-hd-sm">
+												<h4>cast</h4>
+												<a href="#" class="time">Full Cast & Crew  <i class="ion-ios-arrow-right"></i></a>
+											</div>
+											<!-- movie cast -->
+											<div>
+												<h3>Cast & Crew of</h3>
+													<h2><%- video.name %> </h2>
+												<!-- //== -->
+												<div class="title-hd-sm">
+													<h4>CAST</h4>
+												</div>
+												<% actors.forEach(actor => { %>
+													<% if (actor.role == "Actor") { %>
+													<div class="mvcast-item">											
+														<div class="cast-it">
+															<div class="cast-left">
+																<a href="#"><%- actor.name %> </a>
+															</div>
+															<p><%- actor.description %></p>
+														</div>
+													</div>
+													<% } %>
+												<% }) %>
+												<div class="title-hd-sm">
+													<h4>Directors and Writers</h4>
+												</div>
+												<% actors.forEach(actor => { %>
+													<% if (actor.role == "Director" || actor.role == "Writer") { %>
+														<div class="mvcast-item">											
+															<div class="cast-it">
+																<div class="cast-left">
+																<a href="#"><%- actor.name %> </a>
+																</div>
+																<p><%- actor.description %></p>
+															</div>
+														</div>
+														<% } %>
+												<% }) %>
+												
+												<!-- //== -->
+												<div class="title-hd-sm">
+													<h4>Producer</h4> <!--    ------------------     -->
+												</div>
+												<% actors.forEach(actor => { %>
+													<% if (actor.role == "Producer") { %>
+														<div class="mvcast-item">											
+															<div class="cast-it">
+																<div class="cast-left">
+																<a href="#"><%- actor.name %> </a>
+																</div>
+																<p><%- actor.description %></p>
+															</div>
+														</div>
+														<% } %>
+												<% }) %>
+												<div class="title-hd-sm">
+													<h4>Singer</h4> 
+												</div>
+												<% actors.forEach(actor => { %>
+													<% if (actor.role == "Singer") { %>
+														<div class="mvcast-item">											
+															<div class="cast-it">
+																<div class="cast-left">
+																<a href="#"><%- actor.name %> </a>
+																</div>
+																<p><%- actor.description %></p>
+															</div>
+														</div>
+														<% } %>
+												<% }) %>
+											</div>
+											<!-- movie user review -->
+						            	</div>
+						            	<div class="col-md-4 col-xs-12 col-sm-12">
+						            		<div class="sb-it">
+						            			<h6>Director: </h6>
+						            			<p><a href="#">Joss Whedon</a></p>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>Writer: </h6>
+						            			<p><a href="#">Joss Whedon,</a> <a href="#">Stan Lee</a></p>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>Stars: </h6>
+						            			<p><a href="#">Robert Downey Jr,</a> <a href="#">Chris Evans,</a> <a href="#">Mark Ruffalo,</a><a href="#"> Scarlett Johansson</a></p>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>Genres:</h6>
+						            			<p><a href="#">Action, </a> <a href="#"> Sci-Fi,</a> <a href="#">Adventure</a></p>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>Release Date:</h6>
+						            			<p>May 1, 2015 (U.S.A)</p>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>Run Time:</h6>
+						            			<p>141 min</p>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>MMPA Rating:</h6>
+						            			<p>PG-13</p>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>Plot Keywords:</h6>
+						            			<p class="tags">
+						            				<span class="time"><a href="#">superhero</a></span>
+													<span class="time"><a href="#">marvel universe</a></span>
+													<span class="time"><a href="#">comic</a></span>
+													<span class="time"><a href="#">blockbuster</a></span>
+													<span class="time"><a href="#">final battle</a></span>
+						            			</p>
+						            		</div>
+						            		<div class="ads">
+												<img src="images/uploads/ads1.png" alt="">
+											</div>
+						            	</div>
+						            </div>
+						        </div>
 						        <div id="reviews" class="tab review">
 						           <div class="row">
 						            	<div class="rv-hd">
