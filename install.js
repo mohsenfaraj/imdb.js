@@ -4,9 +4,8 @@ module.exports = async function init(conn) {
             ID INT NOT NULL AUTO_INCREMENT,
             email VARCHAR(45) NOT NULL UNIQUE,
             password VARCHAR(254) NOT NULL,
-            birth DATE NULL,
+            user_name VARCHAR(45) NOT NULL UNIQUE,
             name VARCHAR(45) NOT NULL,
-            address VARCHAR(45) NULL,
             avatar VARCHAR(45) ,
             banned TINYINT NOT NULL DEFAULT 0,
             PRIMARY KEY (ID));`) ;
@@ -40,7 +39,7 @@ module.exports = async function init(conn) {
         CREATE TABLE IF NOT EXISTS Artists (
             ID INT NOT NULL AUTO_INCREMENT,
             name VARCHAR(45) NOT NULL,
-            avatar VARCHAR(45) NULL,
+            avatar VARCHAR(255) NULL,
             bio VARCHAR(245) NULL,
             role VARCHAR(45) NULL,
             PRIMARY KEY (ID))
@@ -87,8 +86,8 @@ module.exports = async function init(conn) {
             Name VARCHAR(45) NOT NULL,
             Date DATE NULL,
             Description VARCHAR(45) NULL,
-            Movie_ID INT NOT NULL,
-            Artists_ID INT NOT NULL,
+            Movie_ID INT  NULL,
+            Artists_ID INT NULL,
             PRIMARY KEY (ID),
               FOREIGN KEY (Movie_ID)
               REFERENCES Film (ID)
@@ -103,6 +102,7 @@ module.exports = async function init(conn) {
         CREATE TABLE IF NOT EXISTS Movie_has_Artists (
             Movie_ID INT NOT NULL,
             Artists_ID INT NOT NULL,
+            Description VARCHAR(45) NULL,
             PRIMARY KEY (Movie_ID, Artists_ID),
               FOREIGN KEY (Movie_ID)
               REFERENCES Film (ID)
@@ -127,6 +127,14 @@ module.exports = async function init(conn) {
         CREATE TRIGGER IF NOT EXISTS Update_filme_rating3 AFTER DELETE ON stars FOR
         EACH ROW UPDATE film SET average=(SELECT AVG(Rating) AS AVERAGE FROM stars 
         WHERE film.ID=stars.Movie_ID)
+        `)
+        await conn.query(`CREATE TRIGGER  IF NOT EXISTS COMMENT_COUNT AFTER UPDATE 
+        ON comment FOR EACH ROW UPDATE film SET comment_count=(SELECT COUNT(comment
+        .Movie_ID) FROM comment WHERE film.ID=comment.Movie_ID AND accepted=1)
+        `)
+        await conn.query(`CREATE TRIGGER  IF NOT EXISTS COMMENT_COUNT1 AFTER DELETE 
+        ON comment FOR EACH ROW UPDATE film SET comment_count=(SELECT COUNT(comment
+        .Movie_ID) FROM comment WHERE film.ID=comment.Movie_ID AND accepted=1)
         `)
     } catch(err) {
         console.log(err)

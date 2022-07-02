@@ -55,13 +55,30 @@ router.get("/:id" , (req , res) => {
                         if(err3){
                             console.log(err3)
                         } else{
-                           // console.log(result3)
-                            res.render("index/singleArtist", {
-                                artist : result[0] ,
-                                allvideo : result2[0].COUNTM ,
-                                videos : result3 ,
-                                user: req.session.user
+                            conn.query(`SELECT Name ,Date ,Description  FROM awards  WHERE ArtistS_ID=?  `,[id],(err4,result4)=>{
+                                if(err4){
+                                    console.log(err4)
+                                } else{
+                                    conn.query(`SELECT COUNT(ID) AS CORE  FROM awards  WHERE  ArtistS_ID=?  `,[id],(err5,result5)=>{
+                                        if(err5){
+                                            console.log(err5)
+                                        } else{
+                                            res.render("index/singleArtist", {
+                                                artist : result[0] ,
+                                                allvideo : result2[0].COUNTM ,
+                                                videos : result3 ,
+                                                awards:result4 ,
+                                                countre:result5[0].CORE ,
+                                                user:req.session.user
+                                            })
+
+                                        }
+                                    })
+
+                                }
+
                             })
+                          
                         }
                     })
 
