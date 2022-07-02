@@ -6589,6 +6589,7 @@ ul {
 }
 .celebrity-items .ceb-item img {
   margin-bottom: 15px;
+  max-width: 250px;
   -webkit-transition: all 0.5s ease-out;
   -moz-transition: all 0.5s ease-out;
   -o-transition: all 0.5s ease-out;
