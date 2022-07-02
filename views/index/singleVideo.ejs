@@ -70,7 +70,8 @@
 							<ul class="tab-links tabs-mv">
 								<li class="active"><a href="#reviews">Reviews</a></li>
 								<li><a href="#cast"> Cast & Crew </a></li>
-								<li><a href="#moviesrelated"> Related Movies</a></li>                        
+								<li><a href="#moviesrelated"> Related Movies</a></li> 
+								<li><a href="#rewards"> Rewards </a></li>                       
 							</ul>
 						    <div class="tab-content">
 						        <div id="reviews" class="tab review">
@@ -84,15 +85,6 @@
 						            	</div>
 						            	<div class="topbar-filter">
 											<p>Found <span><%- count %> </span> in total</p>
-											<label>Filter by:</label>
-											<select>
-												<option value="popularity">Popularity Descending</option>
-												<option value="popularity">Popularity Ascending</option>
-												<option value="rating">Rating Descending</option>
-												<option value="rating">Rating Ascending</option>
-												<option value="date">Release date Descending</option>
-												<option value="date">Release date Ascending</option>
-											</select>
 										</div>
                                         <% reviews.forEach(review => { %> 
 										<div class="mv-user-review-item">
@@ -203,16 +195,7 @@
 					       	 			<h3>Related Movies To</h3>
 					       	 			<h2><%- video.name %></h2>
 					       	 			<div class="topbar-filter">
-											<p>Found <span>12 movies</span> in total</p>
-											<label>Sort by:</label>
-											<select>
-												<option value="popularity">Popularity Descending</option>
-												<option value="popularity">Popularity Ascending</option>
-												<option value="rating">Rating Descending</option>
-												<option value="rating">Rating Ascending</option>
-												<option value="date">Release date Descending</option>
-												<option value="date">Release date Ascending</option>
-											</select>
+											<p>Found <span><%- countf %> </span> in total</p>
 										</div>
 										<% relatedmovie.forEach(movie => { %>
 											<div class="movie-item-style-2">
@@ -229,21 +212,29 @@
 										<% }) %>
 										
 										<div class="topbar-filter">
-											<label>Movies per page:</label>
-											<select>
-												<option value="range">5 Movies</option>
-												<option value="saab">10 Movies</option>
-											</select>
-											<div class="pagination2">
-												<span>Page 1 of 2:</span>
-												<a class="active" href="#">1</a>
-												<a href="#">2</a>
-												<a href="#"><i class="ion-arrow-right-b"></i></a>
-											</div>
 										</div>
 					       	 		</div>
-                                    <!--------------------moviesrelated------------------------->
-
+                                    <!--------------------awards------------------------->
+									<div id="rewards" class="tab">
+					       	 		<div class="row">
+					       	 			<h3>Awards</h3>
+					       	 			<h2><%- video.name %></h2>
+					       	 			<div class="topbar-filter">
+											<p>Found <span><%- countre %> </span> in total</p>
+										</div>
+										<% faward.forEach(award => { %>
+											<div class="movie-item-style-2">	
+												<div class="mv-item-infor">
+													<h6><a href="#"><%- award.Name %>  <span>(<%-award.Date%>)</span></a></h6>								
+													<p class="describe"><%- award.Description %> </p>
+												</div>
+											</div>
+										<% }) %>
+										
+										<div class="topbar-filter">
+										</div>
+					       	 		</div>
+									<!--------------------awards------------------------->
 					       	 	</div>
 						    </div>
 						</div>

@@ -61,21 +61,44 @@ router.get("/:id" , (req , res) => {
                                 console.log(err4)
                             } else{
                                // console.log(result4)
-                               conn.query(`SELECT film.name , film.description , film.average , film.cover , film.year  FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id],(err5,result5)=>{
+                               conn.query(`SELECT film.name , film.description , film.average , film.cover , film.year , COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id],(err5,result5)=>{
                                 if(err5){
                                     console.log(err5)
                                 } else{
                                   // console.log(result5)
-                                    res.render("index/singleVideo",{video:result[0] , reviews : result2, count : result3[0].COUNTCO , actors : result4 , relatedmovie:result5})
+                                  conn.query(`SELECT COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id],(err6,result6)=>{
+                                    if(err6){
+                                        console.log(err6)
+                                    } else{
+                                      // console.log(result5)
+                                      conn.query(`SELECT Name ,Date ,Description  FROM awards  WHERE  Movie_ID=?  `,[id],(err7,result7)=>{
+                                        if(err7){
+                                            console.log(err7)
+                                        } else{
+                                            conn.query(`SELECT COUNT(ID) AS CORE  FROM awards  WHERE  Movie_ID=?  `,[id],(err8,result8)=>{
+                                                if(err7){
+                                                    console.log(err8)
+                                                } else{
+                                                    res.render("index/singleVideo",{video:result[0] , reviews : result2, count : result3[0].COUNTCO , actors : result4 , relatedmovie:result5 , countf:result6[0].REFI , faward:result7 , countre:result8[0].CORE})
+
+                                                }
+                                            })
+
+                                                        }
+    
+                                                    })
+                                                }
+
+                                            })
+                                        }
+                                    })
                                 }
                             })
-                            }
-                        })
                         
-                    }
-                })
+                        }
+                    })
                
-            }
+                }
            })
         }
     })
