@@ -9,24 +9,27 @@
 				<a href="#"><i class="ion-social-googleplus"></i></a>
 				<a href="#"><i class="ion-social-youtube"></i></a>
 			</div>
-
-			
 	    	<div  class="slick-multiItemSlider">
-	    		<div class="movie-item">
-	    			<div class="mv-img">
-	    				<a href="#"><img src="/assets/index/images/uploads/slider1.jpg" alt="" width="285" height="437"></a>
-	    			</div>
-	    			<div class="title-in">
-	    				<div class="cate">
-	    					<span class="blue"><a href="#">Sci-fi</a></span>
-	    				</div>
-	    				<h6><a href="#">Interstellar</a></h6>
-	    				<p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-	    			</div>
-	    		</div>
+				<% var counter = 0 %> 
+				<% if (counter<=12) { %>
+				<% movie_slide.forEach(movie => { %>
+					<% counter++ %>	
+					<div class="movie-item">
+						<div class="mv-img">
+							<a href="#"><img src="<%- movie.cover %> " alt="" width="285" height="437"></a>
+						</div>
+						<div class="title-in">
+							<div class="cate">
+								<span class="blue"><a href="#"><%- movie.genre %></a></span>
+							</div>
+							<h6><a href="#"><%- movie.name %></a></h6>
+							<p><i class="ion-android-star"></i><span><%- movie.average %></span> /10</p>
+						</div>
+					</div>
+				<% }) %>
+				<% } %> 
+
 	    	</div>
-
-
 	    </div>
 	</div>
 </div>

@@ -44,7 +44,15 @@ async function run() {
     app.use("/admin" , [auth , admin])
 
     app.get("/" , (req , res) => {
-        res.render("index/main" , {user : req.session.user});
+
+        conn.query(`SELECT name,cover,genre,average FROM film WHERE average>5`)
+        .then(([result])=>{
+                res.render("index/main" , {user : req.session.user , movie_slide:result});
+        }).catch((err)=>{
+
+            console.log(err)
+        })
+       
     })
 
     app.use("/video" , video) ;
