@@ -31,7 +31,7 @@ module.exports = async function init(conn) {
             company VARCHAR(45) NULL,
             date_published DATE NOT NULL,
             country VARCHAR(45) NOT NULL,
-            average FLOAT NOT NULL DEFAULT 0 ,
+            average FLOAT NULL DEFAULT 0 ,
             comment_count INT,
             PRIMARY KEY (ID))   
         `) ;
