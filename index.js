@@ -45,7 +45,7 @@ async function run() {
 
     app.get("/" , (req , res) => {
 
-        conn.query(`SELECT name,cover,genre,average FROM film WHERE average>5`)
+        conn.query(`SELECT name,cover,genre,average FROM film WHERE average>5 LIMIT 12`)
         .then(([result])=>{
                 res.render("index/main" , {user : req.session.user , movie_slide:result});
         }).catch((err)=>{
