@@ -41,56 +41,32 @@ router.get("/" , (req , res) => {
 
 router.get("/:id" , (req , res) => {
     // get info about artist with id + get all videos artists attended.
-    const id = req.params.id ;
-    conn.query("SELECT * FROM artists WHERE ID=? " , [id] ,  (error , result) => {
-        if(error){
-            console.log(error)
-        }else{
-            //console.log(result[0])
-             conn.query("SELECT COUNT(Movie_ID) AS COUNTM FROM movie_has_artists WHERE Artists_ID= ?" , [id] , (error2 , result2) => {
-                 if(error2){
-                     console.log(error2)
-                 }else{
-                    conn.query(`SELECT name , genre , date_published , cover FROM film WHERE ID IN (SELECT Movie_ID AS COUNTM FROM movie_has_artists WHERE Artists_ID=? )`,[id],(err3,result3)=>{
-                        if(err3){
-                            console.log(err3)
-                        } else{
-                            conn.query(`SELECT Name ,Date ,Description  FROM awards  WHERE ArtistS_ID=?  `,[id],(err4,result4)=>{
-                                if(err4){
-                                    console.log(err4)
-                                } else{
-                                    conn.query(`SELECT COUNT(ID) AS CORE  FROM awards  WHERE  ArtistS_ID=?  `,[id],(err5,result5)=>{
-                                        if(err5){
-                                            console.log(err5)
-                                        } else{
-                                            res.render("index/singleArtist", {
-                                                artist : result[0] ,
-                                                allvideo : result2[0].COUNTM ,
-                                                videos : result3 ,
-                                                awards:result4 ,
-                                                countre:result5[0].CORE ,
-                                                user:req.session.user
-                                            })
-
-                                        }
-                                    })
-
-                                }
-
-                            })
-                          
-                        }
-                    })
-
-                
-                 }    
-               
-             })
+    try {
+    (async () => {
+        const id = req.params.id ;
+        const [artist] = await conn.promise().query("SELECT * FROM artists WHERE ID=? " , [id]);
+        if (artist.length == 0) {
+            res.render("index/page404");
+            return ;
         }
-    })
-})
-
-
+        const [movieCount] = await conn.promise().query("SELECT COUNT(Movie_ID) AS COUNTM FROM movie_has_artists WHERE Artists_ID= ?" , [id]);
+        const [filmList] = await conn.promise().query(`SELECT name , genre , date_published , cover FROM film WHERE ID IN (SELECT Movie_ID AS COUNTM FROM movie_has_artists WHERE Artists_ID=? )`,[id]);
+        const [awards] = await conn.promise().query(`SELECT Name ,Date ,Description  FROM awards  WHERE ArtistS_ID=?  `,[id]);
+        const [awardsCount] = await conn.promise().query(`SELECT COUNT(ID) AS CORE  FROM awards  WHERE  ArtistS_ID=?  `,[id]);
+        const options = {
+            artist : artist[0] ,
+            videos : filmList ,
+            awards: awards ,
+            countre:awardsCount[0].CORE ,
+            allvideo : movieCount[0].COUNTM ,
+            user:req.session.user
+        } ;
+        res.render("index/singleArtist", options);
+    })();       
+    } catch (error) {
+        console.log(error)
+    }
+});
 
 function getSearchQuery(name,role, offset){
     let query = "SELECT * FROM artists "
