@@ -86,8 +86,8 @@ module.exports = async function init(conn) {
             Name VARCHAR(45) NOT NULL,
             Date DATE NULL,
             Description VARCHAR(45) NULL,
-            Movie_ID INT NOT NULL,
-            Artists_ID INT NOT NULL,
+            Movie_ID INT  NULL,
+            Artists_ID INT NULL,
             PRIMARY KEY (ID),
               FOREIGN KEY (Movie_ID)
               REFERENCES Film (ID)
