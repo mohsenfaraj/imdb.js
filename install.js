@@ -26,7 +26,7 @@ module.exports = async function init(conn) {
             cover VARCHAR(254) NULL,
             genre VARCHAR(45) NOT NULL,
             description VARCHAR(245) NOT NULL,
-            year DATE NOT NULL,
+            year INT NOT NULL,
             content_rating VARCHAR(45) NOT NULL,
             company VARCHAR(45) NULL,
             date_published DATE NOT NULL,
