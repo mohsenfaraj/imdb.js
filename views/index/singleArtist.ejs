@@ -39,8 +39,38 @@
 								<ul class="tab-links tabs-mv">
 									<li><a href="#biography"> biography</a></li>
 									<li><a href="#filmography">filmography</a></li>
+									<li><a href="#rrewards">Awards</a></li>
 								</ul>
 								<div class="tab-content">
+									<!--------------------awards------------------------->
+									<div id="rrewards" class="tab">
+										<div class="row">
+										<div class="rv-hd">
+											<div>
+												<h3>Awards Of</h3>
+												<h2>
+													<%- artist.name %>
+												</h2>
+											</div>
+										</div>
+										<div class="topbar-filter">
+										<p>Found <span><%- countre %> </span> in total</p>
+									</div>
+									<% awards.forEach(award => { %>
+										<div class="movie-item-style-2">	
+											<div class="mv-item-infor">
+												<h6><a href="#"><%- award.Name %> <span><%-award.Date%></span></a></h6>								
+												<p class="describe"><%- award.Description %> </p>
+											</div>
+										</div>
+										<% }) %>
+										<div class="topbar-filter">
+										</div>
+										</div>
+								</div>
+ <!--------------------awards------------------------->
+				
+									
 									<div id="biography" class="tab">
 										<div class="row">
 											<div class="rv-hd">
@@ -66,15 +96,7 @@
 											</div>
 											<div class="topbar-filter">
 												<p>Found <span><%- allvideo %>  movies</span> in total</p>
-												<label>Filter by:</label>
-												<select>
-													<option value="popularity">Popularity Descending</option>
-													<option value="popularity">Popularity Ascending</option>
-													<option value="rating">Rating Descending</option>
-													<option value="rating">Rating Ascending</option>
-													<option value="date">Release date Descending</option>
-													<option value="date">Release date Ascending</option>
-												</select>
+												<label></label>
 											</div>
 											<!-- movie cast -->
 											<div class="mvcast-item">
@@ -95,6 +117,7 @@
 											</div>
 										</div>
 									</div>
+									  
 								</div>
 							</div>
 						</div>
