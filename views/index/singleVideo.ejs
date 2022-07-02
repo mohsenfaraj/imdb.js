@@ -71,7 +71,7 @@
 								<li class="active"><a href="#reviews">Reviews</a></li>
 								<li><a href="#cast"> Cast & Crew </a></li>
 								<li><a href="#moviesrelated"> Related Movies</a></li> 
-								<li><a href="#rewards"> Rewards </a></li>                       
+								<li><a href="#rrewards"> Awards </a></li>                       
 							</ul>
 						    <div class="tab-content">
 						        <div id="reviews" class="tab review">
@@ -214,8 +214,9 @@
 										<div class="topbar-filter">
 										</div>
 					       	 		</div>
+								</div>
                                     <!--------------------awards------------------------->
-									<div id="rewards" class="tab">
+									<div id="rrewards" class="tab">
 					       	 		<div class="row">
 					       	 			<h3>Awards</h3>
 					       	 			<h2><%- video.name %></h2>
@@ -225,15 +226,15 @@
 										<% faward.forEach(award => { %>
 											<div class="movie-item-style-2">	
 												<div class="mv-item-infor">
-													<h6><a href="#"><%- award.Name %>  <span>(<%-award.Date%>)</span></a></h6>								
+													<h6><a href="#"><%- award.Name %> <span><%-award.Date%></span></a></h6>								
 													<p class="describe"><%- award.Description %> </p>
 												</div>
 											</div>
 										<% }) %>
-										
 										<div class="topbar-filter">
 										</div>
 					       	 		</div>
+								</div>
 									<!--------------------awards------------------------->
 					       	 	</div>
 						    </div>
