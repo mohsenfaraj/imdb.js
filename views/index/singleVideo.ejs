@@ -1,0 +1,256 @@
+<%- include("_header.ejs") %>
+<div class="hero hero3">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- <h1> movie listing - list</h1>
+				<ul class="breadcumb">
+					<li class="active"><a href="#">Home</a></li>
+					<li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+				</ul> -->
+			</div>
+		</div>
+	</div>
+</div>
+<div class="page-single movie-single movie_single">
+	<div class="container">
+		<div class="row ipad-width2">
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<div class="movie-img sticky-sb">
+					<img src="<%- video.cover%>" alt="">
+					<div class="movie-btn">	
+						<div class="btn-transform transform-vertical red">
+							<div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
+							<div><a href="https://www.youtube.com/embed/o-0hcF97wy0" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
+						</div>
+						<div class="btn-transform transform-vertical">
+							<div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
+							<div><a href="#" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8 col-sm-12 col-xs-12">
+				<div class="movie-single-ct main-content">
+					<h1 class="bd-hd"><%- video.name %>  <span>2015</span></h1>
+					<div class="social-btn">
+						<a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
+						<div class="hover-bnt">
+							<a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
+							<div class="hvr-item">
+								<a href="#" class="hvr-grow"><i class="ion-social-facebook"></i></a>
+								<a href="#" class="hvr-grow"><i class="ion-social-twitter"></i></a>
+								<a href="#" class="hvr-grow"><i class="ion-social-googleplus"></i></a>
+								<a href="#" class="hvr-grow"><i class="ion-social-youtube"></i></a>
+							</div>
+						</div>		
+					</div>
+					<div class="movie-rate">
+						<div class="rate">
+							<i class="ion-android-star"></i>
+							<p><span><%- video.average %> </span> /10<br>
+								<span class="rv"> <%- count %>  reviews in total </span>
+							</p>
+						</div>
+						<div class="rate-star">
+							<p>Rate This Movie:  </p>
+
+							<% for( let index = 0; index < video.average ; index++ ) { %>
+								<i class="ion-ios-star"></i>
+							<% } %>
+
+							<% for( let index = 0; index < 10 -  video.average ; index++ ) { %>
+								<i class="ion-ios-star-outline"></i> 
+							 <% } %>
+							
+						</div>
+					</div>
+					<div class="movie-tabs">
+						<div class="tabs">
+							<ul class="tab-links tabs-mv">
+								<li class="active"><a href="#reviews">Reviews</a></li>
+								<li><a href="#cast"> Cast & Crew </a></li>
+								<li><a href="#moviesrelated"> Related Movies</a></li>                        
+							</ul>
+						    <div class="tab-content">
+						        <div id="reviews" class="tab review">
+						           <div class="row">
+						            	<div class="rv-hd">
+						            		<div class="div">
+							            		<h3>Related Movies To</h3>
+						       	 				<h2><%- video.name %> </h2>
+							            	</div>
+							            	<a href="#" class="redbtn">Write Review</a>
+						            	</div>
+						            	<div class="topbar-filter">
+											<p>Found <span><%- count %> </span> in total</p>
+											<label>Filter by:</label>
+											<select>
+												<option value="popularity">Popularity Descending</option>
+												<option value="popularity">Popularity Ascending</option>
+												<option value="rating">Rating Descending</option>
+												<option value="rating">Rating Ascending</option>
+												<option value="date">Release date Descending</option>
+												<option value="date">Release date Ascending</option>
+											</select>
+										</div>
+                                        <% reviews.forEach(review => { %> 
+										<div class="mv-user-review-item">
+											<div class="user-infor">
+												<img src="<%- review.avatar %> " alt="">
+												<div>
+													<div class="no-star">  
+														<% for( let index = 0; index < review.Rating ; index++ ) { %>
+                                                            <i class="ion-android-star"></i> 
+                                                        <% } %>
+
+                                                        <% for( let index = 0; index < 10 -  review.Rating ; index++ ) { %>
+                                                             <i class="ion-android-star last"></i>  
+                                                         <% } %>
+                                                         
+													</div>
+													<p class="time">
+														<%- review.date %> <a href="#"><%- review.name %> </a>
+													</p>
+												</div>
+											</div>
+											<p><%- review.text %> </p>
+										</div>
+                                        <% }) %>
+						            </div>
+						        </div>
+                                <!--    ------------------------------------------cast---------------------------------     -->
+						        <div id="cast" class="tab">
+						        	<div class="row">
+						            	<h3>Cast & Crew of</h3>
+					       	 			<h2><%- video.name %> </h2>
+										<!-- //== -->
+										<div class="title-hd-sm">
+											<h4>CAST</h4><!--    ------------------     -->
+										</div>
+										<% actors.forEach(actor => { %>
+											<% if (actor.role == "Actor") { %>
+											<div class="mvcast-item">											
+												<div class="cast-it">
+													<div class="cast-left">
+														<img src="<%- actor.avatar %> ">
+														<a href="#"><%- actor.name %> </a>
+													</div>
+													<p>...  Director</p>
+												</div>
+											</div>
+											<% } %>
+										<% }) %>
+					       	 			
+										<!-- //== -->
+										<div class="title-hd-sm">
+											<h4>Directors</h4> <!--    ------------------     -->
+										</div>
+										<% actors.forEach(actor => { %>
+											<% if (actor.role == "Director") { %>
+												<div class="mvcast-item">											
+													<div class="cast-it">
+														<div class="cast-left">
+															<img src="<%- actor.avatar %> ">
+														<a href="#"><%- actor.name %> </a>
+														</div>
+														<p>...  (based on Marvel comics)</p>
+													</div>
+												</div>
+												<% } %>
+										<% }) %>
+										
+										<!-- //== -->
+										<div class="title-hd-sm">
+											<h4>Cameraman</h4> <!--    ------------------     -->
+										</div>
+										<% actors.forEach(actor => { %>
+											<% if (actor.role == "Cameraman") { %>
+												<div class="mvcast-item">											
+													<div class="cast-it">
+														<div class="cast-left">
+															<img src="<%- actor.avatar %> ">
+														<a href="#"><%- actor.name %> </a>
+														</div>
+														<p>...  (based on Marvel comics)</p>
+													</div>
+												</div>
+												<% } %>
+										<% }) %>
+										<!-- //== -->
+										<div class="title-hd-sm">
+											<h4>Singer</h4> <!--    ------------------     -->
+										</div>
+										<% actors.forEach(actor => { %>
+											<% if (actor.role == "Singer") { %>
+												<div class="mvcast-item">											
+													<div class="cast-it">
+														<div class="cast-left">
+															<img src="<%- actor.avatar %> ">
+														<a href="#"><%- actor.name %> </a>
+														</div>
+														<p>...  (based on Marvel comics)</p>
+													</div>
+												</div>
+												<% } %>
+										<% }) %>
+						            </div>
+					       	 	</div>
+
+					       	 	<!--------------------moviesrelated------------------------->
+					       	 	<div id="moviesrelated" class="tab">
+					       	 		<div class="row">
+					       	 			<h3>Related Movies To</h3>
+					       	 			<h2><%- video.name %></h2>
+					       	 			<div class="topbar-filter">
+											<p>Found <span>12 movies</span> in total</p>
+											<label>Sort by:</label>
+											<select>
+												<option value="popularity">Popularity Descending</option>
+												<option value="popularity">Popularity Ascending</option>
+												<option value="rating">Rating Descending</option>
+												<option value="rating">Rating Ascending</option>
+												<option value="date">Release date Descending</option>
+												<option value="date">Release date Ascending</option>
+											</select>
+										</div>
+										<% relatedmovie.forEach(movie => { %>
+											<div class="movie-item-style-2">
+												<img src="<%- movie.cover %> " alt="">
+												<div class="mv-item-infor">
+													<h6><a href="#"><%- movie.name %>  <span>(<%-movie.year%>)</span></a></h6>
+													<p class="rate"><i class="ion-android-star"></i><span><%- movie.average %> </span> /10</p>
+													<p class="describe"><%- movie.description %> </p>
+													<!--<p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
+													<p>Director: <a href="#">Joss Whedon</a></p>
+													<p>Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a> <a href="#">  Chris Hemsworth</a></p>-->
+												</div>
+											</div>
+										<% }) %>
+										
+										<div class="topbar-filter">
+											<label>Movies per page:</label>
+											<select>
+												<option value="range">5 Movies</option>
+												<option value="saab">10 Movies</option>
+											</select>
+											<div class="pagination2">
+												<span>Page 1 of 2:</span>
+												<a class="active" href="#">1</a>
+												<a href="#">2</a>
+												<a href="#"><i class="ion-arrow-right-b"></i></a>
+											</div>
+										</div>
+					       	 		</div>
+                                    <!--------------------moviesrelated------------------------->
+
+					       	 	</div>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- include("_footer.ejs") %>
