@@ -44,6 +44,8 @@ router.get("/:id" , (req , res) => {
         if(err1){
             console.log(err1)
         } else{
+            const genre = result[0].genre 
+            
            conn.query(`SELECT user.name , user.avatar , comment.text , comment.date , stars.Rating FROM user,comment,stars WHERE user.ID = comment.User_ID AND user.ID=stars.User_ID AND stars.Movie_ID = ?  AND comment.Movie_ID=? AND accepted=1`,[id,id],(err2,result2)=>{
     
             if(err2){
@@ -59,7 +61,14 @@ router.get("/:id" , (req , res) => {
                                 console.log(err4)
                             } else{
                                // console.log(result4)
-                                res.render("videoSinglePage/singlevideo",{video:result[0] , reviews : result2, count : result3[0].COUNTCO , actors : result4})
+                               conn.query(`SELECT film.name , film.description , film.average , film.cover , film.year  FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id],(err5,result5)=>{
+                                if(err5){
+                                    console.log(err5)
+                                } else{
+                                  // console.log(result5)
+                                    res.render("videoSinglePage/singlevideo",{video:result[0] , reviews : result2, count : result3[0].COUNTCO , actors : result4 , relatedmovie:result5})
+                                }
+                            })
                             }
                         })
                         
@@ -233,5 +242,7 @@ function getSearchQuery2(name,type,genre,Faverage, Taverage ,year , offset){
 
     return {query : query2 , items : resultItems};
 }
+
+
 
 module.exports = router ;
