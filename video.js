@@ -40,6 +40,8 @@ router.get("/" , (req , res) => {
 
 router.get("/:id" , (req , res) => {
     const id = req.params.id ;
+    try
+    {
     (async () => {
         const [filmdata] = await conn.promise().query(`SELECT * FROM film WHERE ID=?`,[id]) ;
         if (filmdata.length == 0) {
@@ -66,6 +68,9 @@ router.get("/:id" , (req , res) => {
             user: req.session.user 
         })
     })();
+    }catch(error) {
+        console.log(error);
+    }
 });
 
 router.post("/:id/comment" , (req , res) => {
