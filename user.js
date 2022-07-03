@@ -32,8 +32,7 @@ router.get("/userrate" , (req , res) => {
 
 router.put("/profile" , (req , res) => {
     // update user profile
-    res.send('updated successfully')
-    const ID = 1//req.session.id
+    const ID = req.session.id
     const password = req.body.password
     const username = req.body.username
     const name   = req.body.name
