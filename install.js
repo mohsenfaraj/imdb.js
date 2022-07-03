@@ -32,7 +32,7 @@ module.exports = async function init(conn) {
             date_published DATE NOT NULL,
             country VARCHAR(45) NOT NULL,
             average FLOAT NOT NULL DEFAULT 0 ,
-            comment_count INT,
+            comment_count INT NOT NULL DEFAULT 0,
             PRIMARY KEY (ID))   
         `) ;
         await conn.query(` 
