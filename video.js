@@ -44,14 +44,15 @@ router.get("/:id" , (req , res) => {
     {
     (async () => {
         const [filmdata] = await conn.promise().query(`SELECT * FROM film WHERE ID=?`,[id]) ;
+        const genre = filmdata[0].genre
         if (filmdata.length == 0) {
             res.render("index/page404")
             return ;
         }
         const [comments] = await conn.promise().query(`SELECT user.name , user.avatar , comment.text , comment.date , stars.Rating FROM user,comment,stars WHERE user.ID = comment.User_ID AND user.ID=stars.User_ID AND stars.Movie_ID = ?  AND comment.Movie_ID=? AND accepted=1`,[id,id]);
         const [commentCount] = await conn.promise().query(`SELECT COUNT(ID) AS COUNTCO FROM comment WHERE Movie_ID=? AND accepted=1`,[id]);
-        const [artists] = await conn.promise().query(`SELECT artists.name , artists.role , artists.avatar FROM artists movie_has_artists.description,movie_has_artists WHERE movie_has_artists.Artists_ID=artists.ID AND  movie_has_artists.Movie_ID=?`,[id]);
-        const [relativeVideos] = await conn.promise().query(`SELECT film.name , film.description , film.average , film.cover , film.year , COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
+        const [artists] = await conn.promise().query(`SELECT artists.name , artists.role , artists.avatar FROM artists,movie_has_artists WHERE movie_has_artists.Artists_ID=artists.ID AND  movie_has_artists.Movie_ID=?`,[id]);
+        const [relativeVideos] = await conn.promise().query(`SELECT film.name , film.description , film.average , film.cover , film.year, COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
         const [relativeCount] = await conn.promise().query(`SELECT COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
         const [awards] = await conn.promise().query(`SELECT Name ,Date ,Description  FROM awards  WHERE  Movie_ID=?  `,[id]);
         const [awardsCount] = await conn.promise().query(`SELECT COUNT(ID) AS CORE FROM awards  WHERE  Movie_ID=?  `,[id]);
