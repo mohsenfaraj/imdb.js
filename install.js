@@ -31,7 +31,7 @@ module.exports = async function init(conn) {
             company VARCHAR(45) NULL,
             date_published DATE NOT NULL,
             country VARCHAR(45) NOT NULL,
-            average FLOAT NULL DEFAULT 0 ,
+            average FLOAT NOT NULL DEFAULT 0 ,
             comment_count INT,
             PRIMARY KEY (ID))   
         `) ;
@@ -42,7 +42,7 @@ module.exports = async function init(conn) {
             avatar VARCHAR(255) NULL,
             bio VARCHAR(245) NULL,
             role VARCHAR(45) NULL,
-            award_count INT NULL DEFAULT 0,
+            award_count INT NOT NULL DEFAULT 0,
             PRIMARY KEY (ID))
         `) ;
         await conn.query(`
@@ -136,6 +136,14 @@ module.exports = async function init(conn) {
         await conn.query(`CREATE TRIGGER  IF NOT EXISTS COMMENT_COUNT1 AFTER DELETE 
         ON comment FOR EACH ROW UPDATE film SET comment_count=(SELECT COUNT(comment
         .Movie_ID) FROM comment WHERE film.ID=comment.Movie_ID AND accepted=1)
+        `)
+        await conn.query(`CREATE TRIGGER  IF NOT EXISTS AWARD_COUNT AFTER UPDATE 
+        ON awards FOR EACH ROW UPDATE artists SET  award_count=(SELECT COUNT(awards
+        .Artists_ID) FROM awards WHERE artists.ID=awards.Artists_ID)
+        `)
+        await conn.query(`CREATE TRIGGER  IF NOT EXISTS AWARD_COUNT1 AFTER DELETE 
+        ON awards FOR EACH ROW UPDATE artists SET award_count=(SELECT COUNT(awards
+        .Artists_ID) FROM awards WHERE artists.ID=awards.Artists_ID)
         `)
     } catch(err) {
         console.log(err)
