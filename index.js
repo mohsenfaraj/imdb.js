@@ -54,12 +54,14 @@ async function run() {
             const [result2] = await conn.query(`SELECT name,cover,ID,average FROM film WHERE type=? ORDER BY date_published DESC LIMIT 5 `,[movie]) ;
             const [result3] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE average>7 AND type=? LIMIT 5`,[movie]) ;
             const [result4] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE type=? ORDER BY comment_count DESC LIMIT 5`,[movie]);
+            const [result5] = await conn.query(`SELECT name,cover,ID,average FROM film WHERE type=? ORDER BY date_published DESC LIMIT 5 `,[series]) ;
             res.render("index/main", {
                 user: req.session.user,
                 movie_slide: result1,
                 new_movies: result2,
                 top_movies: result3,
-                most_reviews_movies:result4
+                most_reviews_movies:result4,
+                new_series:result5
             });
         })();
         }catch(error) {
