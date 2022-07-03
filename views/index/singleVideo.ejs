@@ -1,3 +1,4 @@
+<% const user = locals.user || {} ;%> 
 <%- include("_header.ejs") %>
 <div class="hero hero3">
 	<div class="container">
@@ -58,90 +59,20 @@
 					<div class="movie-tabs">
 						<div class="tabs">
 							<ul class="tab-links tabs-mv">
-								<li class="active"><a href="#overview">Overview</aOverview</li>
-								<li><a href="#reviews">Reviews</a></li>
+								<li class="active"><a href="#overview">Overview</a></li>
 								<li><a href="#cast"> Cast & Crew </a></li>
-								<li><a href="#moviesrelated"> Related Movies</a></li> 
+								<li><a href="#reviews">Reviews</a></li>
 								<li><a href="#rrewards"> Awards </a></li>                       
+								<li><a href="#moviesrelated"> Related Movies</a></li> 
 							</ul>
 						    <div class="tab-content">
 								<div id="overview" class="tab active">
 						            <div class="row">
 						            	<div class="col-md-8 col-sm-12 col-xs-12">
-											<p><%- video.description %> </p>
 											<div class="title-hd-sm">
-												<h4>cast</h4>
-												<a href="#" class="time">Full Cast & Crew  <i class="ion-ios-arrow-right"></i></a>
+												<h4>about</h4>
+												<p><%- video.description %> </p>
 											</div>
-											<!-- movie cast -->
-											<div>
-												<h3>Cast & Crew of</h3>
-													<h2><%- video.name %> </h2>
-												<!-- //== -->
-												<div class="title-hd-sm">
-													<h4>CAST</h4>
-												</div>
-												<% actors.forEach(actor => { %>
-													<% if (actor.role == "Actor") { %>
-													<div class="mvcast-item">											
-														<div class="cast-it">
-															<div class="cast-left">
-																<a href="#"><%- actor.name %> </a>
-															</div>
-															<p><%- actor.description %></p>
-														</div>
-													</div>
-													<% } %>
-												<% }) %>
-												<div class="title-hd-sm">
-													<h4>Directors and Writers</h4>
-												</div>
-												<% actors.forEach(actor => { %>
-													<% if (actor.role == "Director" || actor.role == "Writer") { %>
-														<div class="mvcast-item">											
-															<div class="cast-it">
-																<div class="cast-left">
-																<a href="#"><%- actor.name %> </a>
-																</div>
-																<p><%- actor.description %></p>
-															</div>
-														</div>
-														<% } %>
-												<% }) %>
-												
-												<!-- //== -->
-												<div class="title-hd-sm">
-													<h4>Producer</h4> <!--    ------------------     -->
-												</div>
-												<% actors.forEach(actor => { %>
-													<% if (actor.role == "Producer") { %>
-														<div class="mvcast-item">											
-															<div class="cast-it">
-																<div class="cast-left">
-																<a href="#"><%- actor.name %> </a>
-																</div>
-																<p><%- actor.description %></p>
-															</div>
-														</div>
-														<% } %>
-												<% }) %>
-												<div class="title-hd-sm">
-													<h4>Singer</h4> 
-												</div>
-												<% actors.forEach(actor => { %>
-													<% if (actor.role == "Singer") { %>
-														<div class="mvcast-item">											
-															<div class="cast-it">
-																<div class="cast-left">
-																<a href="#"><%- actor.name %> </a>
-																</div>
-																<p><%- actor.description %></p>
-															</div>
-														</div>
-														<% } %>
-												<% }) %>
-											</div>
-											<!-- movie user review -->
 						            	</div>
 						            	<div class="col-md-4 col-xs-12 col-sm-12">
 						            		<div class="sb-it">
@@ -192,11 +123,39 @@
 						           <div class="row">
 						            	<div class="rv-hd">
 						            		<div class="div">
-							            		<h3>Related Movies To</h3>
+							            		<h3>Reviews for</h3>
 						       	 				<h2><%- video.name %> </h2>
 							            	</div>
-							            	<a href="#" class="redbtn">Write Review</a>
+											<a href="#" class="redbtn">Write Review</a>
 						            	</div>
+										<% if (user.name && !user.banned) {%> 
+											<div class="form-style-1 user-pro">
+												<form action='<%- "/video/" + video.ID + "/comment" %>' method="POST">
+													<h4>Send Review</h4>
+													<div class="row">
+														<div class="col-md-12 form-it">
+															<label>your review</label>
+															<input type="text" placeholder="write your review here" name="comment">
+															<p>you logged in as <a href="#"><%- user.name %> </a></p>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-2">
+															<input class="submit" type="submit" value="Send">
+														</div>
+													</div>	
+												</form>
+											</div>
+											<% }else { %>
+												<div class="form-style-1 user-pro">
+														<h4>Send Review</h4>
+														<div class="row">
+															<div class="col-md-12 form-it">
+																<p>you need to Log in for sending comment</p>
+															</div>
+														</div>
+												</div>
+											<% } %> 
 						            	<div class="topbar-filter">
 											<p>Found <span><%- count %> </span> in total</p>
 										</div>
@@ -225,82 +184,76 @@
                                         <% }) %>
 						            </div>
 						        </div>
-                                <!--    ------------------------------------------cast---------------------------------     -->
 						        <div id="cast" class="tab">
-						        	<div class="row">
-						            	<h3>Cast & Crew of</h3>
-					       	 			<h2><%- video.name %> </h2>
-										<!-- //== -->
-										<div class="title-hd-sm">
-											<h4>CAST</h4><!--    ------------------     -->
+								<!-- movie cast -->
+								<div>
+									<h3>Cast & Crew of</h3>
+										<h2><%- video.name %> </h2>
+									<!-- //== -->
+									<div class="title-hd-sm">
+										<h4>CAST</h4>
+									</div>
+									<% artists.forEach(artist => { %>
+										<% if (artist.role == "Actor") { %>
+										<div class="mvcast-item">											
+											<div class="cast-it">
+												<div class="cast-left">
+													<a href="<%- "/artist" + artist.id  %> "><%- artist.name %> </a>
+												</div>
+												<p><%- artist.description %></p>
+											</div>
 										</div>
-										<% actors.forEach(actor => { %>
-											<% if (actor.role == "Actor") { %>
+										<% } %>
+									<% }) %>
+									<div class="title-hd-sm">
+										<h4>Directors and Writers</h4>
+									</div>
+									<% artists.forEach(artist => { %>
+										<% if (artist.role == "Director" || artist.role == "Writer") { %>
 											<div class="mvcast-item">											
 												<div class="cast-it">
 													<div class="cast-left">
-														<img src="<%- actor.avatar %> ">
-														<a href="#"><%- actor.name %> </a>
+														<a href="<%- "/artist" + artist.id  %> "><%- artist.name %> </a>
 													</div>
-													<p>...  Director</p>
+													<p><%- artist.description %></p>
 												</div>
 											</div>
 											<% } %>
-										<% }) %>
-					       	 			
-										<!-- //== -->
-										<div class="title-hd-sm">
-											<h4>Directors</h4> <!--    ------------------     -->
-										</div>
-										<% actors.forEach(actor => { %>
-											<% if (actor.role == "Director") { %>
-												<div class="mvcast-item">											
-													<div class="cast-it">
-														<div class="cast-left">
-															<img src="<%- actor.avatar %> ">
-														<a href="#"><%- actor.name %> </a>
-														</div>
-														<p>...  (based on Marvel comics)</p>
+									<% }) %>
+									
+									<!-- //== -->
+									<div class="title-hd-sm">
+										<h4>Producer</h4> <!--    ------------------     -->
+									</div>
+									<% artists.forEach(artist => { %>
+										<% if (artist.role == "Producer") { %>
+											<div class="mvcast-item">											
+												<div class="cast-it">
+													<div class="cast-left">
+														<a href="<%- "/artist" + artist.id  %> "><%- artist.name %> </a>
 													</div>
+													<p><%- artist.description %></p>
 												</div>
-												<% } %>
-										<% }) %>
-										
-										<!-- //== -->
-										<div class="title-hd-sm">
-											<h4>Cameraman</h4> <!--    ------------------     -->
-										</div>
-										<% actors.forEach(actor => { %>
-											<% if (actor.role == "Cameraman") { %>
-												<div class="mvcast-item">											
-													<div class="cast-it">
-														<div class="cast-left">
-															<img src="<%- actor.avatar %> ">
-														<a href="#"><%- actor.name %> </a>
-														</div>
-														<p>...  (based on Marvel comics)</p>
+											</div>
+											<% } %>
+									<% }) %>
+									<div class="title-hd-sm">
+										<h4>Singer</h4> 
+									</div>
+									<% artists.forEach(artist => { %>
+										<% if (artist.role == "Singer") { %>
+											<div class="mvcast-item">											
+												<div class="cast-it">
+													<div class="cast-left">
+														<a href="<%- "/artist" + artist.id  %> "><%- artist.name %> </a>
 													</div>
+													<p><%- artist.description %></p>
 												</div>
-												<% } %>
-										<% }) %>
-										<!-- //== -->
-										<div class="title-hd-sm">
-											<h4>Singer</h4> <!--    ------------------     -->
-										</div>
-										<% actors.forEach(actor => { %>
-											<% if (actor.role == "Singer") { %>
-												<div class="mvcast-item">											
-													<div class="cast-it">
-														<div class="cast-left">
-															<img src="<%- actor.avatar %> ">
-														<a href="#"><%- actor.name %> </a>
-														</div>
-														<p>...  (based on Marvel comics)</p>
-													</div>
-												</div>
-												<% } %>
-										<% }) %>
-						            </div>
+											</div>
+											<% } %>
+									<% }) %>
+								</div>
+								<!-- movie user review -->
 					       	 	</div>
 
 					       	 	<!--------------------moviesrelated------------------------->
@@ -311,6 +264,7 @@
 					       	 			<div class="topbar-filter">
 											<p>Found <span><%- countf %> </span> in total</p>
 										</div>
+										<% const relatedmovie = locals.relatedmovie || [] ;%> 
 										<% relatedmovie.forEach(movie => { %>
 											<div class="movie-item-style-2">
 												<img src="<%- movie.cover %> " alt="">
