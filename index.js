@@ -77,7 +77,7 @@ async function run() {
 
     app.use("/video", video);
     app.use("/artist", artists);
-    app.use("/user", user);
+    app.use("/user",  [auth, user]);
 
     app.get("/login", (req, res) => {
         if (req.session.isLogged) {

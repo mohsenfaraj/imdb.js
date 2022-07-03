@@ -19,20 +19,36 @@ router.get("/profile" , (req , res) => {
     })
 })
 router.get("/userrate" , (req , res) => {
-    const id =1//req.session.id
-    conn.query(`SELECT * FROM user WHERE ID=?`,[id],(err,result,field)=>{
-        if(err){
-            console.log(err)
-        } else {
+    const id =req.session.user.id
+    try{
+        (async()=>{
+            const [result1] = await conn.promise().query(`SELECT * FROM user WHERE ID=?`,[id]);
+            const [result2] = await conn.promise().query(`SELECT film.name,film.year,comment.text,comment.date,stars.Rating `+
+            `FROM comment INNER JOIN stars INNER JOIN film ON comment.User_ID=stars.User_ID AND comment.Movie_ID=film.ID AND `+
+            `stars.Movie_ID=film.ID AND comment.Movie_ID=stars.Movie_ID `); // FAGHAT ON HAEE RO BAR MIGARDONE KE HAN RATE DADE HAM COMMENT
+            console.log(result2)
+            res.render("user/userrate",
+            {
+                information:result1[0],
+                reatedmovies:result2
+            
+            })
+          })()
+      
+    }catch(error){
+        console.log(error)
+    }
+    
+    
            
-            res.render("user/userrate", {information:result[0]})
-        }
+            
+        
     })
-})
 
-router.put("/profile" , (req , res) => {
+
+router.post("/profile" , (req , res) => {
     // update user profile
-    const ID = req.session.id
+    const ID =req.session.user.id
     const password = req.body.password
     const username = req.body.username
     const name   = req.body.name
@@ -43,6 +59,7 @@ router.put("/profile" , (req , res) => {
         if(err){
             console.log(err)
         }else{
+            
             res.send('updated...')
         }
      })
