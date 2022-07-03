@@ -36,7 +36,7 @@
 				<!-- ----------------------------IN cinema------------------------------------- -->
 				<div class="title-hd">
 					<h2>in cinema</h2>
-					<a href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+					<a href="/video/" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
 				</div>
 				<div class="tabs">
 					<ul class="tab-links">
@@ -59,7 +59,7 @@
 													<a  href="<%- '/video/'+  movie.ID %> >"> Read more <i class="ion-android-arrow-dropright"></i> </a>
 												</div>
 												<div class="title-in">
-													<h6><a href="#"><%- movie.name %> </a></h6>
+													<h6><a href="<%- '/video/' + movie.ID %>"><%- movie.name %> </a></h6>
 													<p><i class="ion-android-star"></i><span> <%- movie.average %> </span> /10</p>
 												</div>
 											</div>
@@ -82,7 +82,7 @@
 													<a  href="<%- '/video/' + movie.ID %> "> Read more <i class="ion-android-arrow-dropright"></i> </a>
 												</div>
 												<div class="title-in">
-													<h6><a href="#"><%- movie.name %> </a></h6>
+													<h6><a href="<%- '/video/' + movie.ID %>"><%- movie.name %> </a></h6>
 													<p><i class="ion-android-star"></i><span><%- movie.average %></span> /10</p>
 												</div>
 											</div>
@@ -105,7 +105,7 @@
 													<a  href="<%- '/video/' + movie.ID %> "> Read more <i class="ion-android-arrow-dropright"></i> </a>
 												</div>
 												<div class="title-in">
-													<h6><a href="#"><%- movie.name %> </a></h6>
+													<h6><a href="<%- '/video/' + movie.ID %>"><%- movie.name %> </a></h6>
 													<p><i class="ion-android-star"></i><span><%- movie.average %> </span> /10</p>
 												</div>
 											</div>
@@ -120,7 +120,7 @@
 				<!-- ----------------------------on tv------------------------------------- -->
 				<div class="title-hd">
 					<h2>on tv</h2>
-					<a href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+					<a href="/video/" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
 				</div>
 				<div class="tabs">
 					<ul class="tab-links-2">
@@ -143,7 +143,7 @@
 													<a  href="<%- '/video/' + series.ID %> "> Read more <i class="ion-android-arrow-dropright"></i> </a>
 												</div>
 												<div class="title-in">
-													<h6><a href="#"><%- series.name %> </a></h6>
+													<h6><a href="<%- '/video/' + series.ID %>"><%- series.name %> </a></h6>
 													<p><i class="ion-android-star"></i><span><%- series.average %> </span> /10</p>
 												</div>
 											</div>
@@ -166,7 +166,7 @@
 													<a  href="<%- '/video/' + series.ID %> "> Read more <i class="ion-android-arrow-dropright"></i> </a>
 												</div>
 												<div class="title-in">
-													<h6><a href="#"><%- series.name %> </a></h6>
+													<h6><a href="<%- '/video/' + series.ID %>"><%- series.name %> </a></h6>
 													<p><i class="ion-android-star"></i><span><%- series.average %> </span> /10</p>
 												</div>
 											</div>
@@ -189,7 +189,7 @@
 													<a  href="<%- '/video/' + series.ID %> "> Read more <i class="ion-android-arrow-dropright"></i> </a>
 												</div>
 												<div class="title-in">
-													<h6><a href="#"><%- series.name %> </a></h6>
+													<h6><a href="<%- '/video/' + series.ID %>"><%- series.name %> </a></h6>
 													<p><i class="ion-android-star"></i><span><%- series.average %> </span> /10</p>
 												</div>
 											</div>
@@ -205,35 +205,16 @@
 				<div class="sidebar">
 					<div class="celebrities">
 						<h4 class="sb-title">Spotlight Celebrities</h4>
-						<div class="celeb-item">
-							<a href="#"><img src="/assets/index/images/uploads/ava1.jpg" alt="" width="70" height="70"></a>
-							<div class="celeb-author">
-								<h6><a href="#">Samuel N. Jack</a></h6>
-								<span>Actor</span>
+						<% spotlight_artists.forEach(artist => { %>
+							<div class="celeb-item">
+								<a href="<%- '/artist/' + artist.ID %> "><img src="<%- artist.avatar %> " alt="" width="70" height="70"></a>
+								<div class="celeb-author">
+									<h6><a href="<%- '/artist/' + artist.ID %>"><%- artist.name %> </a></h6>
+									<span><%- artist.role %> </span>
+								</div>
 							</div>
-						</div>
-						<div class="celeb-item">
-							<a href="#"><img src="/assets/index/images/uploads/ava2.jpg" alt="" width="70" height="70"></a>
-							<div class="celeb-author">
-								<h6><a href="#">Benjamin Carroll</a></h6>
-								<span>Actor</span>
-							</div>
-						</div>
-						<div class="celeb-item">
-							<a href="#"><img src="/assets/index/images/uploads/ava3.jpg" alt="" width="70" height="70"></a>
-							<div class="celeb-author">
-								<h6><a href="#">Beverly Griffin</a></h6>
-								<span>Actor</span>
-							</div>
-						</div>
-						<div class="celeb-item">
-							<a href="#"><img src="/assets/index/images/uploads/ava4.jpg" alt="" width="70" height="70"></a>
-							<div class="celeb-author">
-								<h6><a href="#">Justin Weaver</a></h6>
-								<span>Actor</span>
-							</div>
-						</div>
-						<a href="#" class="btn">See all celebrities<i class="ion-ios-arrow-right"></i></a>
+						<% }) %>
+						<a href="/artist/" class="btn">See all celebrities<i class="ion-ios-arrow-right"></i></a>
 					</div>
 				</div>
 			</div>

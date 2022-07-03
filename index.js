@@ -57,6 +57,7 @@ async function run() {
             const [result5] = await conn.query(`SELECT name,cover,ID,average FROM film WHERE type=? ORDER BY date_published DESC LIMIT 5`,[series]) ;
             const [result6] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE type=? ORDER BY average DESC LIMIT 5`,[series]) ;
             const [result7] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE type=? ORDER BY comment_count DESC LIMIT 5`,[series]);
+            const [result8] = await conn.query(`SELECT ID,name,role,avatar FROM artists ORDER BY award_count LIMIT 4`);
             res.render("index/main", {
                 user: req.session.user,
                 movie_slide: result1,
@@ -65,7 +66,8 @@ async function run() {
                 most_reviews_movies:result4,
                 new_series:result5,
                 top_series:result6,
-                most_reviews_series:result7
+                most_reviews_series:result7,
+                spotlight_artists:result8
             });
         })();
         }catch(error) {
