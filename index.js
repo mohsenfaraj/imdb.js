@@ -54,8 +54,9 @@ async function run() {
             const [result2] = await conn.query(`SELECT name,cover,ID,average FROM film WHERE type=? ORDER BY date_published DESC LIMIT 5 `,[movie]) ;
             const [result3] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE type=? ORDER BY average DESC LIMIT 5`,[movie]) ;
             const [result4] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE type=? ORDER BY comment_count DESC LIMIT 5`,[movie]);
-            const [result5] = await conn.query(`SELECT name,cover,ID,average FROM film WHERE type=? ORDER BY date_published DESC LIMIT 5 `,[series]) ;
+            const [result5] = await conn.query(`SELECT name,cover,ID,average FROM film WHERE type=? ORDER BY date_published DESC LIMIT 5`,[series]) ;
             const [result6] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE type=? ORDER BY average DESC LIMIT 5`,[series]) ;
+            const [result7] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE type=? ORDER BY comment_count DESC LIMIT 5`,[series]);
             res.render("index/main", {
                 user: req.session.user,
                 movie_slide: result1,
@@ -63,7 +64,8 @@ async function run() {
                 top_movies: result3,
                 most_reviews_movies:result4,
                 new_series:result5,
-                top_series:result6
+                top_series:result6,
+                most_reviews_series:result7
             });
         })();
         }catch(error) {
