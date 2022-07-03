@@ -4,7 +4,7 @@ module.exports = async function init(conn) {
             ID INT NOT NULL AUTO_INCREMENT,
             email VARCHAR(45) NOT NULL UNIQUE,
             password VARCHAR(254) NOT NULL,
-            user_name VARCHAR(45) NOT NULL UNIQUE,
+            username VARCHAR(45) NOT NULL UNIQUE,
             name VARCHAR(45) NOT NULL,
             avatar VARCHAR(45) ,
             banned TINYINT NOT NULL DEFAULT 0,

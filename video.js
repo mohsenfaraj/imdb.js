@@ -51,21 +51,20 @@ router.get("/:id" , (req , res) => {
         }
         const [comments] = await conn.promise().query(`SELECT user.name , user.avatar , comment.text , comment.date , stars.Rating FROM user,comment,stars WHERE user.ID = comment.User_ID AND user.ID=stars.User_ID AND stars.Movie_ID = ?  AND comment.Movie_ID=? AND accepted=1`,[id,id]);
         const [commentCount] = await conn.promise().query(`SELECT COUNT(ID) AS COUNTCO FROM comment WHERE Movie_ID=? AND accepted=1`,[id]);
-        const [artists] = await conn.promise().query(`SELECT artists.name , artists.role , artists.avatar FROM artists,movie_has_artists WHERE movie_has_artists.Artists_ID=artists.ID AND  movie_has_artists.Movie_ID=?`,[id]);
-        const [relativeVideos] = await conn.promise().query(`SELECT film.name , film.description , film.average , film.cover , film.year, COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
+        const [artists] = await conn.promise().query(`SELECT artists.id , artists.name , artists.role , artists.avatar , movie_has_artists.description FROM artists,movie_has_artists WHERE movie_has_artists.Artists_ID=artists.ID AND  movie_has_artists.Movie_ID=?`,[id]);
+        const [relativeVideos] = await conn.promise().query(`SELECT film.name , film.description , film.average , film.cover , film.year FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
         const [relativeCount] = await conn.promise().query(`SELECT COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
         const [awards] = await conn.promise().query(`SELECT Name ,Date ,Description  FROM awards  WHERE  Movie_ID=?  `,[id]);
         const [awardsCount] = await conn.promise().query(`SELECT COUNT(ID) AS CORE FROM awards  WHERE  Movie_ID=?  `,[id]);
-    
         res.render("index/singleVideo",{
             video:filmdata[0] ,
             reviews : comments,
-            count : commentCount.COUNTCO ,
-            actors : artists ,
+            count : commentCount[0].COUNTCO ,
+            artists : artists ,
             relatedmovie:relativeVideos ,
-            countf:relativeCount.REFI ,
+            countf:relativeCount[0].REFI ,
             faward:awards ,
-            countre:awardsCount ,
+            countre:awardsCount[0].CORE ,
             user: req.session.user 
         })
     })();
@@ -83,13 +82,16 @@ router.post("/:id/comment" , (req , res) => {
     let date = yearm + '/' + monthm + '/' +datem ;
     const videoid = req.params.id
     const comment = req.body.comment
-    const userid = req.session.id 
+    const userid = req.session.user.id  
+    if (req.session.user.banned || !req.session.user.id) {
+        res.redirect("back") ;
+    }
     conn.query(`INSERT INTO comment (User_ID,Movie_ID,date,text) VALUES (?,?,?,?)`,
         [userid,videoid,date,comment],(err,result,field)=>{
         if(err){
             console.log(err)
         }else{
-            res.send('inserted successfully')
+            res.redirect("back")
         }
     })
 })
