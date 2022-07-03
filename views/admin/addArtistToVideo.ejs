@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% const artists = locals.artists || [] %> 
+    <%- include("_header.ejs") %> 
+  <body>
+    <div class="container-scroller">
+        <%- include("_sidebar.ejs") %> 
+        <div class="container-fluid page-body-wrapper">
+        <%- include("_navbar.ejs") %> 
+          <div class="content-wrapper">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Add Artist to Video</h4>
+                    <form class="form-inline" action='<%- "/admin/video/" + videoID + "/artist"%>' method="post">
+                      <label class="sr-only" for="inlineFormInputName2">Artist ID</label>
+                      <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Artist ID" name="artistID">
+                      <label class="sr-only" for="inlineFormInputName2">Artist Description</label>
+                      <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Artist Description" name="artistDesc">
+                      <button type="submit" class="btn btn-primary mb-2">Add</button>
+                    </form>
+                  </div>          
+                </div>
+            <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Artists Added</h4>
+                  <p class="card-description">list of Added Artists</p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Role</th>
+                          <th>description</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%if (artists.length == 0){ %>
+                            <td>No Artists Added!</td>
+                            <% }else { %> 
+                            <%for (let i = 0 ; i < artists.length ; i ++){ %>
+                            <% let artist = artists[i] ; %> 
+                            <tr>
+                                <td><%- artist.ID %> </td>
+                                <td><%- artist.name %> </td>
+                                <td><%- artist.role %> </td>
+                                <td><%- artist.description %> </td>
+                                <td>
+                                    <a href="#" onclick=<%- `"deleteByID(${artist.ID} , '${artist.name}')"`%>>
+                                        <label class="badge badge-danger">delete</label>
+                                    </a>
+                                </td>
+                            </tr>
+                        <% }} %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- content-wrapper ends -->
+          <%- include("_footer.ejs") %> 
+          <script>
+            function deleteByID(id , name){
+                var answer = confirm("are you sure you want to delete artist by name " + name + " ?") ;
+                if (answer) {
+                    var params = "artistID=" + id ;
+                    var url = "<%- "/admin/video/" +  videoID + "/artist" %>" ;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", url);
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        document.location.reload(true)
+                    }};
+                    xhr.send(params);
+                }
+            }
+          </script>
+  </body>
+</html>

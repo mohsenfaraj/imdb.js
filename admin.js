@@ -191,12 +191,18 @@ router.get('/', (req, res) => {
 
   //-----------Movie And Artists------------
   router.get('/video/:id/artist',(req,res)=>{
-    res.render("addvid")
+    const id = Number.parseInt(req.params.id) ;
+    conn.query("SELECT artists.ID , artists.name , artists.role , movie_has_artists.description FROM movie_has_artists , artists WHERE artists.ID = movie_has_artists.Artists_ID AND artists.ID = ?" , [id] , (err , result , fields) => {
+      if (err) {
+        console.log(err)
+      }
+      res.render("admin/addArtistToVideo" , {artists : result , videoID : id})
+    })
   })
 
   router.delete('/video/:id/artist' , (req,res)=>{
     const movie_id = req.params.id
-    const artists_id = req.body.Artists_ID
+    const artists_id = req.body.artistID
     conn.query(`DELETE FROM movie_has_artists WHERE Movie_ID=? AND
        Artists_ID=?`,[movie_id,artists_id],(err , result , fields)=>{
         if(err){
@@ -209,13 +215,14 @@ router.get('/', (req, res) => {
 
   router.post('/video/:id/artist',(req , res) =>{
     const movie_ID = req.params.id
-    const artists_ID = req.body.Artists_ID 
-    conn.query(`INSERT INTO movie_has_artists (Movie_ID,Artists_ID) VALUES (?,?)` , [movie_ID,
-    artists_ID],(err,result,fields)=>{
+    const artists_ID = req.body.artistID 
+    const artistDesc = req.body.artistDesc ;
+    conn.query(`INSERT INTO movie_has_artists (Movie_ID,Artists_ID ,Description) VALUES (?,?,?)` , [movie_ID,
+    artists_ID , artistDesc],(err,result,fields)=>{
       if(err){
         console.log(err)
       } else {
-        res.send(`add successfully`)
+        res.redirect("/admin/video/" + movie_ID + "/artist")
       }
     })
   })
