@@ -42,6 +42,7 @@ module.exports = async function init(conn) {
             avatar VARCHAR(255) NULL,
             bio VARCHAR(245) NULL,
             role VARCHAR(45) NULL,
+            award_count INT NULL DEFAULT 0,
             PRIMARY KEY (ID))
         `) ;
         await conn.query(`
