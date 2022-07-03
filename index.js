@@ -54,7 +54,16 @@ async function run() {
                         conn.query(`SELECT name,cover,ID,average FROM film  WHERE average>7 LIMIT 5`)
                             .then(([result3]) => {
 
-                                res.render("index/main", { user: req.session.user, movie_slide: result1, new_movies: result2 , top_movies:result3});
+                                conn.query(`SELECT name,cover,ID,average FROM film  ORDER BY comment_count DESC LIMIT 5`)
+                                    .then(([result4]) => {
+                                
+                                        res.render("index/main", { user: req.session.user, movie_slide: result1, new_movies: result2, top_movies: result3, most_reviews_movies:result4});
+
+                                    }).catch((err4) => {
+
+                                        console.log(err4)
+
+                                    })
 
                             }).catch((err3) => {
 
