@@ -45,43 +45,24 @@ async function run() {
 
     app.get("/", (req, res) => {
 
-        conn.query(`SELECT name,cover,genre,average FROM film WHERE average>5 LIMIT 12`)
-            .then(([result1]) => {
-
-                conn.query(`SELECT name,cover,ID,average FROM film ORDER BY date_published DESC LIMIT 5`)
-                    .then(([result2]) => {
-
-                        conn.query(`SELECT name,cover,ID,average FROM film  WHERE average>7 LIMIT 5`)
-                            .then(([result3]) => {
-
-                                conn.query(`SELECT name,cover,ID,average FROM film  ORDER BY comment_count DESC LIMIT 5`)
-                                    .then(([result4]) => {
-                                
-                                        res.render("index/main", { user: req.session.user, movie_slide: result1, new_movies: result2, top_movies: result3, most_reviews_movies:result4});
-
-                                    }).catch((err4) => {
-
-                                        console.log(err4)
-
-                                    })
-
-                            }).catch((err3) => {
-
-                                console.log(err3)
-
-                            })
-
-                    }).catch((err2) => {
-
-                        console.log(err2)
-
-                    })
-
-            }).catch((err1) => {
-
-                console.log(err1)
-            })
-
+        try {
+            // series , movie
+        (async () => {
+            const [result1] = await conn.query(`SELECT name,cover,genre,average FROM film WHERE average>5 LIMIT 12`);
+            const [result2] = await conn.query(`SELECT name,cover,ID,average FROM film ORDER BY date_published DESC LIMIT 5`) ;
+            const [result3] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE average>7 LIMIT 5`) ;
+            const [result4] = await conn.query(`SELECT name,cover,ID,average FROM film  ORDER BY comment_count DESC LIMIT 5`);
+            res.render("index/main", {
+                user: req.session.user,
+                movie_slide: result1,
+                new_movies: result2,
+                top_movies: result3,
+                most_reviews_movies:result4
+            });
+        })();
+        }catch(error) {
+            console.log(error)
+        }
     })
 
     app.use("/video", video);
