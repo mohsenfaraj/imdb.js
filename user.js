@@ -8,17 +8,28 @@ const conn = mysql.createConnection({
     database : process.env.DBNAME
 })
 router.get("/profile" , (req , res) => {
-    res.send("profile");
-    // get all info about user profile
-    const id =req.session.id
+    const id =1//req.session.id
     conn.query(`SELECT * FROM user WHERE ID=?`,[id],(err,result,field)=>{
         if(err){
             console.log(err)
         } else {
-            console.log(result)
+           
+            res.render("user/profile", {information:result[0]})
         }
     })
 })
+router.get("/userrate" , (req , res) => {
+    const id =1//req.session.id
+    conn.query(`SELECT * FROM user WHERE ID=?`,[id],(err,result,field)=>{
+        if(err){
+            console.log(err)
+        } else {
+           
+            res.render("user/userrate", {information:result[0]})
+        }
+    })
+})
+
 router.put("/profile" , (req , res) => {
     // update user profile
     const id = req.session.id
