@@ -84,7 +84,7 @@ async function run() {
             res.redirect("/admin")
         }
         else {
-            res.render("login")
+            res.render("admin/login")
         }
     })
 
