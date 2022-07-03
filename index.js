@@ -48,10 +48,10 @@ async function run() {
         conn.query(`SELECT name,cover,genre,average FROM film WHERE average>5 LIMIT 12`)
         .then(([result])=>{
 
-                conn.query(`SELECT name,cover,genre,average FROM film ORDER BY date_published DESC LIMIT 5`)
+                conn.query(`SELECT name,cover,ID,average FROM film ORDER BY date_published DESC LIMIT 5`)
                     .then(([result2])=>{
     
-                    res.render("index/main" , {user : req.session.user , movie_slide:result , new_movie:result2}); 
+                    res.render("index/main" , {user : req.session.user , movie_slide:result , new_movies:result2}); 
 
                 }).catch((err)=>{
     
