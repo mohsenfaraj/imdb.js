@@ -63,6 +63,7 @@
 <script src="/assets/index/js/custom.js"></script>
 <script src="/assets/index/js/jquery.star-rating-svg.js"></script>
 <% const video = locals.video || {} %>
+<% const rating = locals.rating || "" %> 
 <% if (video.ID){ %> 
 	<script>
 	$(".video-rating").starRating({
