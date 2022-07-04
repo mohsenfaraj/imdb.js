@@ -56,7 +56,7 @@ router.get("/:id" , (req , res) => {
         const [relativeCount] = await conn.promise().query(`SELECT COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
         const [awards] = await conn.promise().query(`SELECT Name ,Date ,Description  FROM awards  WHERE  Movie_ID=?  `,[id]);
         const [awardsCount] = await conn.promise().query(`SELECT COUNT(ID) AS CORE FROM awards  WHERE  Movie_ID=?  `,[id]);
-        res.render("index/singleVideo",{
+        const options = {
             video:filmdata[0] ,
             reviews : comments,
             count : commentCount[0].COUNTCO ,
@@ -66,7 +66,12 @@ router.get("/:id" , (req , res) => {
             faward:awards ,
             countre:awardsCount[0].CORE ,
             user: req.session.user 
-        })
+        }
+        if (req.session.user.id) {
+            const [rating] = await conn.promise().query("SELECT Rating FROM stars WHERE User_ID = ? AND Movie_ID = ?" , [req.session.user.id , id]);
+            options.rating = rating[0].Rating ;
+        }
+        res.render("index/singleVideo", options)
     })();
     }catch(error) {
         console.log(error);
@@ -115,68 +120,39 @@ router.post("/:id/rating" , (req , res)=> {
     // get starts for video
     const videoid = req.params.id
     const rating = req.body.rating
-    const userid =  req.session.id 
-    conn.query(`INSERT INTO stars (Rating , User_ID , Movie_ID) VALUES (?,?,?)`,
-        [rating,userid,videoid],(err,result,field)=>{
-        if(err){
+    const userid =  req.session.user.id 
+    if (!userid || !rating || !videoid) {
+        res.status(300).send("you need to send all information");
+        return ;
+    }
+    //check if user already rated
+    conn.query("SELECT ID FROM stars WHERE User_ID = ? AND Movie_ID = ?" , [userid , videoid] , (err , result , fields) => {
+        if (err) {
             console.log(err)
-        }else{
-            res.send('Inserted successfully')
+        }
+        if (result.length > 0) {
+            const id = result[0].ID ;
+            conn.query(`UPDATE stars SET Rating=? WHERE User_ID=? AND Movie_ID=? AND ID=?`,
+            [rating,userid,videoid,id],(err,result,field)=>{
+            if(err){
+                console.log(err)
+            }
+                res.status(200).send("updated the rating")
+            })
+        }
+        // if not insert the rating into stars table
+        else {
+            conn.query(`INSERT INTO stars (Rating , User_ID , Movie_ID) VALUES (?,?,?)`,
+            [rating,userid,videoid],(err,result,field)=>{
+            if(err){
+                console.log(err)
+            }else{
+                res.status(200).send('Inserted successfully')
+            }
+        })
         }
     })
-
 })
-
-router.delete("/:id/rating" , (req , res)=> {
-    // get starts for video
-    const videoid = req.params.id
-    const ratingid = req.body.ratingID
-    const userid = req.session.id 
-    conn.query(`DELETE FROM stars WHERE User_ID=? AND Movie_ID=? AND ID=?`,
-    [userid,videoid,ratingid],(err,result,field)=>{
-    if(err){
-        console.log(err)
-    }else{
-        res.send('deleted successfully')
-    }
-})
-})
-
-router.put("/:id/rating" , (req , res)=> {
-    // get starts for video
-    const videoid = req.params.id
-    const ratingid = req.body.ratingID
-    const userid = req.session.id
-    const rating = req.body.rating
-    conn.query(`UPDATE stars SET Rating=? WHERE User_ID=? AND Movie_ID=? AND ID=?`,
-    [rating,userid,videoid,ratingid],(err,result,field)=>{
-    if(err){
-        console.log(err)
-    }else{
-        res.send('Updated successfully')
-    }
-})
-})
-
-// function getvideoRating(id) {
-//     // #get the video Rating
-//     // return avg
-//     const avg = 0 ;
-//     conn.query(`SELECT AVG(Rating) AS AVERAGE FROM stars WHERE Movie_ID=?`,[id],(err,result,field)=>{
-//         if(err){
-//             console.log(err)
-//         }else{
-//              avg = result[0].AVERAGE
-//            // res.send('average selected...')
-//         }
-//     })
-//     return avg ;
-// }
-
-function getVideoComments(id){
-    // #get video comments
-}
-
 
 function getSearchQuery(name,type,genre,Faverage, Taverage ,year , offset){
     let query = "SELECT * FROM film "

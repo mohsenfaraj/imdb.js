@@ -61,6 +61,33 @@
 <script src="/assets/index/js/plugins.js"></script>
 <script src="/assets/index/js/plugins2.js"></script>
 <script src="/assets/index/js/custom.js"></script>
+<script src="/assets/index/js/jquery.star-rating-svg.js"></script>
+<% const video = locals.video || {} %>
+<% if (video.ID){ %> 
+	<script>
+	$(".video-rating").starRating({
+		<%- rating?"initialRating:" + rating + "," : "" %>
+		starSize: 25,
+		totalStars:10,
+		emptyColor:"transparent",
+		strokeWidth: 15 ,
+		strokeColor:"#405266" ,
+		useGradient : false ,
+		callback: function(currentRating, $el){
+			var params = "rating=" + currentRating ;
+						var url = "<%- "/video/" +  video.ID + "/rating" %>" ;
+						var xhr = new XMLHttpRequest();
+						xhr.open("POST", url);
+						xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+						xhr.onreadystatechange = function () {
+						if (xhr.readyState === 4 && xhr.status == "200") {
+							document.location.reload(true);
+						}};
+						xhr.send(params);
+		}
+	});
+	</script>
+<% } %> 
 </body>
 
 <!-- moviegrid07:38-->

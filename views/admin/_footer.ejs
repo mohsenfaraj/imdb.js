@@ -18,8 +18,8 @@
 <script src="/assets/admin/js/todolist.js"></script>
 <script src="/assets/admin/js/toastr.min.js"></script>
   <script>
-    <% const toast = locals.toast || ""%>
-    <% if (toast != null && typeof toast != null) { %>
+    <% const toast = locals.toast || {}%>
+    <% if (toast != null || typeof toast != "undefined") { %>
       toastr["<%- toast.type %>"]("<%- toast.body %>","<%- toast.header %>") ;
       toastr.options = {
         "closeButton": true,

@@ -44,16 +44,12 @@
 							</p>
 						</div>
 						<div class="rate-star">
-							<p>Rate This Movie:  </p>
-
-							<% for( let index = 0; index < video.average ; index++ ) { %>
-								<i class="ion-ios-star"></i>
-							<% } %>
-
-							<% for( let index = 0; index < 10 -  video.average ; index++ ) { %>
-								<i class="ion-ios-star-outline"></i> 
-							 <% } %>
-							
+							<% if (user.id){ %> 
+								<p>Rate This Movie:  </p>
+								<div class="video-rating"></div>
+							 <% }else { %> 
+								<p>For rating you need to Login!</p>
+							<% } %> 
 						</div>
 					</div>
 					<div class="movie-tabs">
