@@ -20,7 +20,11 @@
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">type</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="type" value="<%- update.type?update.type:''%>">
+                          <select name="genre"  class="form-control commentStatus">
+                                      <option value="COMEDY">Movie</option>
+                                      <option value="SCI-FI">Series</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="type" value="< update.type?update.type:''%>"> -->
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">Cover image URL</label>
@@ -28,7 +32,26 @@
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">genre</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="genre" name="genre" value="<%- update.genre?update.genre:''%>">
+                        <div class="group-ip" >
+                          <!-- <select class="form-control commentStatus" data-id="< comment.ID %>">
+                            <option < comment.accepted == 1 ? "selected" : "" %> >Accepted</option>
+                           -->
+                          <select name="genre"  class="form-control commentStatus">
+                                      <option value="COMEDY">COMEDY</option>
+                                      <option value="SCI-FI">SCI-FI</option>
+                                      <option value="HORROR">HORROR</option>
+                                      <option value="ROMANCE">ROMANCE</option>
+                                      <option value="ACTION">ACTION</option>
+                                      <option value="THRILLER">THRILLER</option>
+                                      <option value="DRAMA">DRAMA</option>
+                                      <option value="MYSTERY">MYSTERY</option>
+                                      <option value="CRIME">CRIME</option>
+                                      <option value="ANIMATION">ANIMATION</option>
+                                      <option value="ADVENTURE">ADVENTURE</option>
+                                      <option value="FANTASY">FANTASY</option>
+                        </select>
+                        </div>
+                        <!--  name="genre" value="< update.genre?update.genre:''%>"> -->
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">year</label>
