@@ -189,20 +189,20 @@ async function run() {
 
 // authenticate user
 function auth(req, res, next) {
-    // if (req.session.isLogged === true) {
-    next();
-    // }
-    // else {
-    //     res.redirect("/login")
-    // }
+    if (req.session.isLogged === true) {
+        next();
+    }
+    else {
+        res.redirect("/login")
+    }
 }
 
  function userAuth(req,res,next){
-//     if(req.session.user){
+    if(req.session.user){
         next();
-//     }else{
-//         res.redirect("/")
-//     }
+    }else{
+        res.redirect("/")
+    }
  }
 
 run();
