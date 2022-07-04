@@ -31,6 +31,8 @@ async function run() {
     }));
     app.set("view engine", "ejs");
     app.use("/assets", express.static("assets"))
+    app.use("/public", express.static("public"))
+
     // for parsing application/json
     app.use(bodyParser.json());
 
