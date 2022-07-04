@@ -9,7 +9,23 @@ const conn = mysql.createConnection({
 })
 
 router.get('/', (req, res) => {
-    res.render("admin/dashboard" , {name : req.session.name})
+  (async () => {
+   const [videoCount] = await conn.promise().query("SELECT COUNT(film.ID) AS Count FROM `film`")
+   const [artistCount] = await conn.promise().query("SELECT COUNT(artists.ID) AS Count FROM `artists`")
+   const [commentsCount] = await conn.promise().query("SELECT COUNT(comment.ID) AS Count FROM `comment`")
+   const [banned] = await conn.promise().query("SELECT COUNT(user.ID) AS Count FROM `user` WHERE banned = 1")
+   const [users] = await conn.promise().query("SELECT COUNT(user.ID) AS Count FROM `user`")
+   const [waitingCount] = await conn.promise().query("SELECT COUNT (comment.ID) AS Count FROM `comment` WHERE comment.accepted = 9")
+   res.render("admin/dashboard" , {
+     name : req.session.name ,
+     videoCount : videoCount[0].Count || 0 ,
+     artistCount : artistCount[0].Count || 0,
+     commentsCount : commentsCount[0].Count || 0,
+     bannedCount : banned[0].Count || 0,
+     usersCount : users[0].Count || 0 ,
+     waitingCount : waitingCount[0].Count || 0
+   })
+  })()
   })
 
 

@@ -7,7 +7,123 @@
         <div class="container-fluid page-body-wrapper">
         <%- include("_navbar.ejs") %> 
           <div class="content-wrapper">
-            <h1>Hello World!</h1>
+            <h1>Main Dashboard</h1>
+            <div class="row mt-5">
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Videos Count</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h2 class="mb-0 text-primary"><%- videoCount %> </h2>
+                        </div>
+                        <h6 class="text-muted font-weight-normal"><a href="/admin/video" class="text-muted font-weight-medium">[manage Videos]</a></h6>
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-video text-primary ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Artists Count</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h2 class="mb-0 text-warning"><%- artistCount %> </h2>
+                        </div>
+                        <h6 class="text-muted font-weight-normal">
+                          <a href="/admin/artist" class="text-muted font-weight-medium">[manage Artists]</a>
+                        </h6>
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-star text-warning ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Total Comments Count</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h2 class="mb-0 text-success"><%- commentsCount %> </h2>
+                        </div>
+                        <h6 class="text-muted font-weight-normal">
+                          <a href="/admin/comments" class="text-muted font-weight-medium">[manage Comments]</a>
+                        </h6>
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-comment-processing text-success ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Banned Users</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h2 class="mb-0 text-danger"><%- bannedCount %> </h2>
+                        </div>
+                        <h6 class="text-muted font-weight-normal"><a href="/admin/user/ban" class="text-muted font-weight-medium">[ban user]</a></h6>
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-gavel text-danger ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Total User Count</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h2 class="mb-0 text-muted"> <%- usersCount  %> </h2>
+                        </div>
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-human-greeting text-muted ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Waiting Comments Count</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h2 class="mb-0 text-info"><%- waitingCount %> </h2>
+                        </div>
+                        <h6 class="text-muted font-weight-normal"><a href="/admin/comment" class="text-muted font-weight-medium">[manage Comments]</a></h6>
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-comment-question-outline text-info ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
           </div>
           <!-- content-wrapper ends -->
           <%- include("_footer.ejs") %> 
