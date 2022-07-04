@@ -191,11 +191,11 @@
 										<h4>CAST</h4>
 									</div>
 									<% artists.forEach(artist => { %>
-										<% if (artist.role == "Actor") { %>
+										<% if (artist.role == "Actor" || artist.role == "Actress") { %>
 										<div class="mvcast-item">											
 											<div class="cast-it">
 												<div class="cast-left">
-													<a href="<%- "/artist" + artist.id  %> "><%- artist.name %> </a>
+													<a href="<%- "/artist/" + artist.id  %> "><%- artist.name %> </a>
 												</div>
 												<p><%- artist.description %></p>
 											</div>
@@ -210,7 +210,7 @@
 											<div class="mvcast-item">											
 												<div class="cast-it">
 													<div class="cast-left">
-														<a href="<%- "/artist" + artist.id  %> "><%- artist.name %> </a>
+														<a href="<%- "/artist/" + artist.id  %> "><%- artist.name %> </a>
 													</div>
 													<p><%- artist.description %></p>
 												</div>
@@ -227,7 +227,7 @@
 											<div class="mvcast-item">											
 												<div class="cast-it">
 													<div class="cast-left">
-														<a href="<%- "/artist" + artist.id  %> "><%- artist.name %> </a>
+														<a href="<%- "/artist/" + artist.id  %> "><%- artist.name %> </a>
 													</div>
 													<p><%- artist.description %></p>
 												</div>
@@ -242,7 +242,7 @@
 											<div class="mvcast-item">											
 												<div class="cast-it">
 													<div class="cast-left">
-														<a href="<%- "/artist" + artist.id  %> "><%- artist.name %> </a>
+														<a href="<%- "/artist/" + artist.id  %> "><%- artist.name %> </a>
 													</div>
 													<p><%- artist.description %></p>
 												</div>
