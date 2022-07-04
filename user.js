@@ -27,7 +27,6 @@ router.get("/userrate" , (req , res) => {
             const [result3] = await conn.promise().query(`SELECT COUNT(comment.text) AS COCO FROM comment INNER JOIN film WHERE comment.User_ID=? AND comment.Movie_ID=film.ID`,[id]);  
             const [result4] = await conn.promise().query(`SELECT film.name,film.year,film.cover,stars.Rating FROM stars INNER JOIN film WHERE stars.User_ID=? AND stars.Movie_ID=film.ID`,[id]);
             const [result5] = await conn.promise().query(`SELECT COUNT(stars.Rating) AS COST FROM stars INNER JOIN film WHERE stars.User_ID=? AND stars.Movie_ID=film.ID`,[id]);  
-            console.log(result3[0].COCO)
             res.render("user/userrate",
             {
                 information:result1[0],
