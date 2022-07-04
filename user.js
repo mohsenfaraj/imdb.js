@@ -8,7 +8,7 @@ const conn = mysql.createConnection({
     database : process.env.DBNAME
 })
 router.get("/profile" , (req , res) => {
-    const id =1//req.session.id
+    const id =req.session.user.id
     conn.query(`SELECT * FROM user WHERE ID=?`,[id],(err,result,field)=>{
         if(err){
             console.log(err)
@@ -23,17 +23,21 @@ router.get("/userrate" , (req , res) => {
     try{
         (async()=>{
             const [result1] = await conn.promise().query(`SELECT * FROM user WHERE ID=?`,[id]);
-            const [result2] = await conn.promise().query(`SELECT film.name,film.year,comment.text,comment.date,stars.Rating `+
-            `FROM comment INNER JOIN stars INNER JOIN film ON comment.User_ID=stars.User_ID AND comment.Movie_ID=film.ID AND `+
-            `stars.Movie_ID=film.ID AND comment.Movie_ID=stars.Movie_ID `); // FAGHAT ON HAEE RO BAR MIGARDONE KE HAN RATE DADE HAM COMMENT
-            console.log(result2)
+            const [result2] = await conn.promise().query(`SELECT film.name,film.year,film.cover,comment.text,comment.date FROM comment INNER JOIN film WHERE comment.User_ID=? AND comment.Movie_ID=film.ID`,[id]);
+            const [result3] = await conn.promise().query(`SELECT COUNT(comment.text) AS COCO FROM comment INNER JOIN film WHERE comment.User_ID=? AND comment.Movie_ID=film.ID`,[id]);  
+            const [result4] = await conn.promise().query(`SELECT film.name,film.year,film.cover,stars.Rating FROM stars INNER JOIN film WHERE stars.User_ID=? AND stars.Movie_ID=film.ID`,[id]);
+            const [result5] = await conn.promise().query(`SELECT COUNT(stars.Rating) AS COST FROM stars INNER JOIN film WHERE stars.User_ID=? AND stars.Movie_ID=film.ID`,[id]);  
+            console.log(result3[0].COCO)
             res.render("user/userrate",
             {
                 information:result1[0],
-                reatedmovies:result2
+                commentsmovies:result2,
+                comment_count:result3[0].COCO,
+                ratesmovies:result4,
+                rate_count:result5[0].COST
             
             })
-          })()
+          })();
       
     }catch(error){
         console.log(error)
@@ -48,14 +52,12 @@ router.get("/userrate" , (req , res) => {
 
 router.post("/profile" , (req , res) => {
     // update user profile
-    const ID =req.session.user.id
+    const ID = Number.parseInt(req.session.user.id)
     const password = req.body.password
-    const username = req.body.username
     const name   = req.body.name
-    const email  = req.query.email
-    const avatar = req.body.avatar
-    const queryobj=getUpdateQuery(email,username,name,avatar,ID)
-     conn.query(queryobj.query,queryobj.items,(err,result)=>{
+   
+    //const queryobj=getUpdateQuery(email,username,name,ID)
+     conn.query(`UPDATE user SET name=?`,[name],(err,result)=>{
         if(err){
             console.log(err)
         }else{
@@ -66,24 +68,30 @@ router.post("/profile" , (req , res) => {
 
 })
 
-function getUpdateQuery(email,username,name,avatar,ID){
-    let query = "UPDATE user SET "
-    const items = [{item : ["email" , email]} , {item : ["username" , username]} , {item : ["name" , name]} , {item : ["avatar" , avatar]} ] ; 
 
-    const result = items.filter((current) => {
-        return current.item[1]
-    })
-    let resultItems = [] ;
-    if (result.length > 0) {
-        result.forEach(object => {
-                query += object.item[0] + "=? "
-                resultItems.push(object.item[1])
-        })
-        query += "WHERE ID=?" ;
-        resultItems.push(ID)
-    }
+
+
+// function getUpdateQuery(email,username,name,ID){
+//     let query = "UPDATE user SET "
+//     const items = [{item : ["email" , email]} , {item : ["username" , username]} , {item : ["name" , name]}  ] ; 
+
+//     const result = items.filter((current) => {
+//         return current.item[1]
+//     })
+//     let resultItems = [] ;
+//     if (result.length > 0) {
+//         result.forEach(object => {
+//                 query += object.item[0] + "=? "
+//                 resultItems.push(object.item[1])
+//         })
+//         query += "WHERE ID=?" ;
+//         resultItems.push(ID)
+//     }
     
-    return {query : query , items : resultItems};
-}
+//     return {query : query , items : resultItems};
+            // SELECT film.name,film.year,comment.text,comment.date,stars.Rating `+
+            // `FROM comment INNER JOIN stars INNER JOIN film ON comment.User_ID=stars.User_ID AND comment.Movie_ID=film.ID AND `+
+            // `stars.Movie_ID=film.ID AND comment.Movie_ID=stars.Movie_ID
+// }
 
 module.exports = router ;
