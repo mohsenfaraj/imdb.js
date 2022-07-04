@@ -20,11 +20,10 @@
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">type</label>
-                          <select name="genre"  class="form-control commentStatus">
-                                      <option value="COMEDY">Movie</option>
-                                      <option value="SCI-FI">Series</option>
-                        </select>
-                        <!-- <input type="text" class="form-control" id="exampleInputName1" placeholder="type" name="type" value="< update.type?update.type:''%>"> -->
+                          <select name="type"  class="form-control commentStatus">
+                                      <option value="Movie">Movie</option>
+                                      <option name="Series">Series</option>
+                          </select>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">Cover image URL</label>
@@ -33,9 +32,6 @@
                       <div class="form-group">
                         <label for="exampleInputName1">genre</label>
                         <div class="group-ip" >
-                          <!-- <select class="form-control commentStatus" data-id="< comment.ID %>">
-                            <option < comment.accepted == 1 ? "selected" : "" %> >Accepted</option>
-                           -->
                           <select name="genre"  class="form-control commentStatus">
                                       <option value="COMEDY">COMEDY</option>
                                       <option value="SCI-FI">SCI-FI</option>

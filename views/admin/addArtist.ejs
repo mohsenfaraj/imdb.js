@@ -23,8 +23,17 @@
                         <input type="text" class="form-control" id="exampleInputName1" placeholder="Avatar" name="avatar" value="<%- update.avatar?update.avatar:''%>">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputName1">Role</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Role" name="role" value="<%- update.role?update.role:''%>">
+                        <label for="Role">Role</label>
+                        <div class="form-group">
+                            <select name="role"  class="form-control commentStatus" id="Role">
+                                        <option value="Actor">Actor</option>
+                                        <option name="Actress">Actress</option>
+                                        <option value="Actor">Director</option>
+                                        <option value="Actor">Writer</option>
+                                        <option value="Actor">Producer</option>
+                                        <option value="Actor">Singer</option>
+                            </select>
+                        </div>
                       </div>
                       <div class="form-group">
                         <label for="exampleTextarea1">Description</label>
