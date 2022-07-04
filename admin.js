@@ -226,6 +226,50 @@ router.get('/', (req, res) => {
     })
   })
 
+  // --- --- Manage Awards --- --- //
+  router.get('/video/:id/award',(req,res)=>{
+    const id = Number.parseInt(req.params.id) ;
+    conn.query("SELECT awards.ID , awards.name , film.id AS filmID , film.name AS filmName, artists.id AS artistID , artists.name AS artistName from awards , film , artists WHERE awards.Movie_ID = ? AND awards.Movie_ID = film.ID AND awards.Artists_ID = artists.ID" , [id] , (err , result , fields) => {
+      if (err) {
+        console.log(err)
+      }
+      console.log(result)
+      res.render("admin/addAwardToVideo" , {awards : result , videoID : id})
+    })
+  })
+
+  router.delete('/video/:id/award' , (req,res)=>{
+    const id = req.body.awardID ;
+    conn.query(`DELETE FROM awards WHERE ID=?`,[id],(err , result , fields)=>{
+        if(err){
+          console.log(err)
+        }else{
+          res.send('deleted successfully')
+        }
+    })
+  })
+
+  router.post('/video/:id/award',(req , res) =>{
+    const movieID = req.params.id
+    const artistID = req.body.artistID 
+    const awardDesc = req.body.artistDesc
+    const date = req.body.date
+    const name = req.body.name
+    conn.query(`INSERT INTO awards(Name, Date, Description, Movie_ID, Artists_ID) VALUES (?,?,?,?,?)` ,
+     [name , date , awardDesc , movieID , artistID],(err,result,fields)=>{
+      if(err){
+        console.log(err)
+        res.render("regMessage", {
+          headertext: "Error",
+          message: "there was an error"
+      })
+      } else {
+        res.redirect("/admin/video/" + movieID + "/award")
+      }
+    })
+  })
+
+
   //--------- Manage Users --------/
 
 router.get("/user/ban" , (req , res) => {

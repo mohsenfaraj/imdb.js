@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% const awards = locals.awards || [] %> 
+    <%- include("_header.ejs") %> 
+  <body>
+    <div class="container-scroller">
+        <%- include("_sidebar.ejs") %> 
+        <div class="container-fluid page-body-wrapper">
+        <%- include("_navbar.ejs") %> 
+          <div class="content-wrapper">
+            <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Add Award</h4>
+                  <form class="forms-sample" method="post" action="<%- "/admin/video/" + videoID + "/award" %> ">
+                    <div class="form-group row">
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Name</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Name" name="name">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Video ID</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="exampleInputEmail2" placeholder="video ID" name="videoID">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="exampleInputMobile" class="col-sm-3 col-form-label">Artist ID</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="exampleInputMobile" placeholder="Artist ID" name="artistID">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Description</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Description" name="awardDesc">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Award date</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="exampleInputConfirmPassword2" placeholder="Award date" name="date">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Video ID</th>
+                          <th>Video name</th>
+                          <th>Artist ID</th>
+                          <th>Artist name</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%if (awards.length == 0){ %>
+                            <td>No Awards Added!</td>
+                            <% }else { %> 
+                            <%for (let i = 0 ; i < awards.length ; i ++){ %>
+                            <% let award = awards[i] ; %> 
+                            <tr>
+                                <td><%- award.ID %> </td>
+                                <td><%- award.name %> </td>
+                                <td><%- award.filmID %> </td>
+                                <td><%- award.filmName %> </td>
+                                <td><%- award.artistID %> </td>
+                                <td><%- award.artistName %> </td>
+                                <td>
+                                    <a href="#" onclick=<%- `"deleteByID(${award.ID} , '${award.name}')"`%>>
+                                        <label class="badge badge-danger">delete</label>
+                                    </a>
+                                </td>
+                            </tr>
+                        <% }} %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- content-wrapper ends -->
+          <%- include("_footer.ejs") %> 
+          <script>
+            function deleteByID(id , name){
+                var answer = confirm("are you sure you want to delete artist by name " + name + " ?") ;
+                if (answer) {
+                    var params = "awardID=" + id ;
+                    var url = "<%- "/admin/video/" +  videoID + "/award" %>" ;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", url);
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        document.location.reload(true)
+                    }};
+                    xhr.send(params);
+                }
+            }
+          </script>
+  </body>
+</html>
