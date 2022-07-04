@@ -50,7 +50,7 @@ router.get("/:id" , (req , res) => {
             return ;
         }
         const [movieCount] = await conn.promise().query("SELECT COUNT(Movie_ID) AS COUNTM FROM movie_has_artists WHERE Artists_ID= ?" , [id]);
-        const [filmList] = await conn.promise().query(`SELECT name , genre , date_published , cover FROM film WHERE ID IN (SELECT Movie_ID AS COUNTM FROM movie_has_artists WHERE Artists_ID=? )`,[id]);
+        const [filmList] = await conn.promise().query(`SELECT name , ID , genre , date_published , cover FROM film WHERE ID IN (SELECT Movie_ID AS COUNTM FROM movie_has_artists WHERE Artists_ID=? )`,[id]);
         const [awards] = await conn.promise().query(`SELECT Name ,Date ,Description  FROM awards  WHERE ArtistS_ID=?  `,[id]);
         const [awardsCount] = await conn.promise().query(`SELECT COUNT(ID) AS CORE  FROM awards  WHERE  ArtistS_ID=?  `,[id]);
         const options = {
