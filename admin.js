@@ -63,6 +63,44 @@ router.get('/', (req, res) => {
 
   })
 
+  router.post("/changepass",(req,res)=>{
+    const ID = 1 // Number.parseInt(req.session..id)
+    const oldpassword = req.body.oldpassword
+    const newpassword = req.body.newpassword
+    const cnewpassword = req.body.cnewpassword
+    conn.query(`SELECT password FROM admin WHERE  ID=?`, [ID], (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+
+            if (result[0].password !== oldpassword) {
+                console.log('not equal oldpass')
+                res.render("regMessage", {
+                    headertext: "",
+                    message: "the old password is incorrect"
+                })
+
+            } else {
+                if (newpassword !== cnewpassword) {
+                    console.log('not equal cnew ')
+                    res.render("regMessage", {
+                        headertext: "",
+                        message: "the new password not equal with Confirm password!"
+                    })
+                } else {
+                    conn.query(`UPDATE admin SET password=? WHERE ID=?`, [newpassword, ID], (err1, result1) => {
+                        if (err1) {
+                            console.log(err1)
+                        } else {
+                            res.redirect("/admin/adminprofile")
+                        }
+                    });
+                }
+            }
+
+        }
+    });
+  })
 
   router.get("/video" , (req , res) => {
     conn.query("SELECT ID , type , name , date_published FROM film" , (error , results) => {
