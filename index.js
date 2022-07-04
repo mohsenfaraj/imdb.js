@@ -77,7 +77,7 @@ async function run() {
 
     app.use("/video", video);
     app.use("/artist", artists);
-    app.use("/user",  [auth, user]);
+    app.use("/user",  [userAuth, user]);
 
     app.get("/login", (req, res) => {
         if (req.session.isLogged) {
@@ -121,10 +121,9 @@ async function run() {
     });
 
     app.post("/userLogin", (req, res) => {
-        console.log(req.headers.origin);
         const username = req.body.username;
         const password = req.body.password;
-        conn.execute("SELECT * FROM user WHERE username = ? AND password = ?", [username, password])
+        conn.query("SELECT * FROM user WHERE username = ? AND password = ?", [username, password])
             .then(([result]) => {
                 if (result.length > 0) {
                     req.session.user = {
@@ -161,6 +160,7 @@ async function run() {
                 headertext: "fill all the fields",
                 message: "please fill all the required fields"
             })
+            return ;
         }
         //TODO: hash the password
 
@@ -194,4 +194,14 @@ function auth(req, res, next) {
     //     res.redirect("/login")
     // }
 }
+
+ function userAuth(req,res,next){
+//     if(req.session.user){
+        next();
+//     }else{
+//         res.redirect("/")
+//     }
+ }
+
 run();
+
