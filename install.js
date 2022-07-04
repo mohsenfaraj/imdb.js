@@ -47,7 +47,7 @@ module.exports = async function init(conn) {
         `) ;
         await conn.query(`
         CREATE TABLE IF NOT EXISTS Comment (
-            ID INT NOT NULL,
+            ID INT NOT NULL AUTO_INCREMENT,
             User_ID INT NOT NULL,
             Movie_ID INT NOT NULL,
             date DATE NOT NULL,
@@ -67,7 +67,7 @@ module.exports = async function init(conn) {
 
         await conn.query(`
         CREATE TABLE IF NOT EXISTS Stars (
-            ID INT NOT NULL,
+            ID INT NOT NULL AUTO_INCREMENT,
             Rating INT NOT NULL,
             User_ID INT NOT NULL,
             Movie_ID INT NOT NULL,
@@ -83,7 +83,7 @@ module.exports = async function init(conn) {
         `) ;
         await conn.query(` 
         CREATE TABLE IF NOT EXISTS Awards (
-            ID INT NOT NULL,
+            ID INT NOT NULL AUTO_INCREMENT,
             Name VARCHAR(45) NOT NULL,
             Date DATE NULL,
             Description VARCHAR(45) NULL,
