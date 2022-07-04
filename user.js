@@ -54,9 +54,9 @@ router.post("/profile" , (req , res) => {
     const ID = Number.parseInt(req.session.user.id)
     const password = req.body.password
     const name   = req.body.name
-   
-    //const queryobj=getUpdateQuery(email,username,name,ID)
-     conn.query(`UPDATE user SET name=?`,[name],(err,result)=>{
+    const avatar = req.body.avatar
+    const queryobj=getUpdateQuery(name,avatar,ID)
+     conn.query(queryobj.query,queryobj.items,(err,result)=>{//avatar ham mitone avaz kone 
         if(err){
             console.log(err)
         }else{
@@ -70,27 +70,34 @@ router.post("/profile" , (req , res) => {
 
 
 
-// function getUpdateQuery(email,username,name,ID){
-//     let query = "UPDATE user SET "
-//     const items = [{item : ["email" , email]} , {item : ["username" , username]} , {item : ["name" , name]}  ] ; 
+function getUpdateQuery(name,avatar,ID){
+    let query = "UPDATE user SET "
+    const items = [  {item : ["name" , name]} ,{item : ["avatar" , avatar]} ] ; 
 
-//     const result = items.filter((current) => {
-//         return current.item[1]
-//     })
-//     let resultItems = [] ;
-//     if (result.length > 0) {
-//         result.forEach(object => {
-//                 query += object.item[0] + "=? "
-//                 resultItems.push(object.item[1])
-//         })
-//         query += "WHERE ID=?" ;
-//         resultItems.push(ID)
-//     }
+    const result = items.filter((current) => {
+        return current.item[1]
+    })
+    let resultItems = [] ;
+    if (result.length > 0) {
+        result.forEach(object => {
+                query += object.item[0] + "=? "
+                resultItems.push(object.item[1])
+        })
+        query += "WHERE ID=?" ;
+        resultItems.push(ID)
+    }
     
-//     return {query : query , items : resultItems};
-            // SELECT film.name,film.year,comment.text,comment.date,stars.Rating `+
-            // `FROM comment INNER JOIN stars INNER JOIN film ON comment.User_ID=stars.User_ID AND comment.Movie_ID=film.ID AND `+
-            // `stars.Movie_ID=film.ID AND comment.Movie_ID=stars.Movie_ID
-// }
+     return {query : query , items : resultItems};
+          
+ }
 
 module.exports = router ;
+
+
+
+
+
+
+// SELECT film.name,film.year,comment.text,comment.date,stars.Rating `+
+// `FROM comment INNER JOIN stars INNER JOIN film ON comment.User_ID=stars.User_ID AND comment.Movie_ID=film.ID AND `+
+// `stars.Movie_ID=film.ID AND comment.Movie_ID=stars.Movie_ID
