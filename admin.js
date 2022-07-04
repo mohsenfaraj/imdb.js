@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
    const [users] = await conn.promise().query("SELECT COUNT(user.ID) AS Count FROM `user`")
    const [waitingCount] = await conn.promise().query("SELECT COUNT (comment.ID) AS Count FROM `comment` WHERE comment.accepted = 9")
    res.render("admin/dashboard" , {
-     name : req.session.name ,
+     name : req.session.Admin.name ,
      videoCount : videoCount[0].Count || 0 ,
      artistCount : artistCount[0].Count || 0,
      commentsCount : commentsCount[0].Count || 0,
@@ -186,7 +186,7 @@ router.get('/', (req, res) => {
   })
 
   router.get("/video/add" , (req , res) => {
-    res.render("admin/addvideo" , {name: req.session.name})
+    res.render("admin/addvideo" , {name: req.session.Admin.name})
   })
 
   router.post('/video/add' , (req , res) => {
