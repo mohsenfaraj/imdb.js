@@ -65,7 +65,7 @@
 													</p> -->
 													<!-- <p class="time sm-text">your reviews:</p> -->
 													<!-- <h6>Best Marvel movie in my opinion</h6> -->
-													<p class="time sm"><%- comment.date %> </p>
+													<p class="time sm"><%- new Date(comment.date).toLocaleDateString("en-US") %> </p>
 													<p>“<%- comment.text %> ”</p>
 												</div>
 											</div>

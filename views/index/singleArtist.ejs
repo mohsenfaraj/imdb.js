@@ -59,7 +59,7 @@
 									<% awards.forEach(award => { %>
 										<div class="movie-item-style-2">	
 											<div class="mv-item-infor">
-												<h6><a href="#"><%- award.Name %> <span><%-award.Date%></span></a></h6>								
+												<h6><a href="#"><%- award.Name %> <span><%-new Date(award.Date).toLocaleDateString("en-US")%></span></a></h6>								
 												<p class="describe"><%- award.Description %> </p>
 											</div>
 										</div>
@@ -79,7 +79,7 @@
 													</h2>
 												</div>
 											</div>
-											<p> <%- artist.bio %> </p>
+											<p> <%- artist.bio?artist.bio:"there is no description for this artist in database" %> </p>
 										</div>
 									</div>
 									
@@ -108,7 +108,7 @@
 															</div>
 	
 														</div>
-														<p><%- video.date_published %> </p>
+														<p><%- new Date(video.date_published).toLocaleDateString("en-US") %> </p>
 													<% }) %>
 													
 												</div>

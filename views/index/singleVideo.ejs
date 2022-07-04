@@ -171,7 +171,8 @@
                                                          
 													</div>
 													<p class="time">
-														<%- review.date %> <a href="#"><%- review.name %> </a>
+														<% const reviewDate = new Date(review.date) %> 
+														<%- reviewDate.toLocaleDateString("en-US") %> <a href="#"><%- review.name %> </a>
 													</p>
 												</div>
 											</div>
@@ -290,7 +291,8 @@
 										<% faward.forEach(award => { %>
 											<div class="movie-item-style-2">	
 												<div class="mv-item-infor">
-													<h6><a href="#"><%- award.Name %> <span><%-award.Date%></span></a></h6>								
+													<% const awardDate = new Date(award.Date) %> 
+													<h6><a href="#"><%- award.Name %> <span><%-awardDate.toLocaleDateString("en-US")%></span></a></h6>								
 													<p class="describe"><%- award.Description %> </p>
 												</div>
 											</div>
