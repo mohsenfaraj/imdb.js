@@ -67,7 +67,7 @@ router.get("/:id" , (req , res) => {
             countre:awardsCount[0].CORE ,
             user: req.session.user 
         }
-        if (req.session.user.id) {
+        if (req.session.user) {
             const [rating] = await conn.promise().query("SELECT Rating FROM stars WHERE User_ID = ? AND Movie_ID = ?" , [req.session.user.id , id]);
             options.rating = rating[0].Rating ;
         }
