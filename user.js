@@ -52,22 +52,60 @@ router.get("/userrate" , (req , res) => {
 router.post("/profile" , (req , res) => {
     // update user profile
     const ID = Number.parseInt(req.session.user.id)
-    const password = req.body.password
     const name   = req.body.name
     const avatar = req.body.avatar
     const queryobj=getUpdateQuery(name,avatar,ID)
-     conn.query(queryobj.query,queryobj.items,(err,result)=>{//avatar ham mitone avaz kone 
-        if(err){
-            console.log(err)
-        }else{
-            
-            res.send('updated...')
-        }
-     })
+    if(name || avatar){
+        conn.query(queryobj.query,queryobj.items,(err,result)=>{//avatar ham mitone avaz kone 
+            if(err){
+                console.log(err)
+            }else{
+                res.send('updateed....')
+            }
+         })
+    } else{
+        res.send('fields is null...')
+    }
+ 
 
 })
 
+router.post("/profile/changepass",(req,res)=>{
+    const ID = Number.parseInt(req.session.user.id)
+    const oldpassword = req.body.oldpassword
+    const newpassword = req.body.newpassword
+    const cnewpassword = req.body.cnewpassword
+    const old ='';
+    conn.query(`SELECT password FROM user WHERE  ID=?`,[ID],(err,result)=>{
+       if(err){
+           console.log(err)
+       }else{
 
+        if(result[0].password !== oldpassword){
+            console.log('not equal oldpass')
+            res.send('not equal oldpass ')
+ 
+        }else{
+            if(newpassword !== cnewpassword){
+                console.log('not equal cnew ')
+                res.send('not equal cnew ')
+            }else{
+                conn.query(`UPDATE user SET password=? WHERE ID=?`,[newpassword,ID],(err1,result1)=>{
+                    if(err1){
+                        console.log(err1)
+                    }else{
+                     res.send('change....')
+                    }
+                });
+            }
+        }
+           
+       }
+    });
+
+      
+
+})
 
 
 function getUpdateQuery(name,avatar,ID){
