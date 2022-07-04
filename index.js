@@ -50,7 +50,7 @@ async function run() {
         (async () => {
             const series = "series"
             const movie = "movie"
-            const [result1] = await conn.query(`SELECT name,cover,genre,average FROM film WHERE average>5 LIMIT 12`);
+            const [result1] = await conn.query(`SELECT name,ID,cover,genre,average FROM film WHERE average>5 LIMIT 12`);
             const [result2] = await conn.query(`SELECT name,cover,ID,average FROM film WHERE type=? ORDER BY date_published DESC LIMIT 5 `,[movie]) ;
             const [result3] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE type=? ORDER BY average DESC LIMIT 5`,[movie]) ;
             const [result4] = await conn.query(`SELECT name,cover,ID,average FROM film  WHERE type=? ORDER BY comment_count DESC LIMIT 5`,[movie]);
