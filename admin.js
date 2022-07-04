@@ -12,6 +12,58 @@ router.get('/', (req, res) => {
     res.render("admin/dashboard" , {name : req.session.name})
   })
 
+
+  router.get("/adminprofile",(req,res)=>{
+    const id = 1// Number.parseInt(req.session.id)
+    conn.query(`SELECT * FROM admin WHERE ID=?`,[id],(err,result)=>{
+      if(err){
+        console.log(err)
+      }else{
+       res.render("admin/updateAdmin",{info:result[0]})
+       
+      }
+    })
+  })
+
+  router.post("/adminprofile",(req,res)=>{
+    const id = 1 // Number.parseInt(req.session.id)
+    const name = req.body.name
+    const avatar = req.body.avatar
+    if(!name && avatar){
+      conn.query(`UPDATE admin SET avatar=? WHERE ID=?`,[avatar,id],(err,result)=>{
+        if(err){
+          console.log(err)
+        }else{
+        res.redirect("/admin/adminprofile")     
+        }
+      })
+    }else if(name && !avatar){
+      conn.query(`UPDATE admin SET name=? WHERE ID=?`,[name,id],(err,result)=>{
+        if(err){
+          console.log(err)
+        }else{
+        res.redirect("/admin/adminprofile")     
+        }
+      })
+    }else if(name && avatar){
+      conn.query(`UPDATE admin SET avatar=?,name=? WHERE ID=?`,[avatar,name,id],(err,result)=>{
+        if(err){
+          console.log(err)
+        }else{
+        res.redirect("/admin/adminprofile")     
+        }
+      })
+    }else{
+      res.render("regMessage", {
+        headertext: "",
+        message: "Fields are null!"
+    })
+
+    }
+
+  })
+
+
   router.get("/video" , (req , res) => {
     conn.query("SELECT ID , type , name , date_published FROM film" , (error , results) => {
       if (error) {
