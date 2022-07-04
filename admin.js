@@ -12,6 +12,96 @@ router.get('/', (req, res) => {
     res.render("admin/dashboard" , {name : req.session.name})
   })
 
+
+  router.get("/adminprofile",(req,res)=>{
+    const id = 1// Number.parseInt(req.session.id)
+    conn.query(`SELECT * FROM admin WHERE ID=?`,[id],(err,result)=>{
+      if(err){
+        console.log(err)
+      }else{
+       res.render("admin/updateAdmin",{info:result[0]})
+       
+      }
+    })
+  })
+
+  router.post("/adminprofile",(req,res)=>{
+    const id = 1 // Number.parseInt(req.session.id)
+    const name = req.body.name
+    const avatar = req.body.avatar
+    if(!name && avatar){
+      conn.query(`UPDATE admin SET avatar=? WHERE ID=?`,[avatar,id],(err,result)=>{
+        if(err){
+          console.log(err)
+        }else{
+        res.redirect("/admin/adminprofile")     
+        }
+      })
+    }else if(name && !avatar){
+      conn.query(`UPDATE admin SET name=? WHERE ID=?`,[name,id],(err,result)=>{
+        if(err){
+          console.log(err)
+        }else{
+        res.redirect("/admin/adminprofile")     
+        }
+      })
+    }else if(name && avatar){
+      conn.query(`UPDATE admin SET avatar=?,name=? WHERE ID=?`,[avatar,name,id],(err,result)=>{
+        if(err){
+          console.log(err)
+        }else{
+        res.redirect("/admin/adminprofile")     
+        }
+      })
+    }else{
+      res.render("regMessage", {
+        headertext: "",
+        message: "Fields are null!"
+    })
+
+    }
+
+  })
+
+  router.post("/changepass",(req,res)=>{
+    const ID = 1 // Number.parseInt(req.session..id)
+    const oldpassword = req.body.oldpassword
+    const newpassword = req.body.newpassword
+    const cnewpassword = req.body.cnewpassword
+    conn.query(`SELECT password FROM admin WHERE  ID=?`, [ID], (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+
+            if (result[0].password !== oldpassword) {
+                console.log('not equal oldpass')
+                res.render("regMessage", {
+                    headertext: "",
+                    message: "the old password is incorrect"
+                })
+
+            } else {
+                if (newpassword !== cnewpassword) {
+                    console.log('not equal cnew ')
+                    res.render("regMessage", {
+                        headertext: "",
+                        message: "the new password not equal with Confirm password!"
+                    })
+                } else {
+                    conn.query(`UPDATE admin SET password=? WHERE ID=?`, [newpassword, ID], (err1, result1) => {
+                        if (err1) {
+                            console.log(err1)
+                        } else {
+                            res.redirect("/admin/adminprofile")
+                        }
+                    });
+                }
+            }
+
+        }
+    });
+  })
+
   router.get("/video" , (req , res) => {
     conn.query("SELECT ID , type , name , date_published FROM film" , (error , results) => {
       if (error) {

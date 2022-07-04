@@ -89,7 +89,7 @@ router.post("/profile/changepass", (req, res) => {
                 console.log('not equal oldpass')
                 res.render("regMessage", {
                     headertext: "",
-                    message: "the old password not equal!"
+                    message: "the old password is incorrect!"
                 })
 
             } else {
