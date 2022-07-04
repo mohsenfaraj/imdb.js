@@ -60,11 +60,15 @@ router.post("/profile" , (req , res) => {
             if(err){
                 console.log(err)
             }else{
-                res.send('updateed....')
+                res.redirect("/user/profile")
+        
             }
          })
     } else{
-        res.send('fields is null...')
+        res.render("regMessage", {
+            headertext: "",
+            message: "the username or password is invalid."
+        })
     }
  
 
@@ -83,18 +87,24 @@ router.post("/profile/changepass",(req,res)=>{
 
         if(result[0].password !== oldpassword){
             console.log('not equal oldpass')
-            res.send('not equal oldpass ')
+            res.render("regMessage", {
+                headertext: "",
+                message: "the old password not equal!"
+            })
  
         }else{
             if(newpassword !== cnewpassword){
                 console.log('not equal cnew ')
-                res.send('not equal cnew ')
+                res.render("regMessage", {
+                    headertext: "",
+                    message: "the new password not equal with Confirm password!"
+                })
             }else{
                 conn.query(`UPDATE user SET password=? WHERE ID=?`,[newpassword,ID],(err1,result1)=>{
                     if(err1){
                         console.log(err1)
                     }else{
-                     res.send('change....')
+                        res.redirect("/user/profile")
                     }
                 });
             }
