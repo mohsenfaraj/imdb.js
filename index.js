@@ -82,7 +82,7 @@ async function run() {
     app.use("/user",  [userAuth, user]);
 
     app.get("/login", (req, res) => {
-        if (req.session.isLogged) {
+        if (req.session.Admin) {
             res.redirect("/admin")
         }
         else {
@@ -104,7 +104,12 @@ async function run() {
                     req.session.name = result[0].name || "admin";
                     req.session.id = result[0].ID;
 
-                    req.session.isLogged = true;
+                    req.session.Admin = {
+                        id : result[0].ID ,
+                        name : result[0].name ,
+                        email : result[0].email
+
+                    };
                     res.redirect("/admin")
                 }
                 else {
@@ -189,7 +194,7 @@ async function run() {
 
 // authenticate user
 function auth(req, res, next) {
-    if (req.session.isLogged === true) {
+    if (req.session.Admin) {
         next();
     }
     else {

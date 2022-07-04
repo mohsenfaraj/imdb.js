@@ -29,8 +29,9 @@ router.get('/', (req, res) => {
   })
 
 
-  router.get("/adminprofile",(req,res)=>{
-    const id = 1// Number.parseInt(req.session.id)
+  router.get("/profile",(req,res)=>{
+    const id = req.session.Admin.id ;
+    console.log(id)
     conn.query(`SELECT * FROM admin WHERE ID=?`,[id],(err,result)=>{
       if(err){
         console.log(err)
@@ -41,7 +42,7 @@ router.get('/', (req, res) => {
     })
   })
 
-  router.post("/adminprofile",(req,res)=>{
+  router.post("/profile",(req,res)=>{
     const id = 1 // Number.parseInt(req.session.id)
     const name = req.body.name
     const avatar = req.body.avatar
