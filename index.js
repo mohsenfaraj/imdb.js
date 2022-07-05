@@ -186,7 +186,9 @@ async function run() {
                 console.log(err)
             })
     })
-
+    app.use((req,res,next)=> {
+        res.status(404).render("index/page404")
+    })
     app.listen(3000, () => {
         console.log("server is running on port 3000")
     })
