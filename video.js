@@ -49,8 +49,8 @@ router.get("/:id" , (req , res) => {
             res.render("index/page404")
             return ;
         }
-        const [comments] = await conn.promise().query(`SELECT user.name , user.avatar , comment.text , comment.date FROM user,comment WHERE user.ID = comment.User_ID AND comment.Movie_ID=? AND accepted=1`,[id]);
-        const [commentCount] = await conn.promise().query(`SELECT COUNT(ID) AS COUNTCO FROM comment WHERE Movie_ID=? AND accepted=1`,[id]);
+        const [comments] = await conn.promise().query(`SELECT user.name , user.avatar , comment.text , comment.date FROM user,comment WHERE user.ID = comment.User_ID AND comment.Movie_ID=? AND accepted=1 AND user.banned = 0`,[id]);
+        const [commentCount] = await conn.promise().query(`SELECT COUNT(comment.ID) AS COUNTCO FROM comment , user WHERE user.ID = comment.User_ID AND comment.Movie_ID=? AND accepted=1 AND user.banned = 0`,[id]);
         const [artists] = await conn.promise().query(`SELECT artists.id , artists.name , artists.role , artists.avatar , movie_has_artists.description FROM artists,movie_has_artists WHERE movie_has_artists.Artists_ID=artists.ID AND  movie_has_artists.Movie_ID=?`,[id]);
         const [relativeVideos] = await conn.promise().query(`SELECT film.name , film.description , film.average , film.cover , film.year FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
         const [relativeCount] = await conn.promise().query(`SELECT COUNT(film.genre) AS REFI FROM  film  WHERE film.genre=? AND film.ID NOT LIKE ?  `,[genre,id]);
@@ -69,7 +69,9 @@ router.get("/:id" , (req , res) => {
         }
         if (req.session.user) {
             const [rating] = await conn.promise().query("SELECT Rating FROM stars WHERE User_ID = ? AND Movie_ID = ?" , [req.session.user.id , id]);
-            options.rating = rating[0].Rating ;
+            if (rating.length > 0) {
+                options.rating = rating[0].Rating ;
+            }
         }
         res.render("index/singleVideo", options)
     })();
@@ -88,10 +90,19 @@ router.post("/:id/comment" , (req , res) => {
     const videoid = req.params.id
     const comment = req.body.comment
     const userid = req.session.user.id  
-    if (req.session.user.banned || !req.session.user.id) {
+    if (!req.session.user.id) {
         res.redirect("back") ;
     }
-    conn.query(`INSERT INTO comment (User_ID,Movie_ID,date,text) VALUES (?,?,?,?)`,
+    conn.query("SELECT banned FROM user WHERE ID = ?" , [userid] , (err , banned , fields) => {
+        if (err) {
+            console.log(err)
+        }
+        if (banned[0] == 1) {
+            req.session.user.banned = true ;
+            res.redirect("back");
+            return ;
+        }
+        conn.query(`INSERT INTO comment (User_ID,Movie_ID,date,text) VALUES (?,?,?,?)`,
         [userid,videoid,date,comment],(err,result,field)=>{
         if(err){
             console.log(err)
@@ -99,6 +110,8 @@ router.post("/:id/comment" , (req , res) => {
             res.redirect("back")
         }
     })
+    })
+
 })
 
 router.delete("/:id/comment" , (req , res) => {

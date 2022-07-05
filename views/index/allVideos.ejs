@@ -20,18 +20,7 @@
 			<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="topbar-filter">
 					<p>Found <span><%- video_count %>  movies</span> in total</p>
-					<label>Sort by:</label>
-					<select>
-						<option value="popularity">Popularity Descending</option>
-						<option value="popularity">Popularity Ascending</option>
-						<option value="rating">Rating Descending</option>
-						<option value="rating">Rating Ascending</option>
-						<option value="date">Release date Descending</option>
-						<option value="date">Release date Ascending</option>
-					</select>
 				</div>
-
-
 
 				<div class="flex-wrap-movielist">
 					<% if(videos.length == 0) { %> 
@@ -83,6 +72,7 @@
 										<div class="group-ip" >
 											<select
 											name="genre" >
+											<option> -- choose option --</option>
 											<option value="COMEDY">COMEDY</option>
 					                        <option value="SCI-FI">SCI-FI</option>
 					                        <option value="HORROR">HORROR</option>
