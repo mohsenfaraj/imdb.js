@@ -36,7 +36,10 @@ router.get('/', (req, res) => {
       if(err){
         console.log(err)
       }else{
-       res.render("admin/updateAdmin",{info:result[0]})
+       res.render("admin/updateAdmin",{
+        info:result[0] ,
+        name : req.session.Admin.name
+      })
        
       }
     })
@@ -126,7 +129,10 @@ router.get('/', (req, res) => {
       }
       else {
         let videos = results ;
-        res.render("admin/allVideos" , {videos : videos});
+        res.render("admin/allVideos" , {
+          videos : videos,
+          name : req.session.Admin.name
+        });
       }
     })
   })
@@ -139,7 +145,10 @@ router.get('/', (req, res) => {
       }
       else {
         console.log(result[0])
-        res.render("admin/addVideo" , {update : result[0]});
+        res.render("admin/addVideo" , {
+          update : result[0] ,
+          name : req.session.Admin.name
+        });
       }
     })    
   })
@@ -214,7 +223,7 @@ router.get('/', (req, res) => {
           }
           else {
               res.render("admin/addVideo" , {
-                toast : {type:"success" , header : "Video Added!" , body : "Video Added Successfuly!"}
+                toast : {type:"success" , header : "Video Added!" , body : "Video Added Successfuly!" , name : req.session.Admin.name}
               })
           }
       })
@@ -229,13 +238,13 @@ router.get('/', (req, res) => {
       }
       else {
         let artists = results ;
-        res.render("admin/allArtists" , {artists : artists});
+        res.render("admin/allArtists" , {artists : artists , name : req.session.Admin.name});
       }
     })
   })
 
   router.get("/artist/add" , (req , res) => {
-    res.render("admin/addArtist")
+    res.render("admin/addArtist" , {name : req.session.Admin.name})
   })
 
   router.delete('/artist/:id(\\d+)', (req , res)=>{
@@ -261,7 +270,7 @@ router.get('/', (req, res) => {
             }
             else {
               res.render("admin/addArtist" , {
-                toast : {type:"success" , header : "Artist Added!" , body : "Artist Added Successfuly!"}
+                toast : {type:"success" , header : "Artist Added!" , body : "Artist Added Successfuly!" , name : req.session.Admin.name}
               })
             }
       })
@@ -274,7 +283,7 @@ router.get('/', (req, res) => {
         console.log(error)
       }
       else {
-        res.render("admin/addArtist" , {update : result[0]})
+        res.render("admin/addArtist" , {update : result[0] , name : req.session.Admin.name})
       }
     })
   })
@@ -303,7 +312,7 @@ router.get('/', (req, res) => {
       if (err) {
         console.log(err)
       }
-      res.render("admin/addArtistToVideo" , {artists : result , videoID : id})
+      res.render("admin/addArtistToVideo" , {artists : result , videoID : id , name : req.session.Admin.name})
     })
   })
 
@@ -342,7 +351,7 @@ router.get('/', (req, res) => {
         console.log(err)
       }
       console.log(result)
-      res.render("admin/addAwardToVideo" , {awards : result , videoID : id})
+      res.render("admin/addAwardToVideo" , {awards : result , videoID : id , name : req.session.Admin.name})
     })
   })
 
@@ -381,7 +390,7 @@ router.get('/', (req, res) => {
   //--------- Manage Users --------/
 
 router.get("/user/ban" , (req , res) => {
-  res.render("admin/banUser")
+  res.render("admin/banUser" , {name : req.session.Admin.name})
 })
 
 router.post("/user/ban" , (req , res) => {
@@ -397,7 +406,7 @@ router.post("/user/ban" , (req , res) => {
   }
   if (!user_id) {
     res.render("admin/banUser" , {
-      toast : {type:"warning" , header : "ID Required" , body : "you havn't specified the id to ban."}
+      toast : {type:"warning" , header : "ID Required" , body : "you havn't specified the id to ban." ,name : req.session.Admin.name}
     });
     res.end() ;
   }
@@ -407,7 +416,7 @@ router.post("/user/ban" , (req , res) => {
         console.log(err)
       } else{
         res.render("admin/banUser" , {
-          toast : {type:"success" , header : `user ${banned}ed!` , body : `user ${banned}ed successfully.`}
+          toast : {type:"success" , header : `user ${banned}ed!` , body : `user ${banned}ed successfully.` , name : req.session.Admin.name}
         });
       }
     })
@@ -415,7 +424,7 @@ router.post("/user/ban" , (req , res) => {
 })
 
 router.get("/user/addAdmin" , (req , res) => {
-  res.render("admin/addAdmin");
+  res.render("admin/addAdmin" , {name : req.session.Admin.name});
 })
 
 router.post("/user/addAdmin" , (req , res) => {
@@ -426,7 +435,9 @@ router.post("/user/addAdmin" , (req , res) => {
   const avatar = req.body.avatar
   if (password !== repassword) {
     res.render("admin/addAdmin" , {
-      toast : {type:"warning" , header : "passwords don't match" , body : "please pay attention to entering correct password."}
+      toast : {type:"warning" , header : "passwords don't match" , body : "please pay attention to entering correct password." ,
+      name : req.session.Admin.name
+    }
     });
     res.end() ;
   }
@@ -437,7 +448,7 @@ router.post("/user/addAdmin" , (req , res) => {
         console.log(err)
       } else {
         res.render("admin/addAdmin" , {
-          toast : {type:"success" , header : "Admin added!" , body : "new Admin added successfully!"}
+          toast : {type:"success" , header : "Admin added!" , body : "new Admin added successfully!" , name : req.session.Admin.name}
         });
       }
     })
@@ -472,7 +483,7 @@ router.get("/comments" , (req , res) => {
     if(err){
       console.log(err)
     } else{
-      res.render("admin/manageComments" , {comments : result})
+      res.render("admin/manageComments" , {comments : result , name : req.session.Admin.name})
     }
 
   })
