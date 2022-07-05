@@ -101,9 +101,6 @@ async function run() {
         conn.query("SELECT * FROM admin WHERE email = ? AND password = ?", [email, password])
             .then(([result]) => {
                 if (result.length > 0) {
-                    req.session.name = result[0].name || "admin";
-                    req.session.id = result[0].ID;
-
                     req.session.Admin = {
                         id : result[0].ID ,
                         name : result[0].name ,

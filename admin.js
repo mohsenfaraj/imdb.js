@@ -43,7 +43,7 @@ router.get('/', (req, res) => {
   })
 
   router.post("/profile",(req,res)=>{
-    const id = 1 // Number.parseInt(req.session.id)
+    const id = req.session.Admin.id
     const name = req.body.name
     const avatar = req.body.avatar
     if(!name && avatar){
@@ -81,7 +81,7 @@ router.get('/', (req, res) => {
   })
 
   router.post("/changepass",(req,res)=>{
-    const ID = 1 // Number.parseInt(req.session..id)
+    const ID = req.session.Admin.id
     const oldpassword = req.body.oldpassword
     const newpassword = req.body.newpassword
     const cnewpassword = req.body.cnewpassword
